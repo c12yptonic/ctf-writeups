@@ -23,8 +23,7 @@ A general heads up, I am more into **crypto** and **reversing**. So you could ex
 majority of my writeups concentrating around these types of challenges including some
 **miscellaneous** type of challenges.
 
-> Note: This blog does assume that the reader has basic understanding of what a CTF
-is and intends to develop further from it. For more details on CTF head over to [CTF101][3].
+> Note: This blog does assume that the reader has basic understanding of what a CTF is and intends to develop further from it. For more details on CTF head over to [CTF101][3].
 
 
 [1]: https://ctftime.org/user/ 
