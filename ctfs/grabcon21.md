@@ -109,6 +109,7 @@ Probing multiple DB files finally the specific DB file listed below had all the 
 `data/com.skype.raider/databases/s4l-live:.cid.6c41bc4408002e1f.db`
 
 So the final details obtained are as below:  
+  
 | S.No | Information           | Value               |
 | ---: | :-------------------- | :------------------ |
 |    1 | Social media platform | Skype               |
