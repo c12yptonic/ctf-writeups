@@ -12,7 +12,7 @@ has_toc: false
 {: .no_toc }
 
 An index of CTFs for which detailed solves are available in the respective link.
-{: .fs-6 .fw-300 }
+{: .fs-5 .fw-300 }
 
 | S.No | CTF Name                                       |             Date              |    Link to writeups    |
 | ---: | ---------------------------------------------- | :---------------------------: | :--------------------: |
