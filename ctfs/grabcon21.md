@@ -22,7 +22,7 @@ From the rules and the welcome challenge it was clear that the flags were always
 welcome flag was **`GrabCON{welcome_to_grabcon_2021}`**.
 {: .fs-5 .fw-300 }
 
-## Table of contents
+## Challenge list
 {: .no_toc .text-delta}
 
 1. TOC
