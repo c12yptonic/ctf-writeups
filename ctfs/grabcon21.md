@@ -29,6 +29,8 @@ welcome flag was **`GrabCON{welcome_to_grabcon_2021}`**.
 {:toc}
 
 ## Youtube
+Miscellaneous
+{: .label .label-green }
 
 This was a warmup challenge. This challenge gave the below hint:  
 > Find us on Youtube
@@ -46,7 +48,7 @@ button. This looks like the last part of the flag as it ends in a `'}'`.
 
 Putting these three together we get the real flag **`GrabCON{the_quick_br0wn_f0x_jumps_0v3r_th3_lazy_d0g}`**.
 
-## Discord
+## Discord :speech_balloon:
 
 This challenge asked us to join their discord server. In general discord related flags are hidden in channel descriptions
 or admin descriptions. Here too the flag was available within the description of **`#role`** channel of their discord
@@ -54,7 +56,7 @@ server.
 
 The flag was **`GrabCON{s@n1ty_fl4g_1s_here}`**.
 
-## Find me
+## Find me :mag_right:
 
 This challenge had the below clue in its challenge description:
 > Checkout author's social media with the author name Offen5ive
@@ -67,7 +69,7 @@ The **README** file of this repository showed a decoy flag **`GrabCON{n0_fl4g_h3
 flag. But on fiddling through the GitHub commit history for some time, found [this][6] commit link which showed the changeset.
 The changeset did show the flag **`GrabCON{1_w4s_hid33n_but_y0u_f0und_m3}`**.
 
-## Easy reversing
+## Easy reversing :arrows_counterclockwise:
 
 This was a basic reversing challenge with the challenge text **Easy reversing** and a file download with the name **`baby_re_2`**.
 The same can be downloaded [here][7] or [here][8].
@@ -106,7 +108,9 @@ all Android apps store data in **`SQLite`** DB.
 So next I started probing into the **`.db`** files of *Skype* app. SQLite DB files can be easily viewed using [DB Browser][13].
 
 Probing multiple DB files finally the specific DB file listed below had all the other required details:  
-`data/com.skype.raider/databases/s4l-live:.cid.6c41bc4408002e1f.db`
+`data/com.skype.raider/databases/s4l-live:.cid.6c41bc4408002e1f.db`  
+
+Final details include the below:
 
 | S.No | Information           | Value               |
 | ---: | :-------------------- | :------------------ |
