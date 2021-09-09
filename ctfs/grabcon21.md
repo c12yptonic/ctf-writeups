@@ -106,9 +106,8 @@ all Android apps store data in **`SQLite`** DB.
 So next I started probing into the **`.db`** files of *Skype* app. SQLite DB files can be easily viewed using [DB Browser][13].
 
 Probing multiple DB files finally the specific DB file listed below had all the other required details:  
-`data/com.skype.raider/databases/s4l-live:.cid.6c41bc4408002e1f.db`  
+`data/com.skype.raider/databases/s4l-live:.cid.6c41bc4408002e1f.db`
 
-Required details are:  
 | S.No | Information           | Value               |
 | ---: | :-------------------- | :------------------ |
 |    1 | Social media platform | Skype               |
