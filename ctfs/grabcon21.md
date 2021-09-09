@@ -269,7 +269,7 @@ is available in the below path for every user in Windows `C:\Users\%username%\Ap
 The username we are looking at is **`nick`** which is the only non-default user present in the image.
 
 Navigating to this folder we find a file named **`ConsoleHost_history.txt`** which clearly gives away that the tool
-used is **`timestomp.exe`.
+used is **`timestomp.exe`**.
 
 You can go through the below to find the whole process of discovering the required details:
 ![Image analysis using FTK Imager](https://gcdn.pbrd.co/images/GeOx9oNr5O3e.gif?o=1)
