@@ -28,9 +28,9 @@ welcome flag was **`GrabCON{welcome_to_grabcon_2021}`**.
 1. TOC
 {:toc}
 
-## Youtube
+## Youtube 📹
 Miscellaneous
-{: .label .label-green }
+{: .label .label-green .fs-1 .ml-0}
 
 This was a warmup challenge. This challenge gave the below hint:  
 > Find us on Youtube
@@ -48,7 +48,9 @@ button. This looks like the last part of the flag as it ends in a `'}'`.
 
 Putting these three together we get the real flag **`GrabCON{the_quick_br0wn_f0x_jumps_0v3r_th3_lazy_d0g}`**.
 
-## Discord :speech_balloon:
+## Discord 💬
+Miscellaneous
+{: .label .label-green .fs-1 .ml-0}
 
 This challenge asked us to join their discord server. In general discord related flags are hidden in channel descriptions
 or admin descriptions. Here too the flag was available within the description of **`#role`** channel of their discord
@@ -56,7 +58,9 @@ server.
 
 The flag was **`GrabCON{s@n1ty_fl4g_1s_here}`**.
 
-## Find me :mag_right:
+## Find me 🕵
+Miscellaneous
+{: .label .label-green .fs-1 .ml-0}
 
 This challenge had the below clue in its challenge description:
 > Checkout author's social media with the author name Offen5ive
@@ -69,7 +73,9 @@ The **README** file of this repository showed a decoy flag **`GrabCON{n0_fl4g_h3
 flag. But on fiddling through the GitHub commit history for some time, found [this][6] commit link which showed the changeset.
 The changeset did show the flag **`GrabCON{1_w4s_hid33n_but_y0u_f0und_m3}`**.
 
-## Easy reversing :arrows_counterclockwise:
+## Easy reversing ⏪
+Reversing
+{: .label .label-green .fs-1 .ml-0}
 
 This was a basic reversing challenge with the challenge text **Easy reversing** and a file download with the name **`baby_re_2`**.
 The same can be downloaded [here][7] or [here][8].
@@ -85,7 +91,9 @@ printed out in the command line as: **`GrabCON{y0u_g0t_it_8bb31}`**.
 
 [![Easy rev in action](https://asciinema.org/a/pg6Zv7ldafvIYQT6Qu1fZgNdr.svg)][10]
 
-## Gangbusted
+## Gangbusted 📦
+Forensics
+{: .label .label-green .fs-1 .ml-0}
 
 This is a forensics challenge where the flag description is given elaborately as below along with the link to a challenge file.
 The same can be downloaded from [here][11] or [here][12].
