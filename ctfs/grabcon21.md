@@ -129,6 +129,164 @@ Final details include the below:
 
 The flag formed based on the above details is **`GrabCON{Skype_sidemaf155@5ubo.com_31337_Hax0r_Plan_evil_mike}`**.
 
+## Tampered 📦
+Forensics
+{: .label .label-green .fs-1 .ml-0}
+
+This is another forensics challenge which I could reach very close but missed solving as I was stuck in a single line of thought
+missing one piece of information. The challenge had the mentioned flag description and a file which can be downloaded from
+[here][14] or [here][15].
+
+Challenge instructions:
+> In our company we caught one of the employee tampering a file so we took a some backup from his computer and 
+> now we need your help to figure few things.
+>   1. Name of the new file which our employee was tampering. Example : **important note.txt**
+>   2. Which tool he was using ? Example : **random.exe**
+>   3. What was the changed timestamp on the new file? Example : **2001-01-27_23:12:56** (YYYY-MM-DD)
+>   4. Content inside the file? Example : **e977656fea7ea5b9a8887ecf730860af**
+>  
+> Example Flag : **`GrabCON{important_note.txt_random.exe_2001-01-27_23:12:56_e977656fea7ea5b9a8887ecf730860af}`**
+
+The challenge file is a zip which when listed for files gives a single file named **`grab2.E01`**. As I had no idea on what file it was
+I started off by using **`binwalk`** tool to list all the known file signatures found in the file. This started listing an almost
+not ending list of file signatures as seen below:
+
+```sh
+┌──(cryptonic㉿cryptonic-kali)-[~/CTFs/grabcon/tampered]
+└─$ binwalk grab2.E01 
+DECIMAL       HEXADECIMAL     DESCRIPTION
+-----------------------------------------------------------------------
+89            0x59            Zlib compressed data, default compression
+259           0x103           Zlib compressed data, default compression
+1557          0x615           Zlib compressed data, default compression
+22533         0x5805          Zlib compressed data, default compression
+52161         0xCBC1          Zlib compressed data, default compression
+81805         0x13F8D         Zlib compressed data, default compression
+111551        0x1B3BF         Zlib compressed data, default compression
+127816        0x1F348         Zlib compressed data, default compression
+131259        0x200BB         Zlib compressed data, default compression
+....
+....
+```
+
+This made me think whether the output is really valid and on exploring a bit more on **`binwalk`** found that the tool mostly analyzes
+well known magic sequence bytes and reports every address from where the magic bytes match for a specific signature. So this made me
+poke the file more as I understood that the file had some other signature which was not being detected by **`binwalk`**
+
+Next I headed over to **`hexdump`** utility to analyze the first few bytes of the file so as to see the raw bytes which usually make up
+the file magic bytes.
+
+```sh
+┌──(cryptonic㉿cryptonic-kali)-[~/CTFs/grabcon/tampered]
+└─$ hexdump -C grab2.E01 | head -10                               
+00000000  45 56 46 09 0d 0a ff 00  01 01 00 00 00 68 65 61  |EVF..........hea|
+00000010  64 65 72 00 00 00 00 00  00 00 00 00 00 b7 00 00  |der.............|
+00000020  00 00 00 00 00 aa 00 00  00 00 00 00 00 00 00 00  |................|
+00000030  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
+*
+00000050  00 00 00 00 00 cb 03 97  ef 78 9c 6d c8 41 0a 80  |.........x.m.A..|
+00000060  20 10 05 d0 f5 f7 14 73  02 99 d1 ac b6 41 9b 4e  | ......s.....A.N|
+00000070  d0 5a ca 40 48 8b d0 e8  f8 d1 be e5 7b a2 92 8f  |.Z.@H.......{...|
+00000080  59 2d c8 f0 08 28 f0 37  8e 1b 09 15 27 2e 45 20  |Y-...(.7....'.E |
+00000090  d4 5c 62 d9 c3 8a 0f c3  38 35 da 69 d6 16 73 cc  |.\b.....85.i..s.|
+```
+
+As seen in the output of the command, the magic bytes point to the header **`EVF..........header`**. This seemed to
+be some good information. On searching for EVF as a header in the Web it lead me to the discovery that **`EVF`**
+stands for **Expert Witness Disk Image** which is generally used to take secure backup of a specific machine which 
+has been subject to an attack so as to perform forensic analysis later.
+
+So next was to be able to load/mount the image. Again I presumed this to be a linux box image and so I tried to 
+find linux based tools for mounting EVF files. During this search I stumbled upon [this][16] link which explained
+on the installation and usage of **`ewf-tools`**.
+
+Followed the steps mentioned to find details of the image using **`ewfinfo`** command and it showed the below details:
+```sh
+┌──(cryptonic㉿cryptonic-kali)-[~/CTFs/grabcon/tampered]
+└─$ ewfinfo grab2.E01
+ewfinfo 20140807
+
+Acquiry information
+	Case number:		 
+	Description:		untitled
+	Examiner name:		 
+	Evidence number:	 
+	Notes:			 
+	Acquisition date:	Tue Aug 31 10:56:37 2021
+	System date:		Tue Aug 31 10:56:37 2021
+	Operating system used:	Win 201x
+	Software version used:	ADI4.5.0.3
+	Password:		N/A
+
+EWF information
+	File format:		FTK Imager
+	Sectors per chunk:	64
+	Compression method:	deflate
+	Compression level:	no compression
+
+Media information
+	Media type:		fixed disk
+	Is physical:		no
+	Bytes per sector:	512
+	Number of sectors:	4192256
+	Media size:		1.9 GiB (2146435072 bytes)
+
+Digest hash information
+	MD5:			8583de6967627e81f7f2001ee5931947
+	SHA1:			868072e56b981c05433ba0a2175cfaa312ef8207
+```
+
+In the above output the **File format** is shown as **FTK Imager** which sounded like some specific tool. On looking
+up it did point me towards the [**FTK Imager**][17]. The public details available for this product did not give any
+idea as to whether it works on Linux or Windows or both. Also to download this product, we had to register with a
+mail id although the product as such is free. I was apprehensive and so continued using ewf-tools to try and mount 
+the image.
+
+This proved to be a big mistake. This is because, although I followed the steps mentioned in the blog cited in the 
+previous section, I was not able to mount the image. After around 2-3 hours of valuable time, I decided to register
+and see available downloads for **`FTK Imager`**.
+
+This revealed that the software is available only for Windows installation as an **exe** which means the image is
+also of a Windows machine. So I quickly jumped onto a Windows box and installed **`FTK Imager`** which allowed me
+to mount the file as a drive in my Windows box.
+
+Voila 🪄 !! I was able to look into the files and folders as if the image was a normal drive. On quickly scanning
+I could find the file inside a backup of **`Mozilla firefox`** with the name **`don't open it.hidden`**. This clearly
+shows this was the file. On checking the file properties I could see that the modified date was totally busted as
+it was showing the same as **10th August 1969, 10:03:33PM**. Also the contents of the file was readily available.
+
+The last piece of the puzzle was the name of the software/tool used by employee to tamper the file. But I
+misunderstood it as the tool used to gain access to the machine. I know its a lot different but in the heat of things
+I totally misunderstood. Due to this I got stuck in looking into the Mozilla browser history files, cookies and
+browsing history data present inside the image.
+
+But ideally the thought process should have been that, such a modification is not possible from the GUI in Windows.
+This means the adversary has used some tool via a command line to execute the attack. So looking into the console
+history was the right direction.
+
+After performing a simple web search I landed on [this][18] article which clearly showed that the console history
+is available in the below path for every user in Windows `C:\Users\%username%\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadline`.
+The username we are looking at is **`nick`** which is the only non-default user present in the image.
+
+Navigating to this folder we find a file named **`ConsoleHost_history.txt`** which clearly gives away that the tool
+used is **`timestomp.exe`.
+
+You can go through the below to find the whole process of discovering the required details:
+![Image analysis using FTK Imager](https://gcdn.pbrd.co/images/GeOx9oNr5O3e.gif?o=1)
+
+Final details include the below:
+
+| S.No | Information       | Value                            |
+| ---: | :---------------- | :------------------------------- |
+|    1 | File name         | dont't open it.hidden            |
+|    2 | Tool used         | timestomp.exe                    |
+|    3 | Changed timestamp | 10th August 1969, 10:03:33PM     |
+|    4 | Contents of file  | 6b751689f3cdaed05e552eff51115684 |
+
+The final flag after applying the required formatting specified in the challenge instruction is:
+**`GrabCON{don't_open_it.hidden_timestomp.exe_1969-08-10_22:03:33_6b751689f3cdaed05e552eff51115684}`**
+
+
 
 
 [1]: https://thecybergrabs.org/grabcon/
@@ -144,3 +302,9 @@ The flag formed based on the above details is **`GrabCON{Skype_sidemaf155@5ubo.c
 [11]: https://storage.googleapis.com/grabcon/forensics/foren1_2.zip
 [12]: https://mega.nz/file/ptx2FZ7D#bW5opab193E4DXER63Tm-JSxpfm329ZN9oyE9OLyXoU
 [13]: https://sqlitebrowser.org/
+[14]: https://storage.googleapis.com/grabcon/forensics/grabcon_dfir.zip
+[15]: https://mega.nz/file/dxojEKhA#8n-g4JKmDCPtcA0lLSS8l--JWahVN2fK9w6ugp_Addc
+[16]: https://dfir.science/2017/11/EWF-Tools-working-with-Expert-Witness-Files-in-Linux.html
+[17]: https://accessdata.com/product-download/ftk-imager-version-4-2-1
+[18]: https://itsallinthecode.com/powershell-where-is-the-command-history-stored/
+[19]: https://gcdn.pbrd.co/images/GeOx9oNr5O3e.gif?o=1
