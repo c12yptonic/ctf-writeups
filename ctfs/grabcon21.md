@@ -9,14 +9,24 @@ parent: CTF list
 ---
 
 # GrabCON 2021
+{: .no_toc}
 The GrabCON 2021 is a [CyberGrabs][1] event organized as an yearly event. This year's GrabCON had a variety of high quality
 challenges including many categories. The discord invite link is available [here][2] and some of the challenge solves is
 discussed in the discord community.
+{: .fs-6 .fw-300 }
 
 I would be highlighting the solves for challenges that I attempted and/or solved.
+{: .fs-6 .fw-300 }
 
 From the rules and the welcome challenge it was clear that the flags were always of the format **`GrabCON{...}`**. The
 welcome flag was **`GrabCON{welcome_to_grabcon_2021}`**.
+{: .fs-6 .fw-300 }
+
+## Table of contents
+{: .no_toc .text-delta}
+
+1. TOC
+{:toc}
 
 ## Youtube
 
