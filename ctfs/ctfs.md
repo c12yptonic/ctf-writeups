@@ -14,6 +14,6 @@ has_toc: false
 An index of CTFs for which detailed solves are available in the respective link.
 {: .fs-6 .fw-300 }
 
-| S.No | CTF Name                                       |             Date              |    Link to writeups     |
-| ---: | ---------------------------------------------- | :---------------------------: | :---------------------: |
-|    1 | [GrabCON 2021](https://ctftime.org/event/1353) | 04 Sept. 2021 - 05 Sept. 2021 | [Link](/ctfs/grabcon21) |
+| S.No | CTF Name                                       |             Date              |    Link to writeups    |
+| ---: | ---------------------------------------------- | :---------------------------: | :--------------------: |
+|    1 | [GrabCON 2021](https://ctftime.org/event/1353) | 04 Sept. 2021 - 05 Sept. 2021 | [Link](ctfs/grabcon21) |
