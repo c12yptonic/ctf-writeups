@@ -44,7 +44,7 @@ button. This looks like the last part of the flag as it ends in a `'}'`.
 2. [Video 2][5] had the text **`br0wn_f0x_jumps_`**, again in its extended description which looks like some part of the flag.
 3. And a third video (now delisted from YouTube) which contained the first part of the flag **`GrabCON{the_quick_`**.
 
-Putting these three together we get the real flag **`GrabCON{the_quick_br0wn_f0x_jumps_0v3r_th3_laxy_d0g}`**.
+Putting these three together we get the real flag **`GrabCON{the_quick_br0wn_f0x_jumps_0v3r_th3_lazy_d0g}`**.
 
 ## Discord
 
@@ -83,6 +83,41 @@ printed out in the command line as: **`GrabCON{y0u_g0t_it_8bb31}`**.
 
 [![Easy rev in action](https://asciinema.org/a/pg6Zv7ldafvIYQT6Qu1fZgNdr.svg)][10]
 
+## Gangbusted
+
+This is a forensics challenge where the flag description is given elaborately as below along with the link to a challenge file.
+The same can be downloaded from [here][11] or [here][12].
+
+Challenge instructions:  
+> Hi Everyone! We have recently busted one of the member of a gang and they were plotting something suspicious. They were discussing
+> on one of the popular social media platform we need you to find some information for us.
+>   1. Social Media Platform they were using. For example : **Facebook**  
+>   2. Email used by that member. For example : **wolf@domain.com**  
+>   3. What was the group name. For example : **Very Secret Plot**  
+>   4. What was the name of the gang member : **bob chan**  
+> 
+> **`GrabCON{Facebook_wolf@domain.com_Very_Secret_Plot_bob_chan}`**
+
+On analyzing the zip file with **`unzip -l <zip-file-name>`** it is seen that the zip file looks like an Android file system.
+Also the file list had lot of entries for **`Skype`** app files which made it the prime suspect for the social media platform.
+Suspecting *Skype* I decided to confirm my doubt by poking more into the files of this app. Also it is a well known fact that
+all Android apps store data in **`SQLite`** DB.  
+
+So next I started probing into the **`.db`** files of *Skype* app. SQLite DB files can be easily viewed using [DB Browser][13].
+
+Probing multiple DB files finally the specific DB file listed below had all the other required details:  
+`data/com.skype.raider/databases/s4l-live:.cid.6c41bc4408002e1f.db`
+
+So the final details obtained are as below:  
+| S.No | Information           | Value               |
+| ---: | :-------------------- | :------------------ |
+|    1 | Social media platform | Skype               |
+|    2 | Email used            | sidemaf155@5ubo.com |
+|    3 | Group name            | 31337_Hax0r_Plan    |
+|    4 | Name of gange member  | evil mike           |
+
+The flag formed based on the above details is **`GrabCON{Skype_sidemaf155@5ubo.com_31337_Hax0r_Plan_evil_mike}`**.
+
 
 
 [1]: https://thecybergrabs.org/grabcon/
@@ -95,3 +130,6 @@ printed out in the command line as: **`GrabCON{y0u_g0t_it_8bb31}`**.
 [8]: https://mega.nz/file/JwYGyZpA#MQ8Rf6UukIOj8Xm4AH3trKzSgLqogZB1RUKGNnPEzPo
 [9]: https://gcdn.pbrd.co/images/0gfjhniCIYF2.png
 [10]: https://asciinema.org/a/pg6Zv7ldafvIYQT6Qu1fZgNdr
+[11]: https://storage.googleapis.com/grabcon/forensics/foren1_2.zip
+[12]: https://mega.nz/file/ptx2FZ7D#bW5opab193E4DXER63Tm-JSxpfm329ZN9oyE9OLyXoU
+[13]: https://sqlitebrowser.org/
