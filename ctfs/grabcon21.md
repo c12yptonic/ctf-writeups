@@ -66,7 +66,7 @@ As this is a reversing challenge the crux lies in understanding the logic of the
 it is an ELF (Executable Linux Format) binary. This means we can use both GDB(GNU debugger) and Ghidra tool to reverse the binary.
 
 Loading the binary in Ghidra shows that the binary expects a command line argument equal to highlighted hex value as shown below.  
-![Checks for value 0x140685](https://gcdn.pbrd.co/images/qXr8b8e85Djs.png "Easy reverse code snippet") 
+![Checks for value 0x140685](https://gcdn.pbrd.co/images/0gfjhniCIYF2.png "Easy reverse code snippet") 
 
 As all inputs are in decimal we convert the value to decimal and run the binary with the input **`1312389`**. Doing so the flag is
 printed out in the command line as: **`GrabCON{y0u_g0t_it_8bb31}`**.
@@ -83,5 +83,5 @@ printed out in the command line as: **`GrabCON{y0u_g0t_it_8bb31}`**.
 [6]: https://github.com/offen5ive/offensive.me/commit/2d8cbf53b68ba44d151b3db7a60a7f799dcb36f0
 [7]: https://ctf.thecybergrabs.org/files/bf79b00cbb0a930b29ef7a34054c751c/baby_re_2?token=eyJ1c2VyX2lkIjo4NDIsInRlYW1faWQiOjQxMSwiZmlsZV9pZCI6MjJ9.YTniBg.3dj5_Z5qBN6rFiew39Wcwrz84Lo
 [8]: https://mega.nz/file/JwYGyZpA#MQ8Rf6UukIOj8Xm4AH3trKzSgLqogZB1RUKGNnPEzPo
-[9]: https://gcdn.pbrd.co/images/qXr8b8e85Djs.png
+[9]: https://gcdn.pbrd.co/images/0gfjhniCIYF2.png
 [10]: https://asciinema.org/a/pg6Zv7ldafvIYQT6Qu1fZgNdr
