@@ -57,7 +57,7 @@ The **README** file of this repository showed a decoy flag **`GrabCON{n0_fl4g_h3
 flag. But on fiddling through the GitHub commit history for some time, found [this][6] commit link which showed the changeset.
 The changeset did show the flag **`GrabCON{1_w4s_hid33n_but_y0u_f0und_m3}`**.
 
-## Baby reversing
+## Easy reversing
 
 This was a basic reversing challenge with the challenge text **Easy reversing** and a file download with the name **`baby_re_2`**.
 The same can be downloaded [here][7] or [here][8].
@@ -66,8 +66,7 @@ As this is a reversing challenge the crux lies in understanding the logic of the
 it is an ELF (Executable Linux Format) binary. This means we can use both GDB(GNU debugger) and Ghidra tool to reverse the binary.
 
 Loading the binary in Ghidra shows that the binary expects a command line argument equal to highlighted hex value as shown below.  
-
-![Checks for value 0x140685](https://pasteboard.co/qXr8b8e85Djs.png "Easy reverse code snippet") 
+![Checks for value 0x140685](https://gcdn.pbrd.co/images/qXr8b8e85Djs.png "Easy reverse code snippet") 
 
 As all inputs are in decimal we convert the value to decimal and run the binary with the input **`1312389`**. Doing so the flag is
 printed out in the command line as: **`GrabCON{y0u_g0t_it_8bb31}`**.
@@ -84,5 +83,5 @@ printed out in the command line as: **`GrabCON{y0u_g0t_it_8bb31}`**.
 [6]: https://github.com/offen5ive/offensive.me/commit/2d8cbf53b68ba44d151b3db7a60a7f799dcb36f0
 [7]: https://ctf.thecybergrabs.org/files/bf79b00cbb0a930b29ef7a34054c751c/baby_re_2?token=eyJ1c2VyX2lkIjo4NDIsInRlYW1faWQiOjQxMSwiZmlsZV9pZCI6MjJ9.YTniBg.3dj5_Z5qBN6rFiew39Wcwrz84Lo
 [8]: https://mega.nz/file/JwYGyZpA#MQ8Rf6UukIOj8Xm4AH3trKzSgLqogZB1RUKGNnPEzPo
-[9]: https://pasteboard.co/qXr8b8e85Djs.png
+[9]: https://gcdn.pbrd.co/images/qXr8b8e85Djs.png
 [10]: https://asciinema.org/a/pg6Zv7ldafvIYQT6Qu1fZgNdr
