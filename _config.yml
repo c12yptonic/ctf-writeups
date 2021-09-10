@@ -9,11 +9,17 @@ back_to_top: true
 back_to_top_text: "Back to top"
 
 footer_content: "Copyright &copy; 2021 cryp71x3rz. Distributed by an <a href=\"https://github.com/c12yptonic/ctf-writeups/blob/main/LICENSE\">MIT license.</a>
-<script>function toggleTheme() {
+<script>
+function getCurrentTheme() {
   let themeVal = localStorage.getItem(\"theme\");
   if (!themeVal) {
     themeVal = \"light\";
   }
+  return themeVal;
+}
+
+function toggleTheme() {
+  let themeVal = getCurrentTheme();
 
   if (themeVal == \"light\") {
     themeVal = \"dark\";
@@ -22,10 +28,12 @@ footer_content: "Copyright &copy; 2021 cryp71x3rz. Distributed by an <a href=\"h
   }
   localStorage.setItem(\"theme\", themeVal);
   jtd.setTheme(themeVal);
-}</script>"
+}
+jtd.setTheme(getCurrentTheme());
+</script>"
 
 aux_links:
   "Switch theme":
-    "javascript:toggleTheme()"
+    - "javascript:toggleTheme()"
 
 aux_links_new_tab: false
