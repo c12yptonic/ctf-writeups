@@ -32,10 +32,15 @@ function toggleTheme() {
 
 document.addEventListener(\"load\", function(){
   if (jtd.getTheme() != getCurrentTheme()) {
+    console.log(jtd.getTheme() + \",eventlistener,\" + getCurrentTheme());
     jtd.setTheme(getCurrentTheme());
   }
 });
-jtd.setTheme(getCurrentTheme());
+
+if (jtd.getTheme() != getCurrentTheme()) {
+  console.log(jtd.getTheme() + \",initial,\" + getCurrentTheme());
+  jtd.setTheme(getCurrentTheme());
+}
 </script>"
 
 aux_links:
