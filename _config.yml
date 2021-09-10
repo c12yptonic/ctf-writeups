@@ -29,6 +29,10 @@ function toggleTheme() {
   localStorage.setItem(\"theme\", themeVal);
   jtd.setTheme(themeVal);
 }
+
+document.addEventListener("click", function(){
+  jtd.setTheme(getCurrentTheme());
+});
 jtd.setTheme(getCurrentTheme());
 </script>"
 
