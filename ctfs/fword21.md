@@ -53,7 +53,7 @@ are not sure which service it was authorized for.
   <summary>
     Full details of <b>Frame 19</b> packet details can be viewed by expanding this section.  
     The relavent details are available below. 
-<pre>
+<pre style='font-family: "SFMono-Regular",Menlo,Consolas,Monospace;font-size: 12px;'>
 =>Headers
 Host: oauth2.googleapis.com
 Content-length: 269
@@ -69,7 +69,7 @@ Form item: "client_id" = "1097638694557-3v745luessc34bkoiqkf8tndqgvbqjpm.apps.go
 Form item: "email" = "fwordplayground@gmail.com"
 </pre>
   </summary>
-  <pre>
+  <pre style='font-family: "SFMono-Regular",Menlo,Consolas,Monospace;font-size: 12px;'>
 Frame 19: 1481 bytes on wire (11848 bits), 1481 bytes captured (11848 bits)
 Ethernet II, Src: VMware_4a:97:bf (00:0c:29:4a:97:bf), Dst: VMware_ee:46:d7 (00:50:56:ee:46:d7)
 Internet Protocol Version 4, Src: 10.1.2.100, Dst: 172.217.171.234
