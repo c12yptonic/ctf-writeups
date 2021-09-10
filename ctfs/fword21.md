@@ -53,7 +53,8 @@ are not sure which service it was authorized for.
   <summary>
     Full details of <b>Frame 19</b> packet can be viewed by expanding this section.  
     The relavent details are available below for brevity.  
-
+    <br>  
+  
 ```
 =>Headers
 Host: oauth2.googleapis.com
@@ -68,8 +69,9 @@ Form item: "grant_type" = "refresh_token"
 Form item: "refresh_token" = "1//044y6gZR87Kl0CgYIARAAGAQSNwF-L9IrkAFpIJPMhiGY0OPJpo5RiA5_7R-mHH-kuHwCMUeFL2JqxevGr23oBJmaxdnrD52t3X4"
 Form item: "client_id" = "1097638694557-3v745luessc34bkoiqkf8tndqgvbqjpm.apps.googleusercontent.com"
 Form item: "email" = "fwordplayground@gmail.com"
-```
+```  
   </summary>  
+  <br>
 
 ```
 Frame 19: 1481 bytes on wire (11848 bits), 1481 bytes captured (11848 bits)
