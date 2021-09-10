@@ -30,7 +30,7 @@ function toggleTheme() {
   jtd.setTheme(themeVal);
 }
 
-document.addEventListener("click", function(){
+document.addEventListener(\"click\", function(){
   jtd.setTheme(getCurrentTheme());
 });
 jtd.setTheme(getCurrentTheme());
