@@ -18,6 +18,16 @@ function getCurrentTheme() {
   return themeVal;
 }
 
+function isCorrectTheme() {
+  if (jtd.getTheme() == getCurrentTheme()) {
+    return true;
+  } else if (jtd.getTheme() == \"default\" && getCurrentTheme() == \"light\") {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 function toggleTheme() {
   let themeVal = getCurrentTheme();
 
@@ -31,13 +41,13 @@ function toggleTheme() {
 }
 
 document.addEventListener(\"load\", function(){
-  if (jtd.getTheme() != getCurrentTheme()) {
+  if (!isCorrectTheme()) {
     console.log(jtd.getTheme() + \",eventlistener,\" + getCurrentTheme());
     jtd.setTheme(getCurrentTheme());
   }
 });
 
-if (jtd.getTheme() != getCurrentTheme()) {
+if (!isCorrectTheme()) {
   console.log(jtd.getTheme() + \",initial,\" + getCurrentTheme());
   jtd.setTheme(getCurrentTheme());
 }
