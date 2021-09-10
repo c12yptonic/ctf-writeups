@@ -51,9 +51,10 @@ are not sure which service it was authorized for.
 
 <details markdown="block">
   <summary>
-    Full details of <b>Frame 19</b> packet details can be viewed by expanding this section.  
-    The relavent details are available below. 
-<pre style='font-family: "SFMono-Regular",Menlo,Consolas,Monospace;font-size: 12px;'>
+    Full details of <b>Frame 19</b> packet can be viewed by expanding this section.  
+    The relavent details are available below for brevity.  
+
+```
 =>Headers
 Host: oauth2.googleapis.com
 Content-length: 269
@@ -67,9 +68,10 @@ Form item: "grant_type" = "refresh_token"
 Form item: "refresh_token" = "1//044y6gZR87Kl0CgYIARAAGAQSNwF-L9IrkAFpIJPMhiGY0OPJpo5RiA5_7R-mHH-kuHwCMUeFL2JqxevGr23oBJmaxdnrD52t3X4"
 Form item: "client_id" = "1097638694557-3v745luessc34bkoiqkf8tndqgvbqjpm.apps.googleusercontent.com"
 Form item: "email" = "fwordplayground@gmail.com"
-</pre>
-  </summary>
-  <pre style='font-family: "SFMono-Regular",Menlo,Consolas,Monospace;font-size: 12px;'>
+```
+  </summary>  
+
+```
 Frame 19: 1481 bytes on wire (11848 bits), 1481 bytes captured (11848 bits)
 Ethernet II, Src: VMware_4a:97:bf (00:0c:29:4a:97:bf), Dst: VMware_ee:46:d7 (00:50:56:ee:46:d7)
 Internet Protocol Version 4, Src: 10.1.2.100, Dst: 172.217.171.234
@@ -173,7 +175,7 @@ X-Frame-Options: SAMEORIGIN
 X-Content-Type-Options: nosniff
 Accept-Ranges: none
 Vary: 
-</pre>
+```
 </details>
 
 From the above details it is clear that the client used was [**`google-oauth-playground`**][4]. Also the
@@ -183,7 +185,7 @@ In the OAuth2 playground, head over to **Step 2** and plug in the available **`r
 > Note: Remember to url decode the values before using them.  
 > Also the refresh_token is not valid now and so you might get an error if you try it now.
 
-The response of the above requests is as below:
+The response of the above request is as below:
 ```json
 {
   "access_token": "ya29.a0ARrdaM80z7_k77TwnPY5dar8UWgwjzuBqfQ4BUUdlObN9oGOUTfWUgY8JIfBERMDuYv2DYg3vmevAoj1b-GmxWMQ_MPsMqmb0vnOgsGWJ4VEEcQwcJk1GklOeISGnBe_KEtd46IldOjCmCNhSdcBqW2OOfWlDA", 
