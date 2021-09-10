@@ -5,7 +5,7 @@ nav_order: 1
 description: "PCAP hidden flag"
 permalink: /ctflearn/acapofflag
 has_children: false
-parent: CTF learn challenge list
+parent: CTF Learn
 ---
 
 ## A capture of the flag 🪧
