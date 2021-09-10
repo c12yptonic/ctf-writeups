@@ -40,16 +40,18 @@ function toggleTheme() {
   jtd.setTheme(themeVal);
 }
 
+/*
 document.addEventListener(\"load\", function(){
   if (!isCorrectTheme()) {
     console.log(jtd.getTheme() + \",eventlistener,\" + getCurrentTheme());
     jtd.setTheme(getCurrentTheme());
   }
 });
+*/
 </script>"
 
-aux_links:
-  "Switch theme":
-    - "javascript:toggleTheme()"
+# aux_links:
+#  "Switch theme":
+#     - "javascript:toggleTheme()"
 
-aux_links_new_tab: false
+# aux_links_new_tab: false
