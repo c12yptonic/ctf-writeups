@@ -13,7 +13,7 @@ footer_content: "Copyright &copy; 2021 cryp71x3rz. Distributed by an <a href=\"h
 function getCurrentTheme() {
   let themeVal = localStorage.getItem(\"theme\");
   if (!themeVal) {
-    themeVal = \"light\";
+    themeVal = \"default\";
   }
   return themeVal;
 }
@@ -46,11 +46,6 @@ document.addEventListener(\"load\", function(){
     jtd.setTheme(getCurrentTheme());
   }
 });
-
-if (!isCorrectTheme()) {
-  console.log(jtd.getTheme() + \",initial,\" + getCurrentTheme());
-  jtd.setTheme(getCurrentTheme());
-}
 </script>"
 
 aux_links:
