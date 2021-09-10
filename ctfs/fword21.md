@@ -53,22 +53,23 @@ are not sure which service it was authorized for.
   <summary>
     Full details of <b>Frame 19</b> packet can be viewed by expanding this section.  
     The relavent details are available below for brevity.
-    <div class="highlight">
-        <pre class="highlight">
-<code>=>Headers
+    <div class="language-plaintext highlighter-rouge">
+        <div class="highlight">
+<pre class="highlight"><code>=>Headers
 Host: oauth2.googleapis.com
 Content-length: 269
 content-type: application/x-www-form-urlencoded
 user-agent: google-oauth-playground
-<br>
+&nbsp;
 =>Post body content
 HTML Form URL Encoded: application/x-www-form-urlencoded
 Form item: "client_secret" = "AER8VvrXuFfYfqjhidcekAM0"
 Form item: "grant_type" = "refresh_token"
 Form item: "refresh_token" = "1//044y6gZR87Kl0CgYIARAAGAQSNwF-L9IrkAFpIJPMhiGY0OPJpo5RiA5_7R-mHH-kuHwCMUeFL2JqxevGr23oBJmaxdnrD52t3X4"
 Form item: "client_id" = "1097638694557-3v745luessc34bkoiqkf8tndqgvbqjpm.apps.googleusercontent.com"
-Form item: "email" = "fwordplayground@gmail.com"
-</code></pre></div> 
+Form item: "email" = "fwordplayground@gmail.com"</code></pre>
+        </div>
+    </div>
   </summary>  
 
 ```
@@ -77,7 +78,7 @@ Ethernet II, Src: VMware_4a:97:bf (00:0c:29:4a:97:bf), Dst: VMware_ee:46:d7 (00:
 Internet Protocol Version 4, Src: 10.1.2.100, Dst: 172.217.171.234
     0100 .... = Version: 4
     .... 0101 = Header Length: 20 bytes (5)
-    Differentiated Services Field: 0x00 (DSCP: CS0, ECN: Not-ECT)
+Differentiated Services Field: 0x00 (DSCP: CS0, ECN: Not-ECT)
     Total Length: 1467
     Identification: 0x56f9 (22265)
     Flags: 0x40, Don't fragment
