@@ -268,10 +268,13 @@ server has a smaller timeout within which we have to crack all the levels/questi
 
 Challenge instructions:
 > You are stuck in another dimension while you were riding Solgaleo.  
+> 
 > You have Rotom-dex with you to contact your friends but he won't activate the GPS unless you can prove yourself to him. He is going
 > to give you a series of phrases that only you should be able to decrypt and you have a limited amount of time to do so.  
+> 
 > Can you decrypt them all?  
-> nc crypto.chal.csaw.io 5001 (not active now)
+> 
+> `nc crypto.chal.csaw.io 5001` (not active now)
 
 With the above background we connect via netcat to the above url as we do not have any other details. On connecting we are presented
 with the message - **What does this mean?** followed by a long string containing only **`.`**, **`-`** and **`/`**.
@@ -359,8 +362,8 @@ Tj0zMzljNTY0ODA5NDk4ZmZiZjQ4MGQzZjQwYTFiMzM5MTFiODA5ZDEwZjIyNzE3MWYyMzY4NTFlYjU5
   ```
 </details>
 
-The above operation gave us a string as shown above which is a typical base64 encoded string. So we immediately try
-decoding it using base64.  
+The above operation gave us a string as shown above which is a typical Base64 encoded string. So we immediately try
+decoding it using Base64.  
 ```python
 from decoder.decoder import base64Decode
 
@@ -370,7 +373,7 @@ expvals = base64Decode(strval)
 
 <details markdown="block">
   <summary>
-  Click here to view the sample string after base 64 decoding
+  Click here to view the sample string after Base64 decoding
   </summary>  
 
   ```text
@@ -422,12 +425,12 @@ p = cbrt(c)
 assert c == pow(p, 3)
 ```
 
-The plain text obtained after performing cuberoot is **`5338762031123926997889413968486`**. This is a long value and in 
+The plain text obtained after finding cube root is **`5338762031123926997889413968486`**. This is a long value and in 
 general plain text and/or cipher text are converted to and from their long representations using **`Crypto.Util.number`**
 package within [PyCryptodome][26].
 
 We use **`long_to_bytes`** method within the above package to convert a number to its string and **`bytes_to_long`** to
-the reverse of it.
+do the reverse.
 ```python
 from Cipher.Util.number import long_to_bytes
 
@@ -436,7 +439,7 @@ pstr = long_to_bytes(p)
 ```
 
 This gives us a string **`Cbxrzba Anzrf`**. Well this can be the answer to the question, but I had doubts as it was not a 
-readable string. Still I did try it out as there were not negative points for attempts. Indeed my doubts were right and
+readable string. Still I did try it out as there were no negative points for attempts. Indeed my doubts were right and
 it did not accept this as an answer.  
 
 At this point I was exhausted and almost gave up even though I did try a lot to think through it and almost burried myself
@@ -611,20 +614,20 @@ the same [here][31].
 Based on the above details we open the **`ContactUs.pcap`** file in Wireshark and also load the **`sslkeyfile.txt`**
 in it. After doing the same, Wireshark will automatically decrypt the traffic with the available SSL keys in the file.  
 
-On a high level analysis of the available frames we see that there are very few **HTTP/1.1** and more of [**HTTP2**][32].
-As there are no flag details available in the **HTTP/1.1** packets we need to go about analyzing the **HTTP2** packets.
+On a high level analysis of the available frames we see that there are very few **HTTP/1.1** and more of [**HTTP/2**][32].
+As there are no flag details available in the **HTTP/1.1** packets we need to go about analyzing the **HTTP/2** packets.
 
-There are roughly *3600* frames out of which around *539* are HTTP2 packets. The same can be seen by entering the display
+There are roughly *3600* frames out of which around *539* are HTTP/2 packets. The same can be seen by entering the display
 filter in Wireshark as **http2**. Analyzing *539* packets is quite tiresome and I wanted to filter it more.  
 
-Within **HTTP2** packets there are mainly two category of requests i.e HEADERS and DATA packets. HEADERS mainly contain
+Within **HTTP/2** packets there are mainly two category of requests i.e HEADERS and DATA packets. HEADERS mainly contain
 all the URL info and other request information which otherwise is available in plain text in HTTP/1.1. But HEADERS packet
 do not contain any application/user data. This means we are looking only for data packets which can be filtered easily
 in Wireshark by setting the display filter to **http2.type == 0**. This further reduces our search space to around *283* 
 frames.  
 
-After applying the above filters I could see mainly two types of packets **`DoH`**(DNS over HTTPs) and **`HTTP2`**. Often
-our flags lie in the HTTP application data. So I decided to analyze the HTTP2 frames and found the required flag in 
+After applying the above filters I could see mainly two types of packets **`DoH(DNS over HTTPs)`** and **`HTTP2`**. Often
+our flags lie in the HTTP application data. So I decided to analyze the HTTP/2 frames and found the required flag in 
 frame **`2534`**.  
 
 > Note:  
@@ -634,7 +637,7 @@ frame **`2534`**.
 > A complete reference of the available filters can be searched from the index [here][33].  
 > Protocol specific reference of display filters can be searched [here][34].  
 > 
-> For **`HTTP2`** the same is available [here][35].  
+> For **`HTTP/2`** the same is available [here][35].  
 
 
 <details markdown="block">
