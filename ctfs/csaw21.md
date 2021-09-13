@@ -65,7 +65,7 @@ a [web based vulnerability][8].
 
 Challenge instructions:
 > Hey! I made a cool website that shows off my favorite poems. See if you can find flag.txt somewhere!  
-> http://web.chal.csaw.io:5003 (now down)
+> `http://web.chal.csaw.io:5003` (now down)
 
 The website presented us with three buttons which read **`poem1.txt`**, **`poem2.txt`** and **`poem3.txt`**. On clicking each of them a
 request was sent to the url **`/poems`** with a parameter named **`poem`** whose value was set to the corresponding file name selected.
@@ -210,9 +210,9 @@ Challenge instructions:
 > Attached is a packet capture taken from a building management network.  
 > One of the analog sensors reported values way outside of its normal operating range.  
 > Can you determine the object name of this analog sensor?  
-> Flag Format: flag{Name-of-sensor}.  
+> Flag Format: `flag{Name-of-sensor}`.  
 > 
-> For example if the object name of this analog sensor was "Sensor_Temp1", the flag would be flag{Sensor_Temp1}.  
+> For example if the object name of this analog sensor was "Sensor_Temp1", the flag would be `flag{Sensor_Temp1}`.  
 > (Note: because there are a limited number of sensors, we're only giving you two guesses for this challenge, so please check your input carefully.)
 
 Also from the title BAC or BACNet seemed to be something more than a random name. On searching the web more on it found that BACNet is a
@@ -596,12 +596,14 @@ Challenge instructions:
 
 Additional hint:
 > Some of you with eagle eyes may have noticed another flag hiding in the packet capture:  
-> flag{$$L_d3crypt3d}  
+> `flag{$$L_d3crypt3d}`  
+> 
 > The author had a browser tab open when capturing packets for the challenge and was surfing the net for flags 
 > because that's what you do when you're a challenge author.  
+> 
 > Moreover knowing this flag will not help you get closer to the solve. There's no limit to the number of attempts
-> to submit this particular flag so nobody was affected.  
-> We do regret any time you lost though.  
+> to submit this particular flag so nobody was affected. We do regret any time you lost though.  
+> 
 > Also, there's a server associated with the challenge but it's not necessary to connect to it to solve the 
 > challenge. We're therefore taking the server offline to streamline your effort with this task. Good luck!
 
