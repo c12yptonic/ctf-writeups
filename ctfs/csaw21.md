@@ -781,7 +781,7 @@ Web
 {: .label .label-green .fs-1 .ml-0}
 
 Template Injection
-{: .label .label-green .fs-1 .ml-0}
+{: .no-vertical-align-c .label .label-green .fs-1 .ml-0}
 
 This was the first and supposedly the easiest challenge under the **Web** category. Unfortunately I was not able to complete it before the
 challenge was closed. However I did near the soul of the challenge and the underlying vulnerability which needed to be exploited.

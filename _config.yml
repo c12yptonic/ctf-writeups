@@ -48,7 +48,12 @@ document.addEventListener(\"load\", function(){
   }
 });
 */
-</script>"
+</script>
+<style>
+.no-vertical-align-c {
+  vertical-align: unset !important;
+}
+</style>"
 
 # aux_links:
 #  "Switch theme":
