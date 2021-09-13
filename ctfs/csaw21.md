@@ -54,7 +54,7 @@ contain the real meat of the traffic/user data.
 You can filter **SSH** and **Telnet** traffic easily by typing in **ssh** or **telnet** in the Wireshark display filter bar. And then 
 start analyzing the contents.
 
-Finally in telnet packet frame **`2043`** we find the flag **`flag{T00_L@ZY_4_$3CUR1TY}`**.
+Finally in telnet packet frame **`#2043`** we find the flag **`flag{T00_L@ZY_4_$3CUR1TY}`**.
 
 ## Poem collection 📝
 Web
@@ -619,18 +619,18 @@ in it. After doing the same, Wireshark will automatically decrypt the traffic wi
 On a high level analysis of the available frames we see that there are very few **HTTP/1.1** and more of [**HTTP/2**][32].
 As there are no flag details available in the **HTTP/1.1** packets we need to go about analyzing the **HTTP/2** packets.
 
-There are roughly *3600* frames out of which around *539* are HTTP/2 packets. The same can be seen by entering the display
-filter in Wireshark as **http2**. Analyzing *539* packets is quite tiresome and I wanted to filter it more.  
+There are roughly **3600** frames out of which around **539** are HTTP/2 packets. The same can be seen by entering the display
+filter in Wireshark as **`http2`**. Analyzing **539** packets is quite tiresome and I wanted to filter it more.  
 
-Within **HTTP/2** packets there are mainly two category of requests i.e HEADERS and DATA packets. HEADERS mainly contain
-all the URL info and other request information which otherwise is available in plain text in HTTP/1.1. But HEADERS packet
+Within **HTTP/2** packets there are mainly two category of requests i.e **`HEADERS`** and **`DATA`** packets. Headers mainly contain
+all the URL info and other request information which otherwise is available in plain text in HTTP/1.1. But headers packet
 do not contain any application/user data. This means we are looking only for data packets which can be filtered easily
-in Wireshark by setting the display filter to **http2.type == 0**. This further reduces our search space to around *283* 
+in Wireshark by setting the display filter to **`http2.type == 0`**. This further reduces our search space to around *283* 
 frames.  
 
 After applying the above filters I could see mainly two types of packets **`DoH(DNS over HTTPs)`** and **`HTTP2`**. Often
 our flags lie in the HTTP application data. So I decided to analyze the HTTP/2 frames and found the required flag in 
-frame **`2534`**.  
+frame **`#2534`**.  
 
 > Note:  
 > Another really good filter that I discovered in the course of drafting this writeup is **`http2.data.data contains "flag"`**.
