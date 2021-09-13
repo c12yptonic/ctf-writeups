@@ -778,7 +778,7 @@ response to their corresponding characters. The final flag was **`flag{Ms_Fr1ZZL
 
 ## Ninja 🥷
 Web
-{: .label .label-green .fs-1 .ml-0}
+{: .no-vertical-align-c .label .label-green .fs-1 .ml-0}
 
 Template Injection
 {: .no-vertical-align-c .label .label-green .fs-1 .ml-0}
