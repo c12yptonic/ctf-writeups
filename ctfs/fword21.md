@@ -43,7 +43,7 @@ The challenge had the below instruction:
 > How Deep Can You Possibly Dig?
 > Flag Format: FwordCTF{....}
 
-The challenge file can be downloaded from [here][4].
+The challenge file can be downloaded from [here][8].
 
 On loading the PCAP file into Wireshark, I found that there were a lot of requests with the **`User-agent: google-oauth-playground`**.
 Finally a specific packet **Frame 19** seemed to have some access-token/refresh-token access requests for some Google API. Still we
@@ -216,3 +216,4 @@ In one of the message ids **`17b7d85d21fc05ba`** we find the final flag:
 [5]: https://developers.google.com/gmail/api/reference/rest/v1/users.messages
 [6]: https://developers.google.com/gmail/api/reference/rest/v1/users.messages/get
 [7]: https://developers.google.com/gmail/api/reference/rest/v1/users.messages/list
+[8]: https://mega.nz/file/J4JRxKYL#rCTefRhqDnOXfSIDIXeoIEuMk-MQzz8WAUR6oqBxL68

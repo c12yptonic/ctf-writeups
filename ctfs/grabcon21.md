@@ -89,7 +89,7 @@ Loading the binary in Ghidra shows that the binary expects a command line argume
 As all inputs are in decimal we convert the value to decimal and run the binary with the input **`1312389`**. Doing so the flag is
 printed out in the command line as: **`GrabCON{y0u_g0t_it_8bb31}`**.
 
-[![Easy rev in action](https://asciinema.org/a/pg6Zv7ldafvIYQT6Qu1fZgNdr.svg)][10]
+![Easy rev in action][20]
 
 ## Gangbusted 📦
 Forensics
@@ -272,7 +272,7 @@ Navigating to this folder we find a file named **`ConsoleHost_history.txt`** whi
 used is **`timestomp.exe`**.
 
 You can go through the below to find the whole process of discovering the required details:
-![Image analysis using FTK Imager](https://gcdn.pbrd.co/images/GeOx9oNr5O3e.gif?o=1)
+![Image analysis using FTK Imager][19]
 
 Final details include the below:
 
@@ -308,3 +308,4 @@ The final flag after applying the required formatting specified in the challenge
 [17]: https://accessdata.com/product-download/ftk-imager-version-4-2-1
 [18]: https://itsallinthecode.com/powershell-where-is-the-command-history-stored/
 [19]: https://gcdn.pbrd.co/images/GeOx9oNr5O3e.gif?o=1
+[20]: https://gcdn.pbrd.co/images/g7OwHQtrLTAe.gif?o=1
