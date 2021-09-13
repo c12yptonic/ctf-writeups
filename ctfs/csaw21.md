@@ -634,7 +634,7 @@ frame **`#2534`**.
 
 > Note:  
 > Another really good filter that I discovered in the course of drafting this writeup is **`http2.data.data contains "flag"`**.
-> This filters us down to just 9 frames which can be analyzed very easily.  
+> This filters us down to just **9** frames which can be analyzed very easily.  
 >
 > A complete reference of the available filters can be searched from the index [here][33].  
 > Protocol specific reference of display filters can be searched [here][34].  
@@ -692,6 +692,91 @@ frame **`#2534`**.
 
 The final flag was available as the value of the **`Message`** field and read as **`flag{m@r$hm3ll0w$}`**.
 
+## The Magic Modbus 🚌
+Industrial Control Systems
+{: .label .label-green .fs-1 .ml-0}
+
+This is the second challenge in the newly introduced **Industrial Control Systems (ICS)** category involving yet another new
+protocol, the [Modbus][3]. Modbus was totally unknown to me untill I came across this challenge and looked up the protocol.  
+
+Along with the below instructions we are given a file **`modbus.pcap`** which can be downloaded [here][36] or [here][37]. This is
+a packet capture **`.pcap`** file which can be analyzed using [Wireshark][7].
+
+Challenge instructions:  
+> Climb on the Magic Modbus and see if you can find some of the messages being passed around!
+
+Looking at the Wireshark frames, it was clear the communication was completely different from normal Internet Protocol frames.
+The packets were how ever very informative. On an initial analysis of one of the frames the following could be inferred:
+1. The packets are transferred on top of a normal TCP connection.
+2. The Layer 3 protocol is not the normal Internet Protocol but the Modbus protocol.
+3. Modbus protocol seems to have a **`Function Field`**. Also these fields can have the following values:
+   - `01 - READ COIL STATUS`
+   - `02 - READ INPUT STATUS`
+   - `03 - READ HOLDING REGISTERS`
+   - `04 - READ INPUT REGISTERS`
+   - `05 - WRITE SINGLE COIL`
+   - `06 - WRITE SINGLE REGISTER`
+   - `15 - WRITE MULTIPLE COILS`
+   - `16 - WRITE MULTIPLE REGISTERS`  
+  
+   But the given packet capture has only `03 - READ HOLDING REGISTERS` function.  
+
+On reading more, the Modbus [`03 - READ HOLDING REGISTERS`][38] function has a specific packet structure. In general the
+request includes a reference number to the specific register which needs to be read and the response includes the exact
+register that was read. Also in addition the request also specifies the number of words to be read from the specific register.
+
+After knowing this looking at the request packet frame below we can see that the Modbus frame includes `Reference Number`
+and `Word Count`.
+```text
+Modbus
+    .000 0011 = Function Code: Read Holding Registers (3)
+    Reference Number: 0
+    Word Count: 1
+```
+
+Similarly the response packet frame below includes `Register Number` and `Register Value` returned from the device.
+```text
+Modbus
+    .000 0011 = Function Code: Read Holding Registers (3)
+    [Request Frame: 3]
+    [Time from request: 0.005431000 seconds]
+    Byte Count: 2
+    Register 0 (UINT16): 102
+        Register Number: 0
+        Register Value (UINT16): 102
+```
+
+Having all this context, we understand that there is some message hidden which is read from the registers and all the required
+details for the flag should be available in those packets.
+
+I started noting down the values, where each of them was an integer that can be converted to a specific readable character. For eg:
+the value **`102`** in the above response packet is actually the letter **`f`**. This confirmed my theory as our flag also starts 
+with **`f`** which is the first letter of the flag format.  
+Quickly going through the next 2 - 3 packets gave me upto **`flag{`** but after that there were random letters. I struggled a lot
+initially.  
+
+It gave me lot of sequences which looked like parts of a flag like:
+1. **`OK yus, Fr1ZZL3_stULD!b3_s0_Pr0UD}`**
+2. **`flagou keep asking questions, you'll keep getting answers!`**
+3. **`Ms do Your W0uff_`**
+
+Seeing the above nothing made sense to me and kept spiraling more and more in trying to think out some logic by which I can get a 
+sensible flag.  
+
+I had actually moved on to a different challenge and left this out to get back to. After completing [BACNet](#a-pain-in-the-bacnet-)
+and [Lazy Leaks](#lazy-leaks-) I realized something that I had not tried in this challenge i.e to see if we need to filter the packets
+I am looking at to get my flag.  
+
+I again looked through the first few **`Response`** packets which translated to the initial part of the flag and tried to see their 
+source address. And then I realized how silly I was to miss this.  
+
+Just filter the packets from the specific device with the IP **`238.0.0.6`** using the Wireshark display filter **`ip.addr == 238.0.0.6`**.
+
+Voila 🪄 !! We have our flag by just following the **`Response`** packets from the above device, and converting the integer value in the
+response to their corresponding characters. The final flag was **`flag{Ms_Fr1ZZL3_W0ULD_b3_s0_Pr0UD}`**.
+
+
+
 
 [1]: https://ctftime.org/team/439
 [2]: https://discord.gg/Zj2H6EaAkZ
@@ -728,3 +813,6 @@ The final flag was available as the value of the **`Message`** field and read as
 [33]: https://www.wireshark.org/docs/dfref/
 [34]: https://wiki.wireshark.org/ProtocolReference
 [35]: https://www.wireshark.org/docs/dfref/h/http2.html
+[36]: https://ctf.csaw.io/files/b7a0512fe35be8e0a9f84b24c0615b33/modbus.pcap?token=eyJ1c2VyX2lkIjo5MDAsInRlYW1faWQiOm51bGwsImZpbGVfaWQiOjI5Njl9.YT99Vw.CzQQNjB6OF_iW77fdusvzmXJE6I
+[37]: https://mega.nz/file/Ut5mGQLB#IbORTBDkvA2KVt0tuTqIE32s1gHbOdFlqeC-f34LYEI
+[38]: https://www.modbustools.com/modbus.html#function03
