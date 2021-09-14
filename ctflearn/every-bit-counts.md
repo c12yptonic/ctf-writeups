@@ -95,9 +95,11 @@ The above view shows a disassembled code in the main pane and its corresponding 
 to its right. The left pane has all kinds of navigation aids to go through the code.  
 
 > Note:  
-> The retrieved code is just a representation of the original source and might miss some parts due 
-> to obfuscation techniques used by the adversary as highlighted [here][7]. So be sure to always 
-> look at the code with some suspicion in real CTF challenges.  
+> 
+> The retrieved code is just a representation of the original source and might  
+> miss some parts due to obfuscation techniques used by the adversary as 
+> highlighted [here][7]. So be sure to always look at the code with some 
+> suspicion in real CTF challenges.  
 
 Once the binary is loaded into the tool, we need to find the **`main`** method which is generally
 the initial entry to our source code. But the actual entry point in the binary is different from 
@@ -112,10 +114,11 @@ along with its other parameters. You can view a glmipse of the code in the below
 <details markdown="block">
   <summary>
   Click here to view the complete code  
+  <br>
+  Note: Its an awfully long code
+  </summary>  
 
-  > Note: Its an awfully long code
-  </summary>
-
+{% raw %}
 ```C
 undefined8 main(int param_1,undefined8 *param_2)
 {
@@ -547,6 +550,7 @@ undefined8 main(int param_1,undefined8 *param_2)
   return uVar1;
 }
 ```
+{% endraw %}
 </details>
 
 The part of the logic that first struck me was the last part which prints the error/success
@@ -563,8 +567,8 @@ converting them to integers and looking up their ASCII characters in a hope that
 real challenge. Nothing did work out.  
 
 So we had effectively hit a roadblock and when we get stuck the Web comes to our rescure. I 
-resorted to web searches which went by the lines **Equation solver in python**, **Find values
-satisfying an equation** etc.  
+resorted to web searches which went by the lines **'Equation solver in python'**, 
+**'Find values satisfying an equation'** etc.  
 
 After a trail of searches I landed on a Python tool from Microsoft called [z3 solver][10]. This
 was a theorem prover or in more sane terms an equation solver. It seemed intriguing and also had
@@ -590,7 +594,7 @@ the parameter that we had to send was **`52`** characters. We can verify this by
 string of exactly **52`** characters in length which would produce the message stating that it was not
 the correct flag instead of the message that states bad length.  
 
-Now we need to address the huge equation. Let us taken the first few parts of the equation:
+Now we need to address the huge equation. Let us taken the first few parts of the equation:  
 ```C
          if ((((((((((
                     (*(byte *)(param_2[1] + 0x1c) & 0x20) == 0) &&
