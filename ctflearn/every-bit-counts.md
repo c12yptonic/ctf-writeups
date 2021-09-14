@@ -119,7 +119,7 @@ along with its other parameters. You can view a glmipse of the code in the below
   </summary>  
 
 {% raw %}
-```C
+```java
 undefined8 main(int param_1,undefined8 *param_2)
 {
   undefined8 uVar1;
@@ -595,7 +595,8 @@ string of exactly **52`** characters in length which would produce the message s
 the correct flag instead of the message that states bad length.  
 
 Now we need to address the huge equation. Let us taken the first few parts of the equation:  
-```C
+{% raw %}
+```java
          if ((((((((((
                     (*(byte *)(param_2[1] + 0x1c) & 0x20) == 0) &&
                  ((*(byte *)(param_2[1] + 0x24) & 0x10) != 0)) &&
@@ -603,6 +604,7 @@ Now we need to address the huge equation. Let us taken the first few parts of th
                (((*(byte *)(param_2[1] + 0x20) & 0x20) != 0 &&
                 ((*(byte *)(param_2[1] + 0x2b) & 4) != 0)))) &&
 ```
+{% endraw %}
 
 On seeing the equation we actually find the following points upfront:
 1. Each condition was identical in the sense that:
