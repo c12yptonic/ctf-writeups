@@ -591,18 +591,20 @@ random execution of the binary.
 
 Next was a check of **`strlen((char*)param_2[1] == 0x34)`**. This means that the length of whatever was
 the parameter that we had to send was **`52`** characters. We can verify this by sending in some random
-string of exactly **52`** characters in length which would produce the message stating that it was not
+string of exactly **`52`** characters in length which would produce the message stating that it was not
 the correct flag instead of the message that states bad length.  
 
 Now we need to address the huge equation. Let us taken the first few parts of the equation:  
 {% raw %}
 ```java
-         if ((((((((((
-                    (*(byte *)(param_2[1] + 0x1c) & 0x20) == 0) &&
-                 ((*(byte *)(param_2[1] + 0x24) & 0x10) != 0)) &&
-                ((*(byte *)(param_2[1] + 0x2f) & 0x20) != 0)) &&
-               (((*(byte *)(param_2[1] + 0x20) & 0x20) != 0 &&
-                ((*(byte *)(param_2[1] + 0x2b) & 4) != 0)))) &&
+if ((((((((((
+    (*(byte *)(param_2[1] + 0x1c) & 0x20) == 0) &&
+    ((*(byte *)(param_2[1] + 0x24) & 0x10) != 0)) &&
+    ((*(byte *)(param_2[1] + 0x2f) & 0x20) != 0)) &&
+    (((*(byte *)(param_2[1] + 0x20) & 0x20) != 0 &&
+    ((*(byte *)(param_2[1] + 0x2b) & 4) != 0)))) &&
+    ...
+    ...
 ```
 {% endraw %}
 
