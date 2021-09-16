@@ -155,7 +155,7 @@ of the same can be found below:
 ```
 
 It clearly shows us this specific file is actually a **`zip`** archive in itself. We inspect the
-contents of this file and find the below.
+contents of this file and find the below.  
 ![Contents of hidden zip ".Processing.cerb4"][3]
 
 As seen above, we find an image file **`skypcoder.jpg`** but are requested for a password when
