@@ -58,7 +58,7 @@ document.addEventListener(\"load\", function(){
 aux_links:
   "<img alt=\"GitHub issues\" src=\"https://img.shields.io/github/issues/c12yptonic/ctf-writeups\"/>":
     - "https://github.com/c12yptonic/ctf-writeups/issues"
-  "<img alt=\"Deloyment status\" src=\"https://img.shields.io/github/deployments/c12yptonic/ctf-writeups/github-pages\" />"
+  "<img alt=\"Deloyment status\" src=\"https://img.shields.io/github/deployments/c12yptonic/ctf-writeups/github-pages\" />":
     - "https://github.com/c12yptonic/ctf-writeups/deployments/activity_log?environment=github-pages"
 
 aux_links_new_tab: true
