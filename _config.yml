@@ -56,7 +56,7 @@ document.addEventListener(\"load\", function(){
 </style>"
 
 aux_links:
-  "![GitHub issues](https://img.shields.io/github/issues/c12yptonic/ctf-writeups)":
+  "<img alt=\"GitHub issues\" src=\"https://img.shields.io/github/issues/c12yptonic/ctf-writeups\"/>":
     - "https://github.com/c12yptonic/ctf-writeups/issues"
 
 aux_links_new_tab: true
