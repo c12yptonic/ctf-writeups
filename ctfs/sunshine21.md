@@ -13,8 +13,8 @@ parent: CTF list
 
 This is the sixth year of Sunshine CTF organized by [Knightsec a.k.a Hack@UCF][1]. I had 
 moved on to Sunshine CTF after trying out the [Peanut Butter JAR CTF][2] held on the same 
-day. This also meant I was able to attempt only a few select challenges for which the
-the solutions are discussed below.  
+day. This also meant I was able to attempt only a few select challenges for which the 
+solutions are discussed below.  
 {: .fs-5 .fw-300 }
 
 It had two check flags to acquaint us with the flag format. One was available in the discord
@@ -66,14 +66,18 @@ multiple users and using individual exponents for encrypting the same message. T
 clear to you once you finish reading this write up.  
 
 We are provided with the below challenge instructions and a script file which gives us the details
-of the encryption and the cipher text obtained by both Aice and Bob. The file is also included as
+of the encryption and the cipher text obtained by both Alice and Bob. The file is included as
 a code block below.
 
 Challenge instructions:
 > Both Alice and Bob share the same modulus, but with different exponents. If only there was some  
 > way I could recover this message that was sent to both of them.  
 
-**source.py**  
+<details markdown="block">
+  <summary>
+  Click here to view <b>source.py</b>
+  </summary>  
+
 ```python
 from Crypto.Util.number import getPrime
 from sunshine_secrets import FLAG
@@ -97,14 +101,21 @@ c2 = pow(f, e2, n)
 
 print({"n": n, "e1": e1, "e2": e2, "c1": c1, "c2":c2})
 
-#Here is the output.
-
-
-#{'n': 86683300105327745365439507825347702001838360528840593828044782382505346188827666308497121206572195142485091411381691608302239467720308057846966586611038898446400292056901615985225826651071775239736355509302701234225559345175968513640372874437860580877571155199027883755959442408968543666251138423852242301639, 'e1': 11048796690938982746152432997911442334648615616780223415034610235310401058533076125720945559697433984697892923155680783661955179131565701195219010273246901, 'e2': 9324711814017970310132549903114153787960184299541815910528651555672096706340659762220635996774790303001176856753572297256560097670723015243180488972016453, 'c1': 84855521319828020020448068809384113135703375013574055636013459151984904926013060168559438932572351720988574536405041219757650609586761217385808427001020204262032305874206933548737826840501447182203920238204769775531537454607204301478815830436609423437869412027820433923450056939361510843151320837485348066171, 'c2': 54197787252581595971205193568331257218605603041941882795362450109513512664722304194032130716452909927265994263753090021761991044436678485565631063700887091405932490789561882081600940995910094939803525325448032287989826156888870845730794445212288211194966299181587885508098448750830074946100105532032186340554}
+"""
+Here is the output.
+{
+    "n": 86683300105327745365439507825347702001838360528840593828044782382505346188827666308497121206572195142485091411381691608302239467720308057846966586611038898446400292056901615985225826651071775239736355509302701234225559345175968513640372874437860580877571155199027883755959442408968543666251138423852242301639,
+    "e1": 11048796690938982746152432997911442334648615616780223415034610235310401058533076125720945559697433984697892923155680783661955179131565701195219010273246901,
+    "e2": 9324711814017970310132549903114153787960184299541815910528651555672096706340659762220635996774790303001176856753572297256560097670723015243180488972016453,
+    "c1": 84855521319828020020448068809384113135703375013574055636013459151984904926013060168559438932572351720988574536405041219757650609586761217385808427001020204262032305874206933548737826840501447182203920238204769775531537454607204301478815830436609423437869412027820433923450056939361510843151320837485348066171,
+    "c2": 54197787252581595971205193568331257218605603041941882795362450109513512664722304194032130716452909927265994263753090021761991044436678485565631063700887091405932490789561882081600940995910094939803525325448032287989826156888870845730794445212288211194966299181587885508098448750830074946100105532032186340554
+}
+"""
 ```  
+</details>
 
 From the above it is clear that we are provided with the modulus **`n`**, exponents of Alice and  
-Bob **`e1`** & **`e2`**, cipher texts of Alice and Bob **`c1`** and **`c1`**.  
+Bob **`e1`** & **`e2`**, cipher texts of Alice and Bob **`c1`** & **`c2`**.  
 
 As the exponents are large I did not have much confidence in using the [**RsaCtfTool**][4] and 
 rightly so, the tool was not able to exploit with the available details. Also, as we have details
@@ -159,7 +170,7 @@ print("message =", long_to_bytes(cp))
 ```
 </details>  
 
-As seen below the execution of the above code directly gives us the required flag **`sun{d0n7_d0_m0r3_th4n_0ne_3xp0n3nt}`**.  
+As seen below the execution of the above script directly gives us the required flag **`sun{d0n7_d0_m0r3_th4n_0ne_3xp0n3nt}`**.  
 
 ![More than one exponent execution][7]
 
@@ -199,7 +210,8 @@ Challenge instructions:
 > Need more complicated equations? No problem! Our python3 backend can handle anything 
 > you throw at it.
 > fsum([.1, .1, .1, .1, .1, .1, .1, .1, .1, .1]) + gcd(19,29,39,49,59,69)
-> =>2.0
+> =>2.0  
+> 
 > Note: In the future we may disable components if we find there's security issues with them.
 
 To initially test whether **`eval`** or **`exec`** is used we supply a payload with line separator
@@ -245,7 +257,11 @@ to enter the previous levels partial flag. Once done we can enter our expression
 ┌──(cryptonic㉿cryptonic-kali)-[~/CTFs/sunshinectf/procrastinate]
 └─$ nc procrastinate.chal.2021.sunshinectf.org 65001
 Welcome to the ProcrastinatorProgrammer backend.
-Please give me an equation! Any equation! I need to be fed some data to do some processing!Due to technical difficulties with the last challenge, I've upped my ante! Now I know it's secure!I'm super secure, and can use most python math! I just use `eval(client_input, \{\}, safe_math_functions)` on your data and then whamo, python does all the work!Whatever you do, don't look at my ./key!
+Please give me an equation! Any equation! I need to be fed some data to do some processing!Due 
+to technical difficulties with the last challenge, I've upped my ante! Now I know it's secure!  
+
+I'm super secure, and can use most python math! I just use `eval(client_input, \{\}, safe_math_functions)`  
+on your data and then whamo, python does all the work!Whatever you do, don't look at my ./key!
 
 Halt in the name of the law!
 
@@ -282,7 +298,14 @@ On connecting to this level we are greeted with the below message:
 ┌──(cryptonic㉿cryptonic-kali)-[~/CTFs/sunshinectf/procrastinate]
 └─$ nc procrastinate.chal.2021.sunshinectf.org 65002
 Welcome to the ProcrastinatorProgrammer backend.
-Please give me an equation! Any equation! I need to be fed some data to do some processing!Due to technical difficulties with the previous set, I had to remove math lib support! In fact the only thing this can do is add and subtract now!... I think. Google tells me that it's secure now! Well the second result anyhow.I'm super secure, and can use a bit of python math! I just use `eval(client_input, {'__builtins__':\{\}})` on your data and then whamo, python does all the work!Whatever you do, don't look at my ./key!
+Please give me an equation! Any equation! I need to be fed some data to do some processing!  
+Due to technical difficulties with the previous set, I had to remove math lib support!  
+
+In fact the only thing this can do is add and subtract now!... I think. Google tells me that  
+it's secure now! Well the second result anyhow.  
+
+I'm super secure, and can use a bit of python math! I just use `eval(client_input, {'__builtins__':\{\}})`  
+on your data and then whamo, python does all the work!Whatever you do, don't look at my ./key!
 
 Halt in the name of the law!
 
@@ -304,8 +327,15 @@ which can be used to run any OS commands on the shell.
 ```sh
 ┌──(cryptonic㉿cryptonic-kali)-[~/CTFs/sunshinectf/procrastinate]
 └─$ nc procrastinate.chal.2021.sunshinectf.org 65002
-Welcome to the ProcrastinatorProgrammer backend.
-Please give me an equation! Any equation! I need to be fed some data to do some processing!Due to technical difficulties with the previous set, I had to remove math lib support! In fact the only thing this can do is add and subtract now!... I think. Google tells me that it's secure now! Well the second result anyhow.I'm super secure, and can use a bit of python math! I just use `eval(client_input, {'__builtins__':\{\}})` on your data and then whamo, python does all the work!Whatever you do, don't look at my ./key!
+Welcome to the ProcrastinatorProgrammer backend.  
+Please give me an equation! Any equation! I need to be fed some data to do some processing!  
+
+Due to technical difficulties with the previous set, I had to remove math lib support! 
+In fact the only thing this can do is add and subtract now!... I think. Google tells me that  
+it's secure now! Well the second result anyhow.I'm super secure, and can use a bit of python math!  
+
+I just use `eval(client_input, {'__builtins__':\{\}})` on your data and then whamo, python  
+does all the work!Whatever you do, don't look at my ./key!
 
 Halt in the name of the law!
 
@@ -315,10 +345,15 @@ _safe_
 Give me an equation please!
 
 ().__class__.__base__.__subclasses__()                     
-[<class 'type'>, <class 'weakref'>, <class 'weakcallableproxy'>, <class 'weakproxy'>, <class 'int'>, <class 'bytearray'>, <class 'bytes'>, <class 'list'>, <class 'NoneType'>, <class 'NotImplementedType'>, <class 'traceback'>, <class 'super'>, <class 'range'>, <class 'dict'>, ....
+[<class 'type'>, <class 'weakref'>, <class 'weakcallableproxy'>, <class 'weakproxy'>, <class 'int'>, 
+<class 'bytearray'>, <class 'bytes'>, <class 'list'>, <class 'NoneType'>, <class 'NotImplementedType'>, 
+<class 'traceback'>, <class 'super'>, <class 'range'>, <class 'dict'>, ....
 ....
 ....
-<class 'warnings.WarningMessage'>, <class 'warnings.catch_warnings'>, <class 'contextlib.ContextDecorator'>, <class 'contextlib._GeneratorContextManagerBase'>, <class 'contextlib._BaseExitStack'>, <class 'subprocess.CompletedProcess'>, <class 'subprocess.Popen'>, <class 'multiprocessing.util.Finalize'>, <class 'multiprocessing.util.ForkAwareThreadLock'>, <class 'multiprocessing.popen_fork.Popen'>]
+<class 'warnings.WarningMessage'>, <class 'warnings.catch_warnings'>, <class 'contextlib.ContextDecorator'>,
+ <class 'contextlib._GeneratorContextManagerBase'>, <class 'contextlib._BaseExitStack'>, 
+ <class 'subprocess.CompletedProcess'>, <class 'subprocess.Popen'>, <class 'multiprocessing.util.Finalize'>, 
+ <class 'multiprocessing.util.ForkAwareThreadLock'>, <class 'multiprocessing.popen_fork.Popen'>]
 ```
 
 As said before the availability of the **`subrocess.Popen`** class is more than enough for us to run 
@@ -343,10 +378,10 @@ __base__ - returns the base object of the class stored as an attribute in __clas
 __subclasses__() - invokes the subclasses method which returns an array of classes loaded
 ```
 
-From the output of **`__subclasses()`** we find that **`subprocess.Popen`** class is returned as the
+From the output of **`__subclasses__()`** we find that **`subprocess.Popen`** class is returned as the
 fourth object from the last in the array. So we use the index **`-4`**. Also it is not necessary to
-only use this object. There might be other objects which also allow us to read the required which can
-also be used by changing the approprite indices and subsequent methods used from the chosen class.  
+only use this object. There might be other objects which also allow us to read the required data which can
+also be used by changing the appropriate indices and subsequent methods used from the chosen class.  
 
 As we chose the **`subprocess.Popen`** class we invoke the **`__init__`** implicitly by instantiating
 it with the **`()`** along with the required args that form the array of command followed by their
