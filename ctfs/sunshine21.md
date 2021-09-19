@@ -260,8 +260,9 @@ Welcome to the ProcrastinatorProgrammer backend.
 Please give me an equation! Any equation! I need to be fed some data to do some processing!Due 
 to technical difficulties with the last challenge, I've upped my ante! Now I know it's secure!  
 
-I'm super secure, and can use most python math! I just use `eval(client_input, \{\}, safe_math_functions)`  
-on your data and then whamo, python does all the work!Whatever you do, don't look at my ./key!
+I'm super secure, and can use most python math!  
+I just use `eval(client_input, \{\}, safe_math_functions)` on your data and then whamo, python  
+does all the work!Whatever you do, don't look at my ./key!
 
 Halt in the name of the law!
 
@@ -304,8 +305,9 @@ Due to technical difficulties with the previous set, I had to remove math lib su
 In fact the only thing this can do is add and subtract now!... I think. Google tells me that  
 it's secure now! Well the second result anyhow.  
 
-I'm super secure, and can use a bit of python math! I just use `eval(client_input, {'__builtins__':\{\}})`  
-on your data and then whamo, python does all the work!Whatever you do, don't look at my ./key!
+I'm super secure, and can use a bit of python math!  
+I just use `eval(client_input, {'__builtins__':\{\}})` on your data and then whamo, python  
+does all the work!Whatever you do, don't look at my ./key!
 
 Halt in the name of the law!
 
@@ -345,15 +347,17 @@ _safe_
 Give me an equation please!
 
 ().__class__.__base__.__subclasses__()                     
-[<class 'type'>, <class 'weakref'>, <class 'weakcallableproxy'>, <class 'weakproxy'>, <class 'int'>, 
-<class 'bytearray'>, <class 'bytes'>, <class 'list'>, <class 'NoneType'>, <class 'NotImplementedType'>, 
-<class 'traceback'>, <class 'super'>, <class 'range'>, <class 'dict'>, ....
+[<class 'type'>, <class 'weakref'>, <class 'weakcallableproxy'>, <class 'weakproxy'>,
+<class 'int'>, <class 'bytearray'>, <class 'bytes'>, <class 'list'>, <class 'NoneType'>, 
+<class 'NotImplementedType'>, <class 'traceback'>, <class 'super'>, <class 'range'>, 
+<class 'dict'>, ....  
 ....
 ....
-<class 'warnings.WarningMessage'>, <class 'warnings.catch_warnings'>, <class 'contextlib.ContextDecorator'>,
- <class 'contextlib._GeneratorContextManagerBase'>, <class 'contextlib._BaseExitStack'>, 
- <class 'subprocess.CompletedProcess'>, <class 'subprocess.Popen'>, <class 'multiprocessing.util.Finalize'>, 
- <class 'multiprocessing.util.ForkAwareThreadLock'>, <class 'multiprocessing.popen_fork.Popen'>]
+<class 'warnings.WarningMessage'>, <class 'warnings.catch_warnings'>, 
+<class 'contextlib.ContextDecorator'>, <class 'contextlib._GeneratorContextManagerBase'>, 
+<class 'contextlib._BaseExitStack'>, <class 'subprocess.CompletedProcess'>, 
+<class 'subprocess.Popen'>, <class 'multiprocessing.util.Finalize'>, 
+<class 'multiprocessing.util.ForkAwareThreadLock'>, <class 'multiprocessing.popen_fork.Popen'>]
 ```
 
 As said before the availability of the **`subrocess.Popen`** class is more than enough for us to run 
