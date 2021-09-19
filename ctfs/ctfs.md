@@ -19,3 +19,4 @@ An index of CTFs for which detailed solves are available in the respective link.
 |    1 | [GrabCON 2021](https://ctftime.org/event/1353)                  | 04 Sept. 2021 — 05 Sept. 2021 | [Link](ctfs/grabcon21) |
 |    2 | [FWord 2021](https://ctftime.org/event/1405)                    | 27 Aug. 2021 — 29 Aug. 2021   | [Link](ctfs/fword21)   |
 |    3 | [CSAW 2021 Qualification rount](https://ctftime.org/event/1315) | 10 Sept. 2021 — 12 Sept. 2021 | [Link](ctfs/csaw21)    |
+|    4 | [PBJar 2021](https://ctftime.org/event/1430)                    | 17 Sept. 2021 — 19 Sept. 2021 | [Link](ctfs/pbjar21)   |
