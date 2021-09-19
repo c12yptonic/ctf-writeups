@@ -32,7 +32,7 @@ welcome flag was available in the discord channel #rules and the same was of the
 Miscellaneous
 {: .label .label-green .fs-1 .ml-0}
 
-This channel was absolutely easy and meant to be for extreme beginners, probably those
+This challenge was absolutely easy and meant to be for extreme beginners, probably those
 who are attempting their first CTF. In this challenge we are given the below challenge
 instructions and a zip file which contained only one text file with the contents also
 mentioned below.
@@ -83,11 +83,11 @@ Blockchain
 {: .label .label-green .fs-1 .ml-0}
 
 
-There were a lot of focus on blockchain technology and gave me some exposure to various
+There was a lot of focus on blockchain technology and gave me some exposure to various
 terminologies of this tech. However the challenges in itself were pretty easy and more 
 of OSINT style.  
 
-To start with this challenge was mainly focussed on finding the miner details of a specific
+To start with, this challenge was mainly focussed on finding the miner details of a specific
 block in the Ethereum block chain. The challenge instructions are given below.
 
 Challenge instructions:
@@ -166,7 +166,7 @@ Challenge instructions:
 The zip file consisted of a Python script **`script.py`** and its output **`out.txt`**. Both are
 shown below.
 
-**`script.py`**  
+**script.py**  
 ```python
 from Crypto.Util.number import *
 with open('flag.txt','rb') as f:
@@ -184,9 +184,8 @@ print (q)
 print (e)
 print (ct)
 ```  
-<br/>  
 
-**`out.txt`**  
+**out.txt**  
 ```text
 194522226411154500868209046072773892801 #p
 288543888189520095825105581859098503663 #q
@@ -209,7 +208,7 @@ python3 ~/Tools/RsaCtfTool/RsaCtfTool.py -p 194522226411154500868209046072773892
  --uncipher 2680665419605434578386620658057993903866911471752759293737529277281335077856
 ```  
 
-The final flag as seen above is **`flag{n0t_to0_h4rd_rIt3_19290453}`** and the cracking can be
+The final flag is **`flag{n0t_to0_h4rd_rIt3_19290453}`** and the cracking can be
 viewed below.
 
 ![RsaCtfTool cracking the challenge][10]
@@ -228,7 +227,7 @@ Challenge instructions:
 > (Think of common usernames and passwords for admin)  
 > Link: http://147.182.172.217:42003/ 
 
-On using the password and username as **`admin`** we get a different message that reads as below:
+On using the password and username as **`admin`** we get a different error message that reads as below:
 > the admin must have **put** some additional security protections here  
 
 The word **`put`** was specifically highlighted in the error message and also matches one of the 
