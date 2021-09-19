@@ -5,7 +5,7 @@ nav_order: 2
 description: "FWord 2021 CTF solves"
 permalink: /ctfs/fword21
 has_children: false
-parent: CTF list
+parent: CTF List
 ---
 
 # FWord 2021
