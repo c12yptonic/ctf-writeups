@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Ghidra 🐲
-nav_order: 1
+nav_order: 2
 description: "Ghidra - An introduction to reversing"
 permalink: /ctftools/ghidra
 has_children: false
