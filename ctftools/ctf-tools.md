@@ -24,3 +24,4 @@ references to go deep into them.
 | S.No | Tool Name                               | Category           | Link to writeups           |
 | ---: | --------------------------------------- | :----------------- | :------------------------- |
 |    1 | [Wireshark](https://www.wireshark.org/) | Network, Forensics | [Link](ctftools/wireshark) |
+|    2 | [Ghidra](https://ghidra-sre.org/)       | Reversing          | [Link](ctftools/ghidra)    |
