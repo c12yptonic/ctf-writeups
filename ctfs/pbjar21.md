@@ -5,7 +5,7 @@ nav_order: 4
 description: "PeanuButter Jar 2021 CTF"
 permalink: /ctfs/pbjar21
 has_children: false
-parent: CTF list
+parent: CTF List
 ---
 
 # Peanut Butter Jar CTF 2021

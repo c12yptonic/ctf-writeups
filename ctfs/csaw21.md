@@ -5,7 +5,7 @@ nav_order: 3
 description: "CSAW 2021 qualification CTF"
 permalink: /ctfs/csaw21
 has_children: false
-parent: CTF list
+parent: CTF List
 ---
 
 # CSAW qualification 2021

@@ -5,7 +5,7 @@ nav_order: 5
 description: "Sunshine 2021 CTF"
 permalink: /ctfs/sunshine21
 has_children: false
-parent: CTF list
+parent: CTF List
 ---
 
 # Sunshine CTF 2021
