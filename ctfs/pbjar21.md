@@ -2,7 +2,7 @@
 layout: default
 title: PBJar 2021
 nav_order: 4
-description: "PeanuButter Jar 2021 CTF"
+description: "Peanut Butter Jar 2021 CTF"
 permalink: /ctfs/pbjar21
 has_children: false
 parent: CTF List
@@ -110,6 +110,7 @@ The final flag formed by obtaining the miner user id is:
 flag{0xd224ca0c819e8e97ba0136b3b95ceff503b79f53}
 ```
 
+
 ## Read Flag 1 📒
 Blockchain
 {: .label .label-green .fs-1 .ml-0}
@@ -131,6 +132,146 @@ smart contract seems to be available only in the test [**Ropsten**][4] network o
 
 We search for the given smart contract address and check the code for the smart contract. The same
 can be seen by navigating [here][5] and read off the flag as **`flag{etherscan_S0urc3_c0de}`**.
+
+
+## Read Flag 2 ⌨️
+Blockchain
+{: .label .label-green .fs-1 .ml-0}
+
+After the easy to start with [Read Flag 1][13] challenge, this was a similar yet strategically
+different one. Also as I am new to the blockchain technology I had to invest quite some time to
+reach the correct facts for cracking the flag.  
+
+The challenge instructions are the only thing available to us and the same is given below.  
+
+Challenge instructions:
+> I have republished the previous the contract at 0x585C403bC5c7eb62BF3630c7FeF1F837603bA866,  
+> but this time no source code for you this time.   
+> Luckily, the ABI of the smart contract is the same as the previous one.  
+> Figure out how to "get()" the flag.  
+> Important: This smart contract is on Ropsten  
+
+After reading through the instructions, we understand that the smart contract can be viewed in the
+Ropsten network similar to previous challenge. Heading over to the search by clicking the following
+[link][14], we find this smart contracts code.  
+
+As we are provided only with the byte code, we use the **Decompile byte code** option available in the
+same page, which gives us the below code. 
+
+<details markdown="block">
+  <summary>
+  Click here to view full decompiled code
+  </summary>  
+
+```python
+#
+#  Panoramix v4 Oct 2019 
+#  Decompiled source of ropsten:0x585C403bC5c7eb62BF3630c7FeF1F837603bA866
+# 
+#  Let's make the world open source 
+# 
+
+def storage:
+  stor0 is array of struct at storage 0
+
+def _fallback() payable: # default function
+  revert
+
+def get() payable: 
+  if bool(stor0.length):
+      if bool(stor0.length) == stor0.length.field_1 < 32:
+          revert with 'NH{q', 34
+      if bool(stor0.length):
+          if bool(stor0.length) == stor0.length.field_1 < 32:
+              revert with 'NH{q', 34
+          if stor0.length.field_1:
+              if 31 < stor0.length.field_1:
+                  mem[128] = uint256(stor0.field_0)
+                  idx = 128
+                  s = 0
+                  while stor0.length.field_1 + 96 > idx:
+                      mem[idx + 32] = stor0[s].field_256
+                      idx = idx + 32
+                      s = s + 1
+                      continue 
+                  return Array(len=2 * Mask(256, -1, stor0.length.field_1), data=mem[128 len ceil32(stor0.length.field_1)])
+              mem[128] = 256 * stor0.length.field_8
+      else:
+          if bool(stor0.length) == stor0.length.field_1 < 32:
+              revert with 'NH{q', 34
+          if stor0.length.field_1:
+              if 31 < stor0.length.field_1:
+                  mem[128] = uint256(stor0.field_0)
+                  idx = 128
+                  s = 0
+                  while stor0.length.field_1 + 96 > idx:
+                      mem[idx + 32] = stor0[s].field_256
+                      idx = idx + 32
+                      s = s + 1
+                      continue 
+                  return Array(len=2 * Mask(256, -1, stor0.length.field_1), data=mem[128 len ceil32(stor0.length.field_1)])
+              mem[128] = 256 * stor0.length.field_8
+      mem[ceil32(stor0.length.field_1) + 192 len ceil32(stor0.length.field_1)] = mem[128 len ceil32(stor0.length.field_1)]
+      if ceil32(stor0.length.field_1) > stor0.length.field_1:
+          mem[ceil32(stor0.length.field_1) + stor0.length.field_1 + 192] = 0
+      return Array(len=2 * Mask(256, -1, stor0.length.field_1), data=mem[128 len ceil32(stor0.length.field_1)], mem[(2 * ceil32(stor0.length.field_1)) + 192 len 2 * ceil32(stor0.length.field_1)]), 
+  if bool(stor0.length) == stor0.length.field_1 < 32:
+      revert with 'NH{q', 34
+  if bool(stor0.length):
+      if bool(stor0.length) == stor0.length.field_1 < 32:
+          revert with 'NH{q', 34
+      if stor0.length.field_1:
+          if 31 < stor0.length.field_1:
+              mem[128] = uint256(stor0.field_0)
+              idx = 128
+              s = 0
+              while stor0.length.field_1 + 96 > idx:
+                  mem[idx + 32] = stor0[s].field_256
+                  idx = idx + 32
+                  s = s + 1
+                  continue 
+              return Array(len=stor0.length % 128, data=mem[128 len ceil32(stor0.length.field_1)])
+          mem[128] = 256 * stor0.length.field_8
+  else:
+      if bool(stor0.length) == stor0.length.field_1 < 32:
+          revert with 'NH{q', 34
+      if stor0.length.field_1:
+          if 31 < stor0.length.field_1:
+              mem[128] = uint256(stor0.field_0)
+              idx = 128
+              s = 0
+              while stor0.length.field_1 + 96 > idx:
+                  mem[idx + 32] = stor0[s].field_256
+                  idx = idx + 32
+                  s = s + 1
+                  continue 
+              return Array(len=stor0.length % 128, data=mem[128 len ceil32(stor0.length.field_1)])
+          mem[128] = 256 * stor0.length.field_8
+  mem[ceil32(stor0.length.field_1) + 192 len ceil32(stor0.length.field_1)] = mem[128 len ceil32(stor0.length.field_1)]
+  if ceil32(stor0.length.field_1) > stor0.length.field_1:
+      mem[ceil32(stor0.length.field_1) + stor0.length.field_1 + 192] = 0
+  return Array(len=stor0.length % 128, data=mem[128 len ceil32(stor0.length.field_1)], mem[(2 * ceil32(stor0.length.field_1)) + 192 len 2 * ceil32(stor0.length.field_1)]), 
+```
+</details>  
+
+I fiddled around some time with this code and tried to understand the same. I wasnt really successfull
+in doing so. So I did start searching for the contract miner and the transaction details.  
+
+The transaction in which this smart contract was created can be viewed [here][15] and the same is visible
+as shown below.  
+
+![Smart contract transaction link][16]  
+
+In the transaction we can see a large hex string against the field **`Input data`**. I was curious to render
+the hex as a string and just check if there is anything interesting hidden there. Also I found a handy option
+to view the input data as **UTF-8** which would basically render the hex string into their equivalent ASCII
+representation as interpreted by the browser.  
+
+I was surprise when I found the flag in the last part of the input data. We could read off the final flag as
+**`flag{web3js_plus_ABI_equalls_flag}`**. Refer the below image on how I could find the flag after navigating
+to the transaction page link given above.  
+
+![Smart contract transaction input data decoding][17]  
 
 
 ## Read Flag 3 ⛓
@@ -256,3 +397,8 @@ action can be seen below.
 [10]: https://gcdn.pbrd.co/images/jSRBQbcvExnr.gif?o=1
 [11]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods
 [12]: https://gcdn.pbrd.co/images/piswRHIQRxRl.gif?o=1
+[13]: #read-flag-1-
+[14]: https://ropsten.etherscan.io/address/0x585C403bC5c7eb62BF3630c7FeF1F837603bA866#code
+[15]: https://ropsten.etherscan.io/tx/0xa50cc4d707d8874e2494148ec2bab6138977838783ea200a45a8269384faaed4
+[16]: https://gcdn.pbrd.co/images/TE7Hae6kdYue.png?o=1
+[17]: https://gcdn.pbrd.co/images/Rsn4XIbQgCBn.gif?o=1
