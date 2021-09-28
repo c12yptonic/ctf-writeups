@@ -55,7 +55,7 @@ Challenge instructions:
 > 
 > We’ve observed an underground criminal RaaS operation calling back to this domain, can you find  
 > the number of the individual who registered the domain?  
-> 646f776e756e646572.xyz  
+> **`646f776e756e646572.xyz`**
 >
 > Flag format is DUCTF{+61<number>}  
 
@@ -93,7 +93,7 @@ Once the initial details was available and as this bridge seemed a likely candid
 [Wikipedia][7] for **Eleanor Schonell**.  
 
 A quick read in Wikipedia gives us the total length as **390 meters** and the deck length as **185 meters**. Quickly
-forming the flag as stated in the instructions, the final flag turned out to tbe **`DUCTF{eleanor_schonell-185m}`**.  
+forming the flag as stated in the instructions, the final flag turned out to be **`DUCTF{eleanor_schonell-185m}`**.  
 
 
 ## Retro 🖼
@@ -186,7 +186,7 @@ last hope of re-assembling the frames to get back the image.
 
 More specifically the **Split > GIF to sprite** option in this site available [here][11] did exactly what
 we wanted. I quickly uploaded the GIF and left the number of columns option to the default of **5**. This
-gave we a smudged image of five QR codes which clearly pointed that there were more than five QR codes.  
+gave me a smudged image of five QR codes which clearly pointed that there were more than five QR codes.  
 
 ![Smudged QR code images][12]  
 
@@ -317,13 +317,13 @@ A run of the above mentioned method to find the offset can be seen below.
 ![GDB PwnDBG find offset][25]  
 
 To make it more clear, we set the breakpoint at **`0x4011dd`** which is the address of the comparison instruction. Also
-from [Ghidra][22] we can see that **`local_10`** variable is at [RBP - 0x08] where RBP is the base pointer. In our
-current execution this value is 0x7fffffffddf8 which means we need to look up the offset of the first four bytes of value
-in the address 0x7fffffffddb0 - 0x08 = 0x7fffffffdda8. The part of our cyclic payload that is present in this address
+from [Ghidra][22] we can see that **`local_10`** variable is at **`[RBP - 0x08]`** where RBP is the base pointer. In our
+current execution this value is **`0x7fffffffddf8`** which means we need to look up the offset of the first four bytes of value
+in the address **`0x7fffffffddb0 - 0x08 = 0x7fffffffdda8`**. The part of our cyclic payload that is present in this address
 starts with **`gaaa`** and finding the offset of these four bytes within our cyclic payload gives 24 , which is the offset
 at which the value starts overflowing into the variable **`local_10`**.  
 
-Next we create our exploit file using the [**`pwn`**][] tools library as shown in [this][27] template. We start with the 
+Next we create our exploit file using the [**`pwn`**][26] tools library as shown in [this][27] template. We start with the 
 template and modify, the binary path, offset and the actual value to be overflown to the variable. Our final exploit file
 is given below.  
 
@@ -434,12 +434,12 @@ The final flag after pwning is obtained as **`DUCTF{y0u_br0ught_m3_b4ck_t0_l1f3_
 [14]: https://gcdn.pbrd.co/images/MmqgOEruHIn1.png?o=1
 [15]: https://mega.nz/file/csImjLhZ#JdxIVtwnAXhpjnFy4I2-S0cmKozHaaRs2VIdsCuwtgQ
 [16]: https://gcdn.pbrd.co/images/XZ5IdkcD4GEd.png?o=1
-[17]: ctfs/csaw21
+[17]: csaw21
 [18]: https://www.youtube.com/watch?v=1Dw21NoxXjE&t=315s
 [19]: https://github.com/pwndbg/pwndbg#how
 [20]: https://mega.nz/file/psR0TJKR#WYkRowgwaLMps0V-1S4dnpZ2Du9rJjXowSZVcZihEnM
 [21]: https://en.wikipedia.org/wiki/Stack_buffer_overflow#Stack_canaries
-[22]: ctftools/ghidra
+[22]: ../ctftools/ghidra
 [23]: https://gcdn.pbrd.co/images/EsfGhjbW0gLL.png?o=1
 [24]: https://en.wikipedia.org/wiki/Address_space_layout_randomization
 [25]: https://gcdn.pbrd.co/images/lY8WbNYEDpZk.gif?o=1
