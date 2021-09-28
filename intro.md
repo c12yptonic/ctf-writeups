@@ -90,7 +90,7 @@ OSINT challenges mainly rely on open source search, including search on web page
 to reach the required flag. These need to be approached with a mind set to first understand the search space using the
 available clues and then perform the right search to obtain the flag either in total or parts.
 
-[1]: https://ctftime.org/user/ 
+[1]: https://ctftime.org/user/117599 
 [2]: https://ctftime.org/team/135603
 [3]: https://ctf101.org/
 [4]: https://www.gnu.org/software/gdb/
