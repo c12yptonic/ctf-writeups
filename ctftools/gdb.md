@@ -1,7 +1,7 @@
 ---
 layout: default
 title: GDB 🐞
-nav_order: 2
+nav_order: 3
 description: "GDB - An introduction to GNU Debugger"
 permalink: /ctftools/gdb
 has_children: false
