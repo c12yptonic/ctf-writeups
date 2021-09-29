@@ -8,7 +8,7 @@ search_enabled: true
 back_to_top: true
 back_to_top_text: "Back to top"
 
-footer_content: "Copyright &copy; 2021 cryp71x3rz. Distributed by an <a href=\"https://github.com/c12yptonic/ctf-writeups/blob/main/LICENSE\">MIT license.</a>
+footer_content: "Copyright &copy; 2021 <a href=\"https://ctftime.org/team/135603\">cryp71x3rz</a>. Distributed by an <a href=\"https://github.com/c12yptonic/ctf-writeups/blob/main/LICENSE\">MIT license.</a>
 <script>
 function getCurrentTheme() {
   let themeVal = localStorage.getItem(\"theme\");
