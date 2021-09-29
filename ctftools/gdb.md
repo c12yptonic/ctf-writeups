@@ -6,7 +6,7 @@ description: "GDB - An introduction to GNU Debugger"
 permalink: /ctftools/gdb
 has_children: false
 parent: CTF Tools
-last_modified_at: 29-09-2021 10:59 PM +0530
+last_modified_at: 29-09-2021 11:04 PM +0530
 ---
 
 ## GNU Debugger 🐞
@@ -169,4 +169,4 @@ An example of the same can be viewed [here][14] which helps in solving one of th
 [11]: https://github.com/pwndbg/pwndbg
 [12]: https://github.com/pwndbg/pwndbg#how
 [13]: https://github.com/pwndbg/pwndbg/blob/dev/FEATURES.md
-[14]: ../ctfs/downunder21#deadcode
+[14]: ../ctfs/downunder21#deadcode-
