@@ -6,7 +6,7 @@ description: "GDB - An introduction to GNU Debugger"
 permalink: /ctftools/gdb
 has_children: false
 parent: CTF Tools
-last_modified_at: 29-09-2021 11:05 PM +0530
+last_modified_date: 29-09-2021 11:05 PM +0530
 ---
 
 ## GNU Debugger 🐞
