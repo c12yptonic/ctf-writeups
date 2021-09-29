@@ -6,6 +6,7 @@ description: "CSAW 2021 qualification CTF"
 permalink: /ctfs/csaw21
 has_children: false
 parent: CTF List
+last_modified_date: 20-09-2021 12:57 AM +0530
 ---
 
 # CSAW qualification 2021
