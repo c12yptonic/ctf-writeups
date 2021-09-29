@@ -6,6 +6,7 @@ description: "GrabCON 2021 CTF solves"
 permalink: /ctfs/grabcon21
 has_children: false
 parent: CTF List
+last_modified_date: 20-09-2021 12:58 AM +0530
 ---
 
 # GrabCON 2021

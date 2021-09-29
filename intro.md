@@ -4,6 +4,7 @@ title: Introduction
 nav_order: 1
 description: "This journal is a detailed documentation of various CTF solves"
 permalink: /
+last_modified_date: 29-09-2021 02:36 AM +0530
 ---
 
 # Welcome to cryp71x3rz CTF solves

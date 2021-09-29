@@ -6,6 +6,7 @@ description: "PCAP hidden flag"
 permalink: /ctflearn/acapofflag
 has_children: false
 parent: CTF Learn
+last_modified_date: 10-09-2021 05:38 PM +0530
 ---
 
 ## A capture of the flag 🪧

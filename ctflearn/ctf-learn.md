@@ -6,6 +6,7 @@ description: "Details of the list of CTF Learn solves available here"
 permalink: /ctflearn
 has_children: true
 has_toc: false
+last_modified_date: 16-09-2021 09:46 AM +0530
 ---
 
 # Challenge list

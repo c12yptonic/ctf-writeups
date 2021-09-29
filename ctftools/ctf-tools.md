@@ -6,6 +6,7 @@ description: "List of tools to be used for CTF challenge solves"
 permalink: /ctftools
 has_children: true
 has_toc: false
+last_modified_date: 20-09-2021 08:13 PM +0530
 ---
 
 # Tool list

@@ -6,6 +6,7 @@ description: "Down Under 2021 CTF"
 permalink: /ctfs/downunder21
 has_children: false
 parent: CTF List
+last_modified_date: 29-09-2021 02:48 AM +0530
 ---
 
 # Down Under CTF 2021

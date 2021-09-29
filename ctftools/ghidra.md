@@ -6,6 +6,7 @@ description: "Ghidra - An introduction to reversing"
 permalink: /ctftools/ghidra
 has_children: false
 parent: CTF Tools
+last_modified_date: 20-09-2021 08:16 PM +0530
 ---
 
 ## Ghidra 🐲

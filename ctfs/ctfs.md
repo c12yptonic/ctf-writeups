@@ -6,6 +6,7 @@ description: "Details of the list of CTFs is available here"
 permalink: /ctfs
 has_children: true
 has_toc: false
+last_modified_date: 29-09-2021 02:36 AM +0530
 ---
 
 # CTF list

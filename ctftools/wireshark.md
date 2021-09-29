@@ -6,6 +6,7 @@ description: "An introduction to using Wireshark for CTF's"
 permalink: /ctftools/wireshark
 has_children: false
 parent: CTF Tools
+last_modified_date: 16-09-2021 11:36 PM +0530
 ---
 
 ## Wireshark 🦈

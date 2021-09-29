@@ -6,6 +6,7 @@ description: "Find the flag from the challenge file"
 permalink: /ctflearn/upforalittlechall
 has_children: false
 parent: CTF Learn
+last_modified_date: 16-09-2021 11:36 PM +0530
 ---
 
 ## Up for a Little Challenge ⛳
