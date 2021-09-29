@@ -1,0 +1,12 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+repos:
+-   repo: local
+    hooks:
+    -   id: insert-modified-date
+        name: Need to insert last modified date front matter
+        types: 
+            - markdown
+        language: script
+        entry: ./hooks/add_modified_date.sh
+
