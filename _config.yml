@@ -64,4 +64,4 @@ aux_links:
 aux_links_new_tab: true
 
 last_edit_timestamp: true
-last_edit_time_format: "%e %b, %Y at %I:%M %p"
+last_edit_time_format: "%e %b, %Y at %I:%M %p %Z"
