@@ -6,7 +6,7 @@ description: "Tamil CTF 2021"
 permalink: /ctfs/tamilctf21
 has_children: false
 parent: CTF List
-last_modified_date: 29-09-2021 02:48 AM +0530
+last_modified_date: 30-09-2021 10:32 AM +0530
 ---
 
 # Tamil CTF 2021
