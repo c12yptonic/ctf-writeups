@@ -6,7 +6,7 @@ description: "List of tools to be used for CTF challenge solves"
 permalink: /ctftools
 has_children: true
 has_toc: false
-last_modified_date: 20-09-2021 08:13 PM +0530
+last_modified_date: 30-09-2021 10:46 AM +0530
 ---
 
 # Tool list
@@ -22,7 +22,8 @@ of this blog. However I would provide a quick intro to get your hands dirty with
 references to go deep into them.  
 {: .fs-5 .fw-300 }
 
-| S.No | Tool Name                               | Category           | Link to writeups           |
-| ---: | --------------------------------------- | :----------------- | :------------------------- |
-|    1 | [Wireshark](https://www.wireshark.org/) | Network, Forensics | [Link](ctftools/wireshark) |
-|    2 | [Ghidra](https://ghidra-sre.org/)       | Reversing          | [Link](ctftools/ghidra)    |
+| S.No | Tool Name                                         | Category           | Link to writeups           |
+| ---: | ------------------------------------------------- | :----------------- | :------------------------- |
+|    1 | [Wireshark](https://www.wireshark.org/)           | Network, Forensics | [Link](ctftools/wireshark) |
+|    2 | [Ghidra](https://ghidra-sre.org/)                 | Reversing          | [Link](ctftools/ghidra)    |
+|    3 | [GNU Debugger](https://www.gnu.org/software/gdb/) | Pwning, Reversing  | [Link](ctftools/gdb)       |
