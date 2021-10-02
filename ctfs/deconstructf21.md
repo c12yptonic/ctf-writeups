@@ -6,7 +6,7 @@ description: "Deconstruct CTF 2021 from VIT Vellore"
 permalink: /ctfs/deconstructf21
 has_children: false
 parent: CTF List
-last_modified_date: 
+last_modified_date: 03-10-2021 02:10 AM +0530
 ---
 
 # DeconstruCTF 2021
