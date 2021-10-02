@@ -6,7 +6,7 @@ description: "Deconstruct CTF 2021 from VIT Vellore"
 permalink: /ctfs/deconstructf21
 has_children: false
 parent: CTF List
-last_modified_date: 03-10-2021 02:10 AM +0530
+last_modified_date: 03-10-2021 02:39 AM +0530
 ---
 
 # DeconstruCTF 2021
@@ -37,7 +37,7 @@ solutions here.
 {:toc}
 
 
-## Pirates
+## Pirates 🏴‍☠️
 Forensics  
 {: .label .label-green .fs-1 .ml-0}
 
@@ -60,7 +60,7 @@ that the #frame 59 has the required flag in its data content as seen below.
 
 The final flag as seen in the above image was **`dsc{H3_1S_th3_83sT_p1r4t3_1_H4V3_3V3r_s33n}`**.
 
-## The Missing Journalist
+## The Missing Journalist 🕵️‍♂️
 Forensics
 {: .label .label-green .fs-1 .ml-0}
 
@@ -184,7 +184,7 @@ the flag in it. The complete action can be seen below.
 
 The final flag was **`dsc{1_f0und_h1m_4nd_h35_my_fr13nd}`**.
 
-## Teg Rads  
+## Teg Rads 📑
 Forensics
 {: .label .label-green .fs-1 .ml-0}  
 
@@ -448,7 +448,7 @@ We are now left with the Unknown part **`0f_`** which fits in Part 3 which is th
 Based on the above observations we assemble the flag and get the final flag as **`dsc{publ1c_d14pl4y_0f_ff3ct10n_b4nn3d}`**.  
 
 
-## RSA 1  
+## RSA 1 🎯
 Crypto
 {: .label .label-green .fs-1 .ml-0}  
 
@@ -513,7 +513,7 @@ public modulus to its prime numbers as a result of which we are able to decrypt 
 **`dsc{t00_much_m4th_8898}`**.  
 
 
-## RSA 2  
+## RSA 2 💻
 Crypto
 {: .label .label-green .fs-1 .ml-0}  
 
@@ -554,8 +554,8 @@ and decryption from RSA can be expressed as:
 > m = c<sup>d</sup> mod(n)  
 > where again **`mod`** is the modulus operator  
 
-Now take the encryption formula, and think what happens when the value of m<sup>e</sup> is smaller than the value of **`n`** or **`n`** is
-very large than the exponent **`e`**.  
+Now take a look at the encryption formula, and think what happens when the value of m<sup>e</sup> is smaller than the value of **`n`** 
+or **`n`** is very large than the exponent **`e`**.  
 
 Well you guessed it right, **`c`** i.e the cipher text would be equal to m<sup>e</sup> and the effect of encryption reduces to merely raising
 the plaintext message to the power of the exponent **`e`**.  
@@ -580,7 +580,7 @@ library for performing safe computation of cube root of the cipher text represen
 obtained as **`dsc{t0-m355-w1th-m4th-t4k35-4-l0t-0f-sp1n3}`**.  
 
 
-## RSA 3  
+## RSA 3 🗝
 Crypto
 {: .label .label-green .fs-1 .ml-0}  
 
@@ -668,7 +668,7 @@ Using the above command we get the required private key value **`d`** and the fi
 **`dsc{6393313697836242618414301946448995659516429576261871356767102021920538052481829568588047189447471873340140537810769433878383029164089236876209147584435733}`**.  
 
 
-## The Conspiracy  
+## The Conspiracy 🚢
 Crypto
 {: .label .label-green .fs-1 .ml-0}  
 
@@ -758,7 +758,7 @@ looking for but still we have to place back the **`_`** values at the appropriat
 The final flag obtained after the above is **`dsc{FLAT_BE_THE_EARTH}`**.  
 
 
-## Code decode  
+## Code decode 🔁
 {: .no_toc}
 Crypto
 {: .no-vertical-align-c .label .label-green .fs-1 .ml-0}
@@ -774,7 +774,7 @@ Challenge instructions:
 > Around 5 years ago, I made this killer program that encodes the string into a cyphertext. The unique feature of this  
 > program is that for the same exact plaintext, it generates a different cyphertext every time you run the program.  
 > Yesterday I was nosing around in some old stuff and found an encrypted message!  
-> 2njlgkma2bv1i0v}22lv19vuo19va2bvl2{-5x  
+> **`2njlgkma2bv1i0v}22lv19vuo19va2bvl2{-5x`**  
 > Sadly I realized that I lost the decryption program. I have the encryption program though. Do you think you can help 
 >  me out and decrypt this message for me?  
 
@@ -902,7 +902,7 @@ print(cypher_text)
 Running the above script gives us the required flag **`dsc{y0u_4r3_g00d_4t_wh4t_y0u_d0}`**.  
 
 
-## Behind the enemy lines  
+## Behind the enemy lines 💂
 Crypto
 {: .label .label-green .fs-1 .ml-0}  
 
@@ -971,7 +971,7 @@ and that I need to look even more closer.
 
 Turned out there was lot of padding on both sides of the text leading to the gibberish and indeed joining the texts and looking
 closer gave out the flag value as **`flagdscturinglovedmeflag`**. Removing the padding and inserting appropriate flag format 
-symboles leads us to the final flag as **`dsc{turinglovedme}`**.  
+symbols leads us to the final flag as **`dsc{turinglovedme}`**.  
 
 
 
