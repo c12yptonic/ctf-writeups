@@ -6,7 +6,7 @@ description: "Deconstruct CTF 2021 from VIT Vellore"
 permalink: /ctfs/deconstructf21
 has_children: false
 parent: CTF List
-last_modified_date: 04-10-2021 12:11 PM +0530
+last_modified_date: 04-10-2021 01:07 PM +0530
 ---
 
 # DeconstruCTF 2021
@@ -759,7 +759,6 @@ The final flag obtained after the above is **`dsc{FLAT_BE_THE_EARTH}`**.
 
 
 ## Code decode 🔁
-{: .no_toc}
 Crypto
 {: .no-vertical-align-c .label .label-green .fs-1 .ml-0}
 
