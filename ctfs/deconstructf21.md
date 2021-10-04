@@ -6,7 +6,7 @@ description: "Deconstruct CTF 2021 from VIT Vellore"
 permalink: /ctfs/deconstructf21
 has_children: false
 parent: CTF List
-last_modified_date: 03-10-2021 02:39 AM +0530
+last_modified_date: 04-10-2021 12:11 PM +0530
 ---
 
 # DeconstruCTF 2021
@@ -974,7 +974,285 @@ closer gave out the flag value as **`flagdscturinglovedmeflag`**. Removing the p
 symbols leads us to the final flag as **`dsc{turinglovedme}`**.  
 
 
+## Here's the flag 🕸
+Web
+{: .label .label-green .fs-1 .ml-0}  
 
+Web is a very interesting category due to the variety of vulnerabilities which can be exploited. This is one of the intriguing
+categories for me as I have never been able to crack challenges in Web that are towards medium or hard category. However this
+was the teaser challenge for this category and was pretty easy.  
+
+We are provided with the below instructions and a web page. The instructions make it very clear that the flag is hidden in the
+client side itself.  
+
+Challenge instructions:  
+> A quick teaser to get yourself ready for the challenges to come! Just look for/at the flag and perhaps try your hand at some frontend tomfoolery?
+> very.uniquename.xyz:2086   
+
+With the limited experience that I have in Web, I have formulated the below standard steps for approaching any Web category
+challenge:
+1. View the HTML page source
+2. View the network request sent while loading the web page to analyze any clues hidden in Cookies or Headers
+3. Look through any linked resources like scripts, images, hidden HTML content, stylesheets, favicons etc.  
+
+Going by this order the first two did not give me any clues. However there were two other resources loaded from the web page.
+One was a Javascript file **`index.js`** and another one was a stylesheet file **`style.css`**. The script file had the below
+contents:  
+```text
+// aHR0cHM6Ly93d3cueW91dHViZS5jb20vd2F0Y2g_dj1kUXc0dzlXZ1hjUQ
+// since this a warmup, i'll let you know that this is base64 encoded
+// and you should check the yt comments of the decoded link
+```  
+
+We get a Base64 encoded string which when decdoed gives a [url][29] to the Youtube video of **Rick Astley - Never Gonna Give You Up**.
+Such links are troll flags and so I moved on to the next file which was the **`style.css`**.  
+
+This file gave a flag content as below:
+```css
+.contain-flag::after {
+  z-index: -64209;
+  caesar-cipher: +3;
+  flag: "gvf{zh0frph_wr_ghfrqvwuxfwi}";
+}
+```  
+
+From the above it is clear that the contents of **`flag`** are **`+3`** Caesar cipher shift of the original flag. Quickly
+performing a **`-3`** shift of the given string at [cryptii][11] gives us the final flag **`dsc{we0come_to_deconstructf}`**.
+
+
+## Please ⏳
+Web
+{: .label .label-green .fs-1 .ml-0}  
+
+This was the second challenge in the web category, wherein we are given the below intructions and a url. It was more of a
+step by step web challenge, where we had to prform modifications to the request to correct the errors spit out at every
+stage to finally reach the flag.  
+
+Challenge instructions:  
+> Hi there! We used to work together back in our old company DEEMA. I recently had a problem with my computer and lost all  
+> the files on it. I remember creating a backup of my files on the company's servers. I know it's been a while, but could you 
+> please try to access those files? I would be very grateful!
+> extremely.uniquename.xyz:2086  
+
+As we have only the web page to work with, we open up the page and are presented with a web page that asks for a username.
+Providing a random name, gives us back the response stating **`Clancy`** is the only user that can access it for now.  
+
+Quickly supplyng **`Clancy`** as the user name, we are told that only **`Administrators`** are given access. As stated before
+analyzing the network tab for the network sent shows us that the below cookies stand out which are set:  
+```text
+Cookie: Username=admin; Admin_Access=False
+```  
+
+Changing the cookie value of **`Admin_Access`** to **`true`** and sending back the request gives us the next clue which states
+that only a special **`DeemaBrowser`** can access this site followed by our current User-Agent string. Changing the user agent
+string to the given value gives us back another clue.  
+
+This clue asks us to send an **`Authorization`** header with **`Basic`** passphrase authorization with the passphrase 
+**`What'sTheMagicWord?`**. A quick search on **`Basic`** authorization header leads us to the fact that value for this header 
+should be Base64 encoded. So we Base64 encode the given string and add in a new authorization header cookie to the request as
+shown below.  
+```text
+Authorization: Basic V2hhdCdzVGhlTWFnaWNXb3JkPw==
+```  
+
+It leads to the next clue which states that the page was accessible only in **April 2021** and that the current date has not 
+been provided. I thought this out a bit and then analyzed the response headers where I found a **`Date`** header as shown below:  
+```text
+Date: Mon, 04 Oct 2021 03:58:33 GMT
+```  
+
+I quickly coopied this header as is and included it in my request as a new header. Sending in the **`Date`** header with the 
+wrong date value, gave back a response with the exact date string to be used as **`Monday, 5th April 2021, at 12:00:00 GMT`**.  
+
+You can view this whole process below:  
+
+![Please solve video][30]  
+
+The final flag as seen in the above video was **`dsc{4ll-y0u-g0tt4-d0-15-r3qu35t-n1c3ly}`**.  
+
+
+## Taxi Union problems 💉
+Web
+{: .label .label-green .fs-1 .ml-0}  
+
+The third in the web category, this was a bit tricky with quite a few things to figure out. However, if we follow a structured
+process to solve it, we can get past this challenge easily.  
+
+In this challenge we are presented with a backstory and a web page link as seen in the below challenge instructions.  
+
+Challenge instructions:  
+> An important package has been stolen from Mr Nagaraj by a Taxi driver. We've tried to ask the local taxi union about 
+> driver's location but they are refusing provide the same.  
+> Since this package is required for a time sensitive matter we don't have time to negotiate with the union.  
+> Your task is to obtain the location of the taxi using the given information  
+> Taxi Lisence Plate: TN-06-AP-9879  
+> 
+> extremely.uniquename.xyz:2052  
+
+We are also given an open hint which reads as below:  
+> The flag is the location of the taxi (no caps)  
+
+Navigating to the web page, we get a form which asks for the license plate number. Supplying the given license plate value we
+get a table with three fields showing the name and the phone number in addition to the license plate. It looked as thought the
+query parameter value in the request was being used to query a back end data base.  
+
+To confirm the above hypothesis, I change one of the characters in the license plate number randomly and saw that I was getting
+a response that stated that the taxi is not found.  
+
+This confirmed that there was some DB involved in the backend. Also in web challenges that involve a user controlled value and a 
+database at the back end, [SQL Injection][31] is the prime attack vector. Also one of the first payloads to try out and verify if
+an SQLi injection is present or not is to by pass the **`WHERE`** clause by adding an **`OR`** condition that is always true.  
+
+To visualize how our given value i.e the license plate number in normal cases would be used in the query in the backend, please see
+below:  
+```sql
+SELECT <COLUMN _NAMES> FROM <TABLE_NAME> WHERE <COLUMN_NAME_FOR_LIC_PLATE> = '<USER_SUPPLIED_VALUE>'
+```  
+
+Also this would have been done without purging the supplied value by simply concatenating anything provided by the end user in the 
+search box. To modify the where clause to make it always true we can use the payload as **`TN-06-AP-9879' OR '1'='1`**. By supplying
+this value the query changes to the below:  
+```sql
+SELECT <COLUMN _NAMES> FROM <TABLE_NAME> WHERE <COLUMN_NAME_FOR_LIC_PLATE> = 'TN-06-AP-9879' OR '1'='1'
+```  
+> Note: In SQL injection your imagination and understanding of the backend is only the limit. The payloads can get really fancy and
+> what I list here are the payloads that I used to crack this challenge. The payloads can vary from user to user as multiple payloads
+> can lead to our end goal of exfiltrating the location data.  
+
+Sending in the above payload returns us four values which confirms that there is an SQL injection vulnerability in the server.  
+
+Now we need to find the location details of the taxi. We need to somehow extract the data using a fancy payload. To help speedup
+the process there is a really good repository of various payloads that allow us to iterate fast. You can access the same [here][32].  
+
+As we are sure our payload is being used in the **`WHERE`** clause only and that the required column does not seem to be available
+in the current query used in the backend search, we might require to perform some kind of **`UNION`** query to include a new query
+selecting the required column.  
+
+But for this to work, we need to know the database being used and also the table name.  
+
+In relational schema like MySQL and PostgreSQL there are specific schemas within each database that store the table information, which
+we can query to see the data. My mistake was this assumption that it was a relational DB. I kept trying payloads for these DB.  
+
+When nothing worked out I went through [this][33] section which highlighted ways to confirm the DB information. As I had already tried
+relational databases, I decided to go for the SQLite database check. Instead of using **`'1'='1'`** to nullify the criteria I this
+time used the SQLite specific information which would return the value if it is really an SQLite database or else return an error message.  
+
+So I used the below payload:  
+```sql
+TN-06-AP-9879' or sqlite_version()=sqlite_version();--
+```  
+The above payload is a little different. Let me walk your through it. So we supply an always equal condition by comparing the return value
+of SQLite DB version information which will be the same string in back to back invocations. However remember that there would a terminating
+**`'`** mark originally intended to enclose the user input value would not be dangling. To overcome this issue, we terminate the current 
+query with a **`;`** and pass in **`--`** which states that rest of the line is a comment. So this makes the query executable.  
+
+Sending in the above payload gives us back the same result as we got orignally confirming that we are dealing with an SQLite database.  
+
+Now we need to find the table name and there are various payloads to do this for SQLite DB. However the first one mentioned [here][34] works
+with slight modifications as we are able to perform only a union query.  
+
+From the result of the original query it is clear that we are dealing with a query that returns three string values. So any **`UNION`** query
+should also return three columns preferrably a string. We simply repeat the **`tbl_name`** column three times and provide it in the **`UNION`**
+query as below:  
+```sql
+TN-06-AP-9879' or '1'='1' union select tbl_name,tbl_name,tbl_name FROM sqlite_master WHERE type='table' and tbl_name NOT like 'sqlite_%';--
+```  
+
+This gives us the table name value as **`taxi`**. Similarly we use the payload for finding the column name and arrive at the column name as
+**`location`**.  
+
+We have all the unknowns to construct the final **`UNION`** query to spit out the location information. The final payload we use is as below:  
+```sql
+TN-06-AP-9879' or '1'='1' union select location, 1, 1 from taxi;--
+```  
+
+This gives us the location details of the four taxi's one of which is the required flag answer. Trying them out the final flag turned out to be
+**`dsc{ayanavaram}`**. You can view the whole process in action in the below video.
+
+![SQL Injection video][35]  
+
+
+## Curly Fries 1 🇸🇪
+Web
+{: .label .label-green .fs-1 .ml-0}  
+
+This was another three series part of challenges but unfortunately I could not crack it although it was really easy. The challenges in these series
+involved a bit of guessing work, or rather would say we had to take a try-all approach to crack it.  
+
+In this challenge we are given the below instructions and a web page which loads four different images as shown below the instructions.  
+
+Challenge instructions:  
+> Normal fries are nice, but everything's better with a curl in it. The flag is right in front of you.
+> very.uniquename.xyz:8880  
+
+![Screen grad of the page loaded][45]  
+
+Connecting the images and also the bigger picture i.e the country flag we can easily find that the country was **Sweden** as all the images and the flag
+lead to it. But then I was stuck after this. I tried quite a few things like loading the url **`/sweden`**, **`/sweden.png`** etc.  
+
+It turned out we had to request the website with an **`Accept-Language`** header as **`sv-SE`** which is the language locale code for Swedish.  
+
+Doing so returns a flag in platintext. There was no clue whatsover pointing towards this specific header which made the challenge a bit guessy. 
+
+![Request web page with Swedish locale][46]  
+
+The final flag was **`dsc{1_l0v3_sw3d3n}`**.  
+
+
+## Extend Reality 🥽
+OSINT  
+{: .label .label-green .fs-1 .ml-0}  
+
+The first open source intelligence challenge, this was actually quite easy but due to lack of presence of mind I did take a lot of time to solve
+this challenge. We are clearly told that this is an OSINT challenge with the instructions given below.  
+
+Challenge instructions:  
+> XR is amazing! Why not let us teach you about it??  
+
+Looking at the instructions it should strike us that **they** as in GDSCVIT is asking us to let them teach us about XR. One of the general ways
+to teach is via Youtube webinars and a quick search in their [Youtube][36] channel leads us to a video on the topic **Extended Reality** streamed
+on August 25th 2021 which can be viewed [here][37].  
+
+In general flags would be present in the description, chat or comments section. As the description and comments did not give out any flag, I 
+started fast forwarding the video while looking at the live chat. We can see that at around [1:11:17][38] into the video we get the required flag
+as **`dsc{xr_15_4m4z1ng}`**. Also this flag was on the chat screen for almost five minutes and so was impossible to miss even at a faster playback
+rate. A screen capture of the flag is available below.
+
+![XR is amazing screen capture at 1:11:17][39]  
+
+
+## Scraps 🔁
+Reversing
+{: .label .label-green .fs-1 .ml-0}  
+
+This was the second reversing challenge among a set of two challenges alone in this category. In this challenge, we are provided with the below
+challenge instructions along with a file which can be downloaded [here][40].
+
+Challenge instructions:  
+> One of our coders have locked down an application that is scheduled to be released tommorow.  
+> Can you unlock the application as soon as possible.  
+
+Downloading the file and running **`binwalk`** command over it, shows us that it is a valid ELF binary. I did load the binary in [Ghidra][41], to view
+the code base. I saw that the **`main`** function was only really interesting but there was nothing obvious that gave the flag. But I did notice that
+there were lot of load, store, compute operations involving various registers.  
+
+As there was nothing available from the static analysis of the binary, I decided to load the binary into [GDB][42] and set breakpoints to view the register
+values at runtime by stepping one instruction at a time. A run of the process can be seen by expanding the below.  
+
+<details markdown="block">
+  <summary>
+  Click here to view debugging of the binary
+  </summary>
+
+![Binary debug view][43]
+</details>
+
+After stepping through few instructions, we find that the value in the **`RAX`** register seems to be a Base64 encoded value. Stepping through few more
+iterations we can see the Base64 string increasing in length upto a point after which the register value remains constant at a specific value as shown below.
+
+![Final Base64 encoded flag step][44]  
+
+At this stage we copy the Base64 encoded value **`ZHNje3BVMjJMM19QaTNjMzJ9`** and decode it to get the final flag as **`dsc{pU22L3_Pi3c32}`**.  
 
 
 [1]: https://ctftime.org/team/165779
@@ -1005,3 +1283,21 @@ symbols leads us to the final flag as **`dsc{turinglovedme}`**.
 [26]: https://gcdn.pbrd.co/images/qv7iFNIGXURI.gif?o=1
 [27]: https://gcdn.pbrd.co/images/Og2xLVcNOSNy.png?o=1
 [28]: https://gcdn.pbrd.co/images/haOw8pRQZ7ll.png?o=1
+[29]: https://www.youtube.com/watch?v=dQw4w9WgXcQ
+[30]: https://gcdn.pbrd.co/images/MuU5bBFZ1n7r.gif?o=1
+[31]: https://portswigger.net/web-security/sql-injection
+[32]: https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/SQL%20Injection
+[33]: https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/SQL%20Injection#dbms-identification
+[34]: https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/SQL%20Injection/SQLite%20Injection.md#integerstring-based---extract-table-name
+[35]: https://gcdn.pbrd.co/images/7s2PFbEAgWKG.gif?o=1
+[36]: https://www.youtube.com/c/DSCVITPoweredByGoogleDevelopers/videos
+[37]: https://www.youtube.com/watch?v=AVdpVHoBCh4
+[38]: https://youtu.be/AVdpVHoBCh4?t=4277
+[39]: https://gcdn.pbrd.co/images/kgJLKIkgTJaP.png?o=1
+[40]: https://mega.nz/file/gtglCSia#e6QqXy7pKiojI28KU4XZ7EBQx96h-E6jB9uPFKvokns
+[41]: ../ctftools/ghidra
+[42]: ../ctftools/gdb
+[43]: https://gcdn.pbrd.co/images/RpQkuOigPtoa.gif?o=1
+[44]: https://gcdn.pbrd.co/images/XkPH1RlDx5tE.png?o=1
+[45]: https://gcdn.pbrd.co/images/WsqsOUTCP0X6.png?o=1
+[46]: https://gcdn.pbrd.co/images/9O6cPzOqHc8p.gif?o=1
