@@ -6,24 +6,24 @@ description: "Deconstruct CTF 2021 from VIT Vellore"
 permalink: /ctfs/deconstructf21
 has_children: false
 parent: CTF List
-last_modified_date: 04-10-2021 01:07 PM +0530
+last_modified_date: 04-10-2021 08:15 PM +0530
 ---
 
 # DeconstruCTF 2021
 {: .no_toc}  
 
 Dconstruct CTF 2021 is the first CTF hosted by [GDSCVIT][1] from the Vellore Institute of Technology in Tamil
-Nadu. To say the least, this was one of the best developer and pro friendly CTF's I have participated in till
+Nadu. To say the least, this was one of the best beginner and pro friendly CTF's I have participated in till
 date with some really good learning in the course of solving the challenges.  
 {: .fs-5 .fw-300 }  
 
-There we three waves of challenges that were released with a bit of skewed weightage to [Web][2] and [Crypto][3]
-challenges. On the whole it was a really good managed and balance first CTF hosted. All kudos to the team behind
+There were three waves of challenges that were released with a bit of skewed weightage to [Web][2] and [Crypto][3]
+challenges. On the whole it was a really good managed and balanced first CTF hosted. All kudos to the team behind
 hosting such a fruitful event.  
 {: .fs-5 .fw-300 }  
 
 From the rules it was clear that the flags were always of the format **`dsc{...}`** and are defined by the regex
-**`/^dsc{.*}$/`**. The sample flag **`dsc{th1s_i5_4_s4mpl3_fl4g’+!-.@#$%?}`** was also provided in the rules section.  
+**`/^dsc{.*}$/`**. A sample flag **`dsc{th1s_i5_4_s4mpl3_fl4g’+!-.@#$%?}`** was also provided in the rules section.  
 {: .fs-5 .fw-300 }  
 
 I would be grouping the challenges category wise as there are quite a few challenges for which I would be writing the
@@ -64,7 +64,7 @@ The final flag as seen in the above image was **`dsc{H3_1S_th3_83sT_p1r4t3_1_H4V
 Forensics
 {: .label .label-green .fs-1 .ml-0}
 
-The second challenge under forensics category, was easy to overlook and get lost in it. During my first attempt I saw
+The second challenge under forensics category, was easy to overlook clues and get lost. During my first attempt I saw
 pieces of information but in my second try at the challenge I got to it.  
 
 So we are given a lengthy prelude to the challenge as part of the challenge instructions as seen below along with a 
@@ -82,7 +82,7 @@ With above details we set off to solve the challenge. For any forensics challeng
 **`exiftool`** and **`binwalk`** if the challenge provides us with a file. Why so ?  
 
 Well in general forensics challenges or in general any challenge where a file is given as part of the challenge 
-instructions it is necessary to understand what the file contains and what the file contains is not what the file is
+instructions it is necessary to understand what the file contains and, what the file contains is not what the file is
 detected as by the OS. This is because the OS reads the first known magic byte and if the file can be read in that format
 it is rendered without any errors. This does not mean that there arent any hidden parts to it. So **`exiftool`** extracts
 any meta data associated with the file and **`binwalk`** basically walks through the byte values of the file and reports
@@ -147,7 +147,7 @@ This can be trusted due to the following reasons:
 
 With the above it is clear that there is a **`.zip`** file hidden where in the zip header starts at **`2267488`**
 bytes and the zip end header starts at **`2379840`** bytes and no other signatures are found in the file. This means
-we can safely assume that the files from **`2267488`** to the end of file contains the hidden **`.zip`** file.  
+we can safely assume that the bytes from **`2267488`** to the end of file contains the hidden **`.zip`** file.  
 
 I have a small utility already written to perform extraction of range of bytes as this is something very commonly
 required during CTF challenges. Using this utility I cut the required byte range to a new file. You can find the same
@@ -197,7 +197,7 @@ Challenge instructions:
 > Most of the times, what you seek is deep within the user. It starts with a writer, carries on with an actor and ends 
 > with a producer.
 
-On downloading the file, we see that is rendered as a proper **`.pdf`** file. Out of curiosity I did open up the pdf and found
+On downloading the file, we see that it is rendered as a proper **`.pdf`** file. Out of curiosity I did open up the pdf and found
 few black patches within the only page available in the file. Selecting all the content in the page and pasting it in a text
 editor I could find the below flags.  
 ```sh
@@ -366,8 +366,8 @@ Another part that is interesting is the binary string that is available. This wa
 because the parts could not fit in proper order without this part. None the less I am convering it in an ideal flow.  
 
 The binary string **`110000 1100110 1011111`** seems to be some string represented in binary. Converting the binary
-to string as is in online tools gives us gibberish like **`Ã5.`**. However after starting at the binary string for
-sometime I relaized that each character should be represented by 1 byte i.e 8 bits but some 0 padding bits are missing
+to string as is in online tools gives us gibberish like **`Ã5.`**. However after staring at the binary string for
+sometime I realized that each character should be represented by 1 byte i.e 8 bits but some 0 padding bits are missing
 in each byte. Plugging the missing zeros gives us the binary string **`00110000 01100110 01011111`** and converting it
 to its string representation gives us **`0f_`**. We call this as **Unknown part** for now as there is no indication as
 to where it might fit.  
@@ -394,7 +394,7 @@ stream
 ### Second section  
 {: .no_toc}
 
-We will next analyze the below section which seems to give us the second part of the flag. It gives us a what looks like
+We will next analyze the below section which seems to give us the second part of the flag. It gives us what looks like
 a Javascript expression.  
 ```text
 ...
@@ -430,14 +430,14 @@ points. The hint read, **`Vigenere >> Caesar`**. That closed the gap. A quick se
 cipher used is **Vignere** cipher which needs a key to decipher.  
 
 From the contents of **`p4.txt`** it is clear that *the key is our creator*. While skimming through the strings mentioned
-under the section of **Third section first** we see that there is a text that says **`/Creator (alexa)`**. So now we have
-all parts to decipher the content. Quickly navigating to [cryptii.com][11] and selecting the **`Vignere cipher`** for
-deciphering, we get the fourth part as **`ff3ct10n_`**. One part that was tricky in this deciphering was the variant of 
-Vignere cipher to use. As there were only four types listed in the site, looking at the various parts gives us a general
-sense of what will fit in line with the other parts and so we use the variant as **`Variant Beaufort Cipher`** giving us
-the correct fourth part.  
+under the section of [**Third section first**][47] we see that there is a text that says **`/Creator (alexa)`**. 
+So now we have all parts to decipher the content. Quickly navigating to [cryptii][11] and selecting the 
+**`Vignere cipher`** for deciphering, we get the fourth part as **`ff3ct10n_`**. One part that was tricky in this 
+deciphering was the variant of Vignere cipher to use. As there were only four types listed in the site, looking at the 
+various parts gives us a general sense of what will fit in line with the other parts and so we use the variant as 
+**`Variant Beaufort Cipher`** giving us the correct fourth part.  
 
-Right, so now we have three parts which are know to be in the given position which is Part 1 **`dsc{publ1c_`**, Part 2
+Right, so now we have three parts which are known to be in specific positions. Part 1 **`dsc{publ1c_`**, Part 2
 which is **`d15pl4y_`** and Part 4 which is **`ff3ct10n_`**.  
 
 The part mentioned as the 3<sup>rd</sup> part i.e **`b4nn3d}`** ends with a **`}`** which will necessarily be at the end, so
@@ -453,7 +453,7 @@ Crypto
 {: .label .label-green .fs-1 .ml-0}  
 
 The first challenge in a series of cryptography challenges and first among a three part challenge involving RSA, this was a
-warmup challenge. We are given the below challenge instructions and a file, the contents of which are available below the
+warmup. We are given the below challenge instructions and a file, the contents of which are available below the
 challenge instructions.  
 
 Challenge instructions:  
@@ -468,7 +468,7 @@ n = 23519325203263800569051788832344215043304346715918641803
 e = 71
 ```  
 
-From the contents of the file it is clear that we are given the public modulus, **`n`** the encryption exponent **`e`** and a
+From the contents of the file it is clear that we are given the public modulus **`n`**, the encryption exponent **`e`** and a
 cipher text. In order to be able to decrypt the cipher text, we should be able to exploit some inherent mathematical vulnerability
 in the prime factors used to compute the public modulus **`n`**.  
 
@@ -484,8 +484,8 @@ available in the repository.
 Also another important tool or rather website is the [factordb.com][15] which curates the largest collection of public modulus and
 their factors, as cracking the factors of a modulus is at the heart of the working of RSA.  
 
-Now getting back to the text file we have at hand, we can easily see that are public modulus is not large enough and should be easily
-factorable. As factordb lookup is one of the attacks implemented within the **RsaCtfTool** we directly go ahead and run it.  
+Now getting back to the text file we have at hand, we can easily see that our public modulus is not large enough and should be easily
+factorizable. As factordb lookup is one of the attacks implemented within the **RsaCtfTool** we directly go ahead and run it.  
 
 We use the command:  
 ```sh
@@ -540,11 +540,11 @@ those who are not much aware of the RSA crypto scheme, read below.
   </summary>
 
 To understand RSA, we need to understand the general conventional names used for various pieces of information in a RSA scheme. I will list
-some of them here so establish a common ground from where we can start off.  
+some of them here to establish a common ground from where we can start off.  
 1. **`n`** - the public modulus obtained by applying a formula to a pair of **large** prime numbers **`p`** and **`q`**
 2. **`e`** - the public encryption exponent used to encrypt a plaintext message **`m`**
 3. **`c`** - the encrypted message i.e the cipher text
-4. **`d`** - the decryption exponent computed by applying a function over the **`p`**, **`q`** and **`n`**.
+4. **`d`** - the decryption exponent computed by applying a function over **`p`**, **`q`** and **`n`**.
 
 So now encryption using RSA can be mathematically expressed as:
 > c = m<sup>e</sup> mod(n)  
@@ -575,7 +575,7 @@ does exactly the same and gives us the required value.
 b'dsc{t0-m355-w1th-m4th-t4k35-4-l0t-0f-sp1n3}'
 ```
 
-The above basically uses the [PyCryptodome][16] to conver the resulting plaintext message from **`long`** to **`bytes`** and the [sympy][17]
+The above basically uses [PyCryptodome][16] to convert the resulting plaintext message from **`long`** to **`bytes`** and the [sympy][17]
 library for performing safe computation of cube root of the cipher text represented as a **`long`** number. The final flag as seen above is
 obtained as **`dsc{t0-m355-w1th-m4th-t4k35-4-l0t-0f-sp1n3}`**.  
 
@@ -752,7 +752,7 @@ code was not useful. So I decided to form two string one each for **`city`** and
 character of the corresponding field for all the co-ordinates.  
 
 This gave me two strings out of which one of them was human readable and went like **`FLATBETHEEARTH`** which also reminded me
-that the theory that the Earth was flat was a very denounced theory in among early sailors. So this was the string we are
+that the theory that the Earth was flat was a very denounced theory among early sailors. So this was the string we are
 looking for but still we have to place back the **`_`** values at the appropriate places from the Base64 decoded value.  
 
 The final flag obtained after the above is **`dsc{FLAT_BE_THE_EARTH}`**.  
@@ -847,9 +847,9 @@ Reversing the process involves the below:
 2. The padding should be first removed
 3. For the resulting actual encrypted string reverse substitution should be done  
 
-Also the above process needs to be done for all keys as we have no idea on which key was actually used for the encryption
-process. A way to smartly halt the process would be to take the benefit of the flag format **`dsc{`** and stop the process
-as soon as we hit a decrypted string starting with the initial known part of the flag.  
+Also the above process needs to be done for all keys as we have no idea of the key that was actually used for the 
+encryption process. A way to smartly halt the process would be to take the benefit of the flag format **`dsc{`** and 
+stop the process as soon as we hit a decrypted string starting with the initial known part of the flag.  
 
 Based on all the above understanding, I wrote the **`decrypter.py`** script which is basically the encrypter with the relevant
 parts reversed as per the above understanding and a termination logic added.  
@@ -898,7 +898,8 @@ for encrypt_key in encrypt_text.keys():
 print(cypher_text)
 ```  
 
-Running the above script gives us the required flag **`dsc{y0u_4r3_g00d_4t_wh4t_y0u_d0}`**.  
+Running the above script and giving the cipher text as input gives us the required flag 
+**`dsc{y0u_4r3_g00d_4t_wh4t_y0u_d0}`**.  
 
 
 ## Behind the enemy lines 💂
@@ -933,7 +934,7 @@ and then crack the password. One thing that I realized after starting **John the
 was that the word list used by it was trying to generate passwords from combinations of characters and digits due to which
 it seemed to take a long time.  
 
-I was pretty sure the password must be some very weak one such the JTR can crack it easily. So I aborted and re-ran JTR
+I was pretty sure the password must be some very weak one such that JTR can crack it easily. So I aborted and re-ran JTR
 by supplying the **`rockyou.txt`** wordlist file. You can locate the file in your installation by running the
 **`locate <partial-file-name>`**.  
 
@@ -1037,7 +1038,7 @@ As we have only the web page to work with, we open up the page and are presented
 Providing a random name, gives us back the response stating **`Clancy`** is the only user that can access it for now.  
 
 Quickly supplyng **`Clancy`** as the user name, we are told that only **`Administrators`** are given access. As stated before
-analyzing the network tab for the network sent shows us that the below cookies stand out which are set:  
+analyzing the network tab for the request sent shows us that the below cookies stand out which are set:  
 ```text
 Cookie: Username=admin; Admin_Access=False
 ```  
@@ -1060,7 +1061,7 @@ been provided. I thought this out a bit and then analyzed the response headers w
 Date: Mon, 04 Oct 2021 03:58:33 GMT
 ```  
 
-I quickly coopied this header as is and included it in my request as a new header. Sending in the **`Date`** header with the 
+I quickly copied this header as is and included it in my request as a new header. Sending in the **`Date`** header with the 
 wrong date value, gave back a response with the exact date string to be used as **`Monday, 5th April 2021, at 12:00:00 GMT`**.  
 
 You can view this whole process below:  
@@ -1142,7 +1143,7 @@ TN-06-AP-9879' or sqlite_version()=sqlite_version();--
 ```  
 The above payload is a little different. Let me walk your through it. So we supply an always equal condition by comparing the return value
 of SQLite DB version information which will be the same string in back to back invocations. However remember that there would a terminating
-**`'`** mark originally intended to enclose the user input value would not be dangling. To overcome this issue, we terminate the current 
+**`'`** mark originally intended to enclose the user input value would now be dangling. To overcome this issue, we terminate the current 
 query with a **`;`** and pass in **`--`** which states that rest of the line is a comment. So this makes the query executable.  
 
 Sending in the above payload gives us back the same result as we got orignally confirming that we are dealing with an SQLite database.  
@@ -1300,3 +1301,4 @@ At this stage we copy the Base64 encoded value **`ZHNje3BVMjJMM19QaTNjMzJ9`** an
 [44]: https://gcdn.pbrd.co/images/XkPH1RlDx5tE.png?o=1
 [45]: https://gcdn.pbrd.co/images/WsqsOUTCP0X6.png?o=1
 [46]: https://gcdn.pbrd.co/images/9O6cPzOqHc8p.gif?o=1
+[47]: #third-section-first
