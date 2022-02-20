@@ -6,7 +6,7 @@ description: "An introduction to using Wireshark for CTF's"
 permalink: /ctftools/wireshark
 has_children: false
 parent: CTF Tools
-last_modified_date: 16-09-2021 11:36 PM +0530
+last_modified_date: 20-02-2022 04:32 PM +0530
 ---
 
 ## Wireshark 🦈
@@ -115,9 +115,9 @@ upfront given along with a pcap file that contains encrypted traffic or is obfus
 other file left with clues to be found.  
 
 Once we have the key file we can import it in the UI by navigating to 
-**Edit > Preferences > Protocols > TCP > (Pre)-Master-Secret log filename**. There are also
+**Edit > Preferences > Protocols > TLS > (Pre)-Master-Secret log filename**. There are also
 many other settings which can be used based on the encryption mechanisms used in tehe traffic
-captured. Below image highlights the TCP sslkeyfile loading to decrypt any protocol working 
+captured. Below image highlights the TLS sslkeyfile loading to decrypt any protocol working 
 over TCP stack.
 
 ![TCP stack SSL key file upload][7]
@@ -128,8 +128,8 @@ For a more detailed account on wireshark please refer any of the below:
 
 [1]: https://www.wireshark.org/docs/wsug_html_chunked/ChIOSaveSection.html#ChIOOutputFormatsSection
 [2]: https://www.kali.org/
-[3]: https://gcdn.pbrd.co/images/daxr5LJVUvGN.png?o=1
+[3]: ../assets/images/daxr5LJVUvGN.png?o=1
 [4]: https://www.wireshark.org/docs/dfref/
 [5]: https://wiki.wireshark.org/ProtocolReference
-[6]: https://gcdn.pbrd.co/images/qDrDPHstMluk.png?o=1
-[7]: https://gcdn.pbrd.co/images/FaRgPPK8s4O3.png?o=1
+[6]: ../assets/images/qDrDPHstMluk.png?o=1
+[7]: ../assets/images/FaRgPPK8s4O3.png?o=1
