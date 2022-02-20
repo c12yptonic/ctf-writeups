@@ -6,7 +6,7 @@ description: "Find the flag from the challenge file"
 permalink: /ctflearn/upforalittlechall
 has_children: false
 parent: CTF Learn
-last_modified_date: 16-09-2021 11:36 PM +0530
+last_modified_date: 20-02-2022 03:28 PM +0530
 ---
 
 ## Up for a Little Challenge ⛳
@@ -182,6 +182,6 @@ tools which is one of the reason I found this more fun to crack.
 
 
 [1]: https://mega.nz/#!LoABFK5K!0sEKbsU3sBUG8zWxpBfD1bQx_JY_MuYEWQvLrFIqWZ0
-[2]: https://gcdn.pbrd.co/images/F7VqCe0XsSd0.png?o=1
-[3]: https://gcdn.pbrd.co/images/UsbCewSeaQDx.png?o=1
-[4]: https://gcdn.pbrd.co/images/zitPLnJ3sfSE.jpg?o=1
+[2]: ../assets/images/F7VqCe0XsSd0.png?o=1
+[3]: ../assets/images/UsbCewSeaQDx.png?o=1
+[4]: ../assets/images/zitPLnJ3sfSE.jpg?o=1
