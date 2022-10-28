@@ -6,7 +6,7 @@ description: "Ghidra - An introduction to reversing"
 permalink: /ctftools/ghidra
 has_children: false
 parent: CTF Tools
-last_modified_date: 20-09-2021 08:16 PM +0530
+last_modified_date: 20-02-2022 04:32 PM +0530
 ---
 
 ## Ghidra 🐲
@@ -83,6 +83,6 @@ help and documentation visit [here][4].
 
 
 [1]: https://github.com/NationalSecurityAgency/ghidra#install
-[2]: https://gcdn.pbrd.co/images/yBnbjiLCijoQ.gif?o=1
-[3]: https://gcdn.pbrd.co/images/AuMygngoiwzj.png?o=1
+[2]: ../assets/images/yBnbjiLCijoQ.gif?o=1
+[3]: ../assets/images/AuMygngoiwzj.png?o=1
 [4]: https://htmlpreview.github.io/?https://github.com/NationalSecurityAgency/ghidra/blob/stable/GhidraDocs/InstallationGuide.html

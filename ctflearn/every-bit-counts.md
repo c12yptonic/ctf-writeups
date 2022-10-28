@@ -6,7 +6,7 @@ description: "Every bit counts (while reversing)!!"
 permalink: /ctflearn/everybitcounts
 has_children: false
 parent: CTF Learn
-last_modified_date: 15-09-2021 01:29 AM +0530
+last_modified_date: 20-02-2022 03:28 PM +0530
 ---
 
 ## Every bit counts 👨‍💻
@@ -563,7 +563,7 @@ we have found the flag and all the other paths lead to one or the other error me
 This means that we need to be able to pass some argument which passes the humongous condition
 which when true prints the success message. What !? How is it even possible to do such a thing ?  
 
-We I too had similar reaction and tried lots of crazy stuffs like just taking the hex values
+Well, I too had a similar reaction and tried lots of crazy stuffs like just taking the hex values
 converting them to integers and looking up their ASCII characters in a hope that it was the
 real challenge. Nothing did work out.  
 
@@ -1133,14 +1133,14 @@ in the equation leading to this discrepancy, however it was obvious the **`z`** 
 [1]: https://ctflearn.com/challenge/download/921
 [2]: https://mega.nz/file/lthQ0RRR#zfA_6iiM6Pd748BYGlqL6Yx6en3qAh6zYWclm51UqHQ
 [3]: https://linuxhint.com/understanding_elf_file_format/
-[4]: https://gcdn.pbrd.co/images/ceEWI2Wdu9jS.gif?o=1
+[4]: ../assets/images/ceEWI2Wdu9jS.gif?o=1
 [5]: https://ghidra-sre.org/
-[6]: https://gcdn.pbrd.co/images/EJmhzdf8usvL.png?o=1
+[6]: ../assets/images/EJmhzdf8usvL.png?o=1
 [7]: https://0xpat.github.io/Malware_development_part_6/
-[8]: https://gcdn.pbrd.co/images/uWHZCffQaToe.gif?o=1
-[9]: https://gcdn.pbrd.co/images/vOxmI7AdKVhU.png?o=1
+[8]: ../assets/images/uWHZCffQaToe.gif?o=1
+[9]: ../assets/images/vOxmI7AdKVhU.png?o=1
 [10]: https://github.com/Z3Prover/z3
 [11]: http://theory.stanford.edu/~nikolaj/programmingz3.html
 [12]: https://ctftime.org
 [13]: http://theory.stanford.edu/~nikolaj/programmingz3.html#sec-logical-interface
-[14]: https://gcdn.pbrd.co/images/XqH72wkzFtpS.gif?o=1
+[14]: ../assets/images/XqH72wkzFtpS.gif?o=1

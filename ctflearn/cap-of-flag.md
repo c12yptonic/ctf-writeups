@@ -6,7 +6,7 @@ description: "PCAP hidden flag"
 permalink: /ctflearn/acapofflag
 has_children: false
 parent: CTF Learn
-last_modified_date: 10-09-2021 05:38 PM +0530
+last_modified_date: 20-02-2022 03:28 PM +0530
 ---
 
 ## A capture of the flag 🪧
@@ -44,4 +44,4 @@ Decoding it we get the flag : **`flag{AFlagInPCAP}`**
 [1]: https://ctflearn.com/challenge/356
 [2]: https://www.wireshark.org/
 [3]: https://mega.nz/#!3WhAWKwR!1T9cw2srN2CeOQWeuCm0ZVXgwk-E2v-TrPsZ4HUQ_f4
-[4]: https://gcdn.pbrd.co/images/JuSEuVjl7vaG.png?o=1
+[4]: ../assets/images/JuSEuVjl7vaG.png?o=1
