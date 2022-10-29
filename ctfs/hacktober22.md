@@ -38,14 +38,14 @@ Challenge instructions:
 From the instructions it is clear that the exponent **`e`** used in the RSA encryption is very small compared to the value of **`n`**. Why is this important ?
 
 The formula for encryption is as given below:
-> $c = m^e \pmod n$
+> c = m pow(e) mod(n)
 
 In this above formula it is clear that if **`n`** is sufficiently large then the modulus has no effect on the encryption and the cipher text reduces to a exponentiation of message i.e the below formula:
-> $c = m^e$
+> c = m pow(e)
 
-Due to this the message **`m`** can be easily retrieved by taking inverting the exponentiation.
+Due to this the message **`m`** can be easily retrieved by inverting the exponentiation.
 
-We use the below code to inverting the exponentiation and converting the resultant **`long`** value to **`bytes`**.
+We use the below code to invert the exponentiation and convert the resultant **`long`** value to **`bytes`**.
 
 ```sh
 python3 -c "from Crypto.Util.number import long_to_bytes;from sympy import cbrt;m=cbrt(159824947944933145124838839627897472995222726725778699635746503980986937892371422645291581403491484060915790946238870994753794392630740865865372702551885464356303363652373929602662877152309665601671912554391480434375650725791107527216573236081089654751390509689517054062236946737731831215596006696199941703676597321808361467919236770950757);print(long_to_bytes(m))"
@@ -173,7 +173,7 @@ Challenge instructions:
 > An Exploding Fish from The Village Hidden in the Rain entered Konoha for destruction. Lord Fourth managed to hold it in a computer file and seal it with the Eight Trigrams Sealing Style.
 >
 > Team 7, your task is to find the fish that went in disguise as letters followed by numbers inside the computer file. You will find  your key to unlock the seal on your investigation path. Good luck Team 7.
-
+>
 > The challenge instructions also contained a link to a file which can be downloaded [here][1].
 
 Given the above details we first download the file which is named as **`invisibility.png`**.  
@@ -390,7 +390,7 @@ Archive:  invisiblity.zip
 ```
 </details>  
 
-On inspecting the output of the **`unzip`** command we find that it contains around **`164`** folders and **`1`** file per folder.  
+On inspecting the output of the **`unzip`** command we find that it contains around **`64`** folders and **`1`** file per folder.  
 The name of the files seem to form a Base64 encoded text. So we copy the output of the above command to a text editor and create a string using the file names alone.  
 
 The final string obtained by concatenating the file names can be seen below:  
@@ -407,12 +407,12 @@ We use [this][2] online tool to run the decryption and tranformation in a fast w
 However in hindisight going through the **challenge instructions** again gives us a clue on the encryption scheme. The clue talks about **`fish`** and there is an encryption scheme called **`Blowfish`**.  
 So we run the **`Blowfish`** decryption algorithm using the above website with the below parameters:  
 
-> **`From Base64`** transformation
-> **`Blowfish`** decryption
-> **`Key`** as stated above
-> **`IV`** same as key
-> **`UTF-8`** for **`Key`** and **`IV`** format
-> **`Raw`** for input format
+> **`From Base64`** transformation  
+> **`Blowfish`** decryption  
+> **`Key`** as stated above  
+> **`IV`** same as key  
+> **`UTF-8`** for **`Key`** and **`IV`** format  
+> **`Raw`** for input format  
 
 On running the above transformation we get the below string which is again Base64 encoded:  
 **`WkNURjIwMjJ7RzBPRF9KMCRfWTB1X0YwVW45X3Q1M19mTEBnX2gzNjN9`**  
