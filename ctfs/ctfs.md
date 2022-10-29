@@ -26,4 +26,4 @@ An index of CTFs for which detailed solves are available in the respective link.
 |    6 | [Downunder 2021](https://ctftime.org/event/1312)                | 24 - 26 Sept. 21   | [Link](ctfs/downunder21)    | 29-09-2021         |
 |    7 | [Tamil CTF 2021](https://ctftime.org/event/1440)                | 26 - 28 Sept. 21   | [Link](ctfs/tamilctf21)     | 30-09-2021         |
 |    8 | [DconstruCtf 2021](https://ctftime.org/event/1453)              | 01 - 02 Oct. 21    | [Link](ctfs/deconstructf21) | 02-10-2021         |
-|    9 | [Hacktober 2022](.hacktober22.md)                               | 24 - 29 Oct. 22    | [Link](ctfs/hacktober22.md) | 28-10-2022         |
+|    9 | [Hacktober 2022](ctfs/hacktober22)                              | 24 - 29 Oct. 22    | [Link](ctfs/hacktober22)    | 28-10-2022         |

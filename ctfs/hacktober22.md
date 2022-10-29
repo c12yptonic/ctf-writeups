@@ -22,7 +22,7 @@ Hacktober is part of the security month October celebrations at my organization.
 {:toc}
 
 
-## Sm4ll
+## Sm4ll 🤏
 Crypto  
 {: .label .label-green .fs-1 .ml-0}
 
@@ -51,5 +51,115 @@ We use the below code to inverting the exponentiation and converting the resulta
 python3 -c "from Crypto.Util.number import long_to_bytes;from sympy import cbrt;m=cbrt(159824947944933145124838839627897472995222726725778699635746503980986937892371422645291581403491484060915790946238870994753794392630740865865372702551885464356303363652373929602662877152309665601671912554391480434375650725791107527216573236081089654751390509689517054062236946737731831215596006696199941703676597321808361467919236770950757);print(long_to_bytes(m))"
 ```
 
-We obtain the flag **`ZCTF2022{e_is_too_sm4ll_better_e_next_time_pls}`** by running the above code.
+We obtain the flag **`ZCTF2022{e_is_too_sm4ll_better_e_next_time_pls}`** by running the above code.  
+
+
+## Language of Gods 🗣
+Misc
+{: .label .label-green .fs-1 .ml-0}
+
+This was one of the miscellaneous challenges. It required some logic to solve and follow the instructions.  
+
+<details markdown="block">
+  <summary>
+  Click her to view the Challenge Instructions
+  </summary>
+</details>
+
+> are you good with languages?
+> 
+> Astra Planeta :
+> 
+> The Astra Planeta were a group of five gods from Greek mythology, who were sometimes also referred to as the Astra.
+> 
+> Pyroeis, meaning Fiery One (Mars) is one of the Astra planeta tells the story of ancient greek glory in her/his language.
+> 
+> **`rchd qd zykdqncfcn wgc fhxcf, bfywczwyf, skn lswgcf yl sxx vynd skn gheskd.`**
+> 
+> which means
+> 
+> **`zeus is considered the ruler, protector, and father of all gods and humans.`**
+> 
+> **`tskwgyd ykc yl wgc qeeyfwsx gyfdcd yokcn jp wgc gcfy bcxchd skn gqd dyk szgqxxcd.`**
+> 
+> which means
+> 
+> **`xanthos one of the immortal horses owned by the hero peleus and his son achilles.`**
+> 
+> **`asdyk vfccm gcfy,mcfcd eykdwfyhd lcesxc dbqfqwd yl uqyxckw ncswg sfc ihsxqwp zgsfszwcfd.`**
+> 
+> which means
+> 
+> **`jason – greek hero,keres monstrous female spirits of violent death are quality characters.`**
+> 
+> He/she is saying somethin **`qk wgc ckn wgc gcfy q xqmc wgc eydw,esp pyh zsk zsxx gqe wgc uqxxqsk yf ogswcucf.....pyhf lxsv qd {mfswyd_wgc_sxeqvgwp_vyn_yl_osf}`**
+> 
+> Can you help me translate this?
+>
+> Hint: Add ZCTF2022{}
+
+From the instructions it is clear that the text is encoded in different English characters. We have to decode it using the give samples.  
+
+We write a simple python script to create a character by character map using the given samples and also verify if any of the characters have contradicting character maps. 
+
+<details markdown="block">
+  <summary>
+  Click here to view the Python code
+  </summary>
+
+Code:  
+
+```python
+from curses.ascii import isalpha
+
+
+# map of gibberish to english
+vals = {
+    "rchd qd zykdqncfcn wgc fhxcf, bfywczwyf, skn lswgcf yl sxx vynd skn gheskd.": "zeus is considered the ruler, protector, and father of all gods and humans.",
+    "tskwgyd ykc yl wgc qeeyfwsx gyfdcd yokcn jp wgc gcfy bcxchd skn gqd dyk szgqxxcd.": "xanthos one of the immortal horses owned by the hero peleus and his son achilles.",
+    "asdyk vfccm gcfy,mcfcd eykdwfyhd lcesxc dbqfqwd yl uqyxckw ncswg sfc ihsxqwp zgsfszwcfd.": "jason greek hero,keres monstrous female spirits of violent death are quality characters.",
+}
+
+chr_map = {}
+
+# creating character by character map
+for x, y in vals.items():
+    assert len(x) == len(y)
+    for c, d in zip(x, y):
+        if c in chr_map.keys() and d != chr_map[c]:
+            # ensuring no character has conflicting mapping character
+            print(
+                "Error: key - {0}, new val - {1}, old val - {2}".format(
+                    c, d, chr_map[c]
+                )
+            )
+        else:
+            chr_map[c] = d
+
+print(chr_map)
+
+# decode using the generated character map
+val = "qk wgc ckn wgc gcfy q xqmc wgc eydw,esp pyh zsk zsxx gqe wgc uqxxqsk yf ogswcucf.....pyhf lxsv qd {mfswyd_wgc_sxeqvgwp_vyn_yl_osf}"
+result = ""
+for c in val:
+    if c.isalpha():
+        result = result + chr_map[c]
+    else:
+        result = result + c
+print(result)
+
+```
+</details>
+
+
+By running the above script we get the below output:  
+```sh
+┌──(cryptonic㉿cryptonic-kali)-[~/CTFs/hacktober22/languageofgods]
+└─$ python3 decipher.py
+{'r': 'z', 'c': 'e', 'h': 'u', 'd': 's', ' ': ' ', 'q': 'i', 'z': 'c', 'y': 'o', 'k': 'n', 'n': 'd', 'f': 'r', 'w': 't', 'g': 'h', 'x': 'l', ',': ',', 'b': 'p', 's': 'a', 'l': 'f', 'v': 'g', 'e': 'm', '.': '.', 't': 'x', 'o': 'w', 'j': 'b', 'p': 'y', 'a': 'j', 'm': 'k', 'u': 'v', 'i': 'q'}
+in the end the hero i like the most,may you can call him the villian or whatever.....your flag is {kratos_the_almighty_god_of_war}
+```
+
+We use the hint to prefix `ZCTF2022` and get the flag as **`ZCTF2022{kratos_the_almighty_god_of_war}`**.
+
 
