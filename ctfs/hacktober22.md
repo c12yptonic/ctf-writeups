@@ -750,7 +750,7 @@ Challenge instructions:
 >  
 > e = 65537  
 >  
-> n = p*p*p  
+> n = p * p * p  
 >   
 > n : 3562025819806207598506935313652818193694408042402095598802948686528664083678156384230585773124187183429452585030988291069096861045972802467416705279604486020388348472580039018962102511983815563723736180708592666974070248322487939238066038544561114394540155530196442120193861812059143546059739735993817021471143725463613639854298689669634150519751023855301637470895032889730491285338846223286091340318508234930986767814601908084003047148599368592010225076235162432043729667295956167726201883189770503279423400834031830491870093870945555857891309998991278667596320334592033112643296049774919487899146919910749049834644331028551624705715438675435164416620434563284111656424624712177288864754414901725391190092902892108380047239415400890400559518249019212241727294623039855933386203050979539735397543730716931588006439242049229731756422034401993258321147410260141018769437607642503118317734393909743006658024818441308680901690851  
 >  
@@ -760,12 +760,13 @@ Challenge instructions:
 I did beat around it for sometime trying out different things, but nothing did work out. Finally I decided to look into **`Euler totient`** function **`ϕ`**. One of the goto websites for Math related stuff is [brilliant.org][9] and their [article][10] on **`Euler's totient`** function is really great.  
 
 From the same we get to know that **ϕ(p<sup>e</sup>) = p<sup>e</sup> - p<sup>e-1</sup>**. Also the challenge instructions give us the clue that **n = p<sup>3</sup>**.  
+From prior knowledge on RSA we know that **ϕ(n)** is also equal to **(p-1) * (q-1)**.
 
 Now from the above we solve the below equation to get the value of the second factor **`q`**.  
-> ϕ(n) = ϕ(p<sup>3</sup>) = (p-1) * (q-1)
-> => p<sup>3</sup> - p<sup>2</sup> = (p-1) * (q-1)
-> => n - p<sup>2</sup> = (p-1) * (q-1)
-> => q = 1 + ((n - p<sup>2</sup>) / (p-1))
+>    ϕ(n) = ϕ(p<sup>3</sup>) = (p-1) * (q-1)  
+> => p<sup>3</sup> - p<sup>2</sup> = (p-1) * (q-1)  
+> => n - p<sup>2</sup> = (p-1) * (q-1)  
+> => q = 1 + ((n - p<sup>2</sup>) / (p-1))  
 > 
 
 From the given data in the challenge instructions we have all the required details to get **`q`**. We use this value to decrypt the giiven ciphertext **`c`**.  
@@ -774,7 +775,7 @@ The above explanation is scripted as a **`python`** code in the below script.
 
 <details markdown="block">
   <summary>
-  Click here to view **`solve.py`**  
+  Click here to view **solve.py**  
   </summary>  
 
 ```python
