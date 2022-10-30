@@ -6,7 +6,7 @@ description: "Hacktober CTF 2022"
 permalink: /ctfs/hacktober22
 has_children: false
 parent: CTF List
-last_modified_date: 28-10-2022 08:38 PM +0530
+last_modified_date: 30-10-2022 05:38 PM +0530
 ---
 
 # Hacktober 2022
@@ -40,7 +40,7 @@ From the instructions it is clear that the exponent **`e`** used in the RSA encr
 The formula for encryption is as given below:
 > c = m<sup>e</sup> mod(n)  
 
-In this above formula it is clear that if **`n`** is sufficiently large then the modulus has no effect on the encryption and the cipher text reduces to a exponentiation of message i.e the below formula:
+In this above formula it is clear that if **`n`** is sufficiently large then the modulus has no effect on the encryption and the cipher text reduces to an exponentiation of the message i.e the below formula:
 > c = m<sup>e</sup>  
 
 Due to this the message **`m`** can be easily retrieved by inverting the exponentiation.
@@ -62,7 +62,7 @@ This was one of the miscellaneous challenges. It required some logic to solve an
 
 <details markdown="block">
   <summary>
-  Click her to view the Challenge Instructions
+  Click here to view the Challenge Instructions
   </summary>
 
 > are you good with languages?
@@ -95,13 +95,13 @@ This was one of the miscellaneous challenges. It required some logic to solve an
 > 
 > Can you help me translate this?
 >
-> Hint: Add ZCTF2022{}
+> **Hint:** Add ZCTF2022{}
 
 </details>
 
-From the instructions it is clear that the text is encoded in different English characters. We have to decode it using the give samples.  
+From the instructions it is clear that the text is encoded in different English characters. We have to decode it using the given samples.  
 
-We write a simple python script to create a character by character map using the given samples and also verify if any of the characters have contradicting character maps. 
+We write a simple python script to create a character to character map using the given samples and also verify if any of the characters have contradicting character maps. 
 
 <details markdown="block">
   <summary>
@@ -396,12 +396,12 @@ The name of the files seem to form a Base64 encoded text. So we copy the output 
 The final string obtained by concatenating the file names can be seen below:  
 **`syd2BnpFPZ5DGaZoWMTdsQRevU8BNx4ioSeULHwsrr2ym3AMmdc5qQRdS+8i2qDorHMqpGSK0mfwyMLnB5l3wQ=`**  
 
-We try to decode this content but we do not get a flag per se. So we understand that this could be a encrypted content represented as a Base64 encoded string.  
+We try to decode this content but we do not get a flag per se. So we understand that this could be an encrypted content represented as a Base64 encoded string.  
 
-We also notice another file within the zip named as **`flag.txt`** the contents of which are **`key: zctf2022`**. This also points toward the fact that the content is encrypted and the possible key is **`zctf2022`**.  
+We also notice another file within the zip named as **`flag.txt`** the contents of which are **`key: zctf2022`**. This also points towards the fact that the content is encrypted and the possible key is **`zctf2022`**.  
 
 Now one last part that we need to figure out is the type of encryption that could have been used.  
-We use [this][2] online tool to run the decryption and tranformation in a fast way. It has support for various decryption schemes that can be tried out easily.  
+We use [this][2] online tool to speed up the iteration of the decryption and transformation process. It has support for various decryption schemes that can be tried out easily.  
 
 
 However in hindisight going through the **challenge instructions** again gives us a clue on the encryption scheme. The clue talks about **`fish`** and there is an encryption scheme called **`Blowfish`**.  
@@ -413,6 +413,8 @@ So we run the **`Blowfish`** decryption algorithm using the above website with t
 > **`IV`** same as key  
 > **`UTF-8`** for **`Key`** and **`IV`** format  
 > **`Raw`** for input format  
+> **`ECB`** mode for block cipher  
+>  
 
 On running the above transformation we get the below string which is again Base64 encoded:  
 **`WkNURjIwMjJ7RzBPRF9KMCRfWTB1X0YwVW45X3Q1M19mTEBnX2gzNjN9`**  
@@ -428,8 +430,9 @@ Web
 It was the web challenge released in the second wave of challenges and was a bit easier than the previous two. It was more of a **`Flask`** package behavioural issue that had to be exploited.  
 
 Challenge instructions:
-> The developer of the application made a huge mistake which made the whole organization go rampage. Can you find his mistake? anyway the application died and all it showing a source page.
-> Link : https://h22-ctf-0ecwn9kp0g.dummydomain.team/
+> The developer of the application made a huge mistake which made the whole organization go rampage.  
+> Can you find his mistake? anyway the application died and all it showing a source page.  
+> **Link:** https://h22-ctf-0ecwn9kp0g.dummydomain.team/  
 
 
 The link had the below source code:
@@ -448,8 +451,8 @@ From the source and the challenge instructions it was very clear that we had to 
 On quickly searching for **`debug`** behaviour of **`Flask`** it was clear that the **`Python`** console is exposed at **`/console`** url of the same host and port on which the application was running.  
 
 Thus invoking the below URL gave us an interactive **`Python`** console.  
-> https://h22-ctf-0ecwn9kp0g.dummydomain.team/console
-> Note: Link might not be active
+> https://h22-ctf-0ecwn9kp0g.dummydomain.team/console  
+> **Note:** Link might not be active  
 
 Once we have the server's **`Python`** console, all we had to do was to establish a piped subprocess to retrieve the flag from most probably a file. We can also execute the required **`ls`** command to get the file name as seen below.  
 
@@ -460,7 +463,7 @@ b'app.py\nflag.txt\nrequirements.txt\ntemplates\n'
 >>> import subprocess;out = subprocess.Popen(['cat', 'flag.txt'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT);stdout,stderr = out.communicate();print(stdout);
 b'ZCTF2022{N3v3r_3v3r_Switch_0n_deBug_m0d3_It_HuRts}\n'
 ```  
-> Note:  However while trying this, there were some repeated attempts required as there was some obscure "URL requested not found" error.  
+> **Note:**  However while trying this, there were some repeated attempts required as there was some obscure **URL requested not found** error.  
 
 From the above, we obtain the final flag as **`ZCTF2022{N3v3r_3v3r_Switch_0n_deBug_m0d3_It_HuRts}`**.  
 
@@ -558,7 +561,7 @@ Challenge instructions:
 
 From the instructions it is clear that there is no real RSA involved here. It is purely based on modulo operation. Another thing that we can immediately note is that the multiplying number has less than half the digits as compared to the number used for modulo.  
 
-This means we are performing a modulo using a very large number and as the multiplying number is very small, and message generally we are looking for is a small flag, the modulo would have been of no use i.e the modulus would have been the value **`0`**.  
+This means we are performing a modulo using a very large number and as the multiplying number is very small, and message generally we are looking for is a small flag, the modulo would have been of no use i.e the quotient would have been the value **`0`**.  
 
 So we try dividing the result by the multiplied number and convert the long to bytes to check for the flag format. We use the below script to do the same.  
 
@@ -592,17 +595,17 @@ Web
 The category and the name of this challenge clearly pointed out that it was some kind of object deserialization vulnerability. We were supposed to inject a newly crafted/serialized object to get the flag.  
 
 Challenge instructions:
-> Challenge URL : https://h22-ctf-i16omaetxx.dummydomain.team/App/
->
-> Source: link Password: zCtf_2022
+> **Challenge URL:** https://h22-ctf-i16omaetxx.dummydomain.team/App/
+>  
+> **Source:** link **Password:** zCtf_2022
 
-> Note: The challenge URL might not be active now. The source link is available [here][5].  
+> **Note:** The challenge URL might not be active now. The source code download is available [here][5].  
 
 On analyzing the URL we are presented with a login page. Also we unzip the source link using the given password to obtain two files, one is the application's war file and another is a library used to generate a serialized object.  
 
 We decompile the application's jar files using our favourite IDE or any Java decompilation tool [online][7] and go through the source code to note the below key points:  
 
-> Info: You can download the decompiled source for this challenge readily [here][6].
+> **Info:** You can download the decompiled source for this challenge readily [here][6].  
 
 1. On checking the file **Home.java** we see that the flag is available in the **`/flag`** url.
 2. However the **`/flag`** url can only be accessed with a token that passes the **`Helper.isAdmin(token)`** check.
@@ -648,11 +651,11 @@ line 26: if (Helper.isAdmin(token) && sessionId != null) {
 line 39: if (sc.contains(sessionId.getValue())) {
 ```
 
-The first check is bypassed by changing the **`token`** value to the new crafted seriaized payload and setting the **`JSESSIONID`** value to something that is already available in the **`/zctf/jsessions`** file. However the check has a security issue. It uses the **`contains`** check which means we can modify the **`sessionId`** value to any random character which is generally present in a session id that is generated by Tomcat session.  
+The first check is bypassed by changing the **`token`** value to the new crafted seriaized payload and setting the **`JSESSIONID`** value to some non null value. To bypass the second check we need to set the **`JSESSIONID`** with some valid session ID that is already available in the **`/zctf/jsessions`** file. However the check has a security issue. It uses the **`contains`** check which means we can modify the **`sessionId`** value to any random character which is generally present in a session id that is generated by Tomcat session.  
 
 So our final bypass is to modify the **`JSESSIONID`** to some random character(s) that are generally present in the session ids.  
 
-Doing this gives us the flag page with the required flag.
+Doing this gives us the flag page with the required flag.  
 
 
 ## Basic Web Login 1 🕸
@@ -668,13 +671,13 @@ Challenge instructions:
 >
 > https://h22-ctf-kr2i71j106.dummydomain.team/
 > 
-> Note: The link just contained a list of strings that are suspected to be the username and/or password.
+> **Note:** The link just contained a list of strings that are suspected to be the username and/or password.
 > 
 
 As stated before this was a password spray attack and we had to run a random username and password attack. I did try using the **`Intruder`** tool in [Burpsuite][8]. However there are lot of restrictions in the tool and almost did not solve for me.  
 
 So finally I ended up creating a **`python`** script for the same which can be seen below.  
-> Note: Before running the python script please create a password list file named `passlist.txt` in the same folder.
+> **Note:** Before running the python script please create a password list file named `passlist.txt` in the same folder.
 
 <details markdown="block">
   <summary>
@@ -769,7 +772,7 @@ Now from the above we solve the below equation to get the value of the second fa
 > => q = 1 + ((n - p<sup>2</sup>) / (p-1))  
 > 
 
-From the given data in the challenge instructions we have all the required details to get **`q`**. We use this value to decrypt the giiven ciphertext **`c`**.  
+From the given data in the challenge instructions we have all the required details to get **`q`**. We use this value to decrypt the given ciphertext **`c`**.  
 
 The above explanation is scripted as a **`python`** code in the below script.  
 
@@ -820,14 +823,14 @@ So by prior knowledge it was clear that we had to be able to get the secret key 
 This means the main goal is to first find a secret key for JWT signature generation.  
 
 Challenge instructions:
-> Admin tries to log in with default admin credentials.
-> Unfortunately, it only has a User role instead of an Admin role.
-> Try to access with the Admin role and bite the sweet.
->
-> Challenge link - https://h22-ctf-63hgkw9bzy.dummydomain.team/
-> Hint 1 - Surfers love wave !
-> Hint 2 - DecodeROT7(value) == "Signing key"
-> 
+> Admin tries to log in with default admin credentials.  
+> Unfortunately, it only has a User role instead of an Admin role.  
+> Try to access with the Admin role and bite the sweet.  
+>  
+> **Challenge link:** https://h22-ctf-63hgkw9bzy.dummydomain.team/  
+> **Hint 1:** Surfers love wave !  
+> **Hint 2:** DecodeROT7(value) == "Signing key"  
+>   
 
 The link lead to a login page. In general for web based challenges source code check is the first step. Checking the source code gave us the first clue which was a comment in the HTML code containing the Base64 encoded username as seen below.
 ```html
@@ -837,11 +840,11 @@ The link lead to a login page. In general for web based challenges source code c
 	 -->
 ```
 
-Base64 decoding the value gives us the username as **`admin`**. Also as we are not informed about the password the default is to try the username itself as the password. This logs into the webpage. However as stated in the instructions it does not load the flag.  
+Base64 decoding the value gives us the username as **`admin`**. Also as we are not informed about the password but the default is to try the username itself as the password. This logs into the webpage. However as stated in the instructions it does not load the flag.  
 
-After logging into the webpage with default credentials we get a dummy page. However there are two clues hidden in this stage. One is the HTML source has a comment stating that we need to login with an **`admin`** role which means the authentication role still is **`user`** privileges and not **`admin`**. On inspecting the cookies it shows us that JWT is being used which is also obvious form the challenge name and instructions.  
+After logging into the webpage with default credentials we get a dummy page. However there are two clues hidden in this stage. One is the HTML source has a comment stating that we need to login with an **`admin`** role which means the authentication role still is **`user`** privileges and not **`admin`**. On inspecting the cookies it shows us that JWT is being used which is also obvious from the challenge name and instructions.  
 
-Another crucial clue is the **`console.log("/secret.txt")`** in the source code. This points to a hidden url. On accessing this url we get a download file named **`secret.txt`** which can be downloaded [here][11].  
+Another crucial clue is the **`console.log("/secret.txt")`** in the source code. This points to a hidden url. On accessing this url we get a file download named **`secret.txt`** which can be downloaded [here][11].  
 
 As said before whenever I download a new file I follow the process of throwing **`file`** and **`binwalk`** commands to it. However to my surprise none of these commands gave any output.  
 
@@ -904,7 +907,7 @@ Running the **`corrected_secret.wav`** file through the morse code decoder gave 
 
 At this stage I was actually stuck because the second hint was not released by then. I was stuck because I thought the above is the secret used for JWT signature verification.  
 
-After the second hint it was clear we had to apply some rotational cipher to obtain the actual key. We use [GHHQ Tools][2] to run the ROT cipher sequentially from ROT16 onwards and incrementing the rotation amount by one each time. At ROT 19 as seen [here][16] we get a visibly familiar string **`JwT_T0k3n_D@nger`**.  
+After the second hint it was clear we had to apply some rotational cipher to obtain the actual key. We use [GCHQ Tools][2] to run the ROT cipher sequentially from **ROT16** onwards and incrementing the rotation amount by one each time. At **ROT19** as seen [here][16] we get a visibly familiar string **`JwT_T0k3n_D@nger`**.  
 
 I stopped at this point and got back to the JWT forging part as we now have the secret key. So now we login, intercept the request with Burp tool and forge the session token to such that it's role claim is changed to **`admin`**. This whole process is captured in the below image.
 
@@ -927,12 +930,12 @@ Challenge instructions:
 > +-+-+ +-+-+-+-+-+ +-+-+-+-+ +-+-+-+  
 > |I|m| |k|i|n|d|a| |W|e|a|k| |D|E|S|  
 > +-+-+ +-+-+-+-+-+ +-+-+-+-+ +-+-+-+  
-> Encrypted : F3Z/BVjrDsXJIgpNjNUNnodhk6Pr/1J7svjkmoy4tLI=  
+> **Encrypted:** F3Z/BVjrDsXJIgpNjNUNnodhk6Pr/1J7svjkmoy4tLI=  
 > 
 
 The challenge instructions pointed towards a very weak DES encryption. The content was Base64 encoded and decoding it gave us only binary text which meant it was the encrypted blob as pointed at by the challenge instructions.  
 
-I understood the actual challenge is some brute force key or some specific weakness in DES keys. On searching for **`weak DES encryption`** (in our good old friend Google's younger cousin DuckDuckGo) I landed on this [writeup][19] which contained [this][18] resource explaining the vulnerability.  
+I understood the actual challenge is some brute force key or some specific weakness in DES keys. On searching for **`weak DES encryption`** (in our good old friend Google's younger cousin DuckDuckGo 😜) I landed on this [writeup][19] which contained [this][18] resource explaining the vulnerability.  
 
 The writeup did contain a nice script and modifying our input in the script gave us the required flag. The script, output and flag is available below.  
 
@@ -971,7 +974,7 @@ plaintext = a.decrypt(ciphertext)
 print (plaintext)
 ```  
 
-> Note: Before running the code store the encrypted Base64 encoded content in the same folder as the script with the file name as **`output.txt`**.  
+> **Note:** Before running the code store the encrypted Base64 encoded content in the same folder as the script with the file name as **`output.txt`**.  
 
 ```sh
 ┌──(cryptonic㉿cryptonic-kali)-[~/CTFs/hacktober22/really_weak]
