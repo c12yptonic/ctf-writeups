@@ -678,7 +678,7 @@ So finally I ended up creating a **`python`** script for the same which can be s
 
 <details markdown="block">
   <summary>
-  Click here to view **`solve.py`**
+  Click here to view solve.py
   </summary>
 
 ```python
@@ -775,7 +775,7 @@ The above explanation is scripted as a **`python`** code in the below script.
 
 <details markdown="block">
   <summary>
-  Click here to view **solve.py**  
+  Click here to view solve.py  
   </summary>  
 
 ```python
@@ -808,6 +808,186 @@ print(long_to_bytes(pow(c, modinv(e, t), n)))
 The required flag **`ZCTF2022{s0_s0_s0_y0u_kn0w_h0w_pHi_w0rks}`** is obtained by running the above script.  
 
 
+## JWT Token 🪙
+Web
+{: .label .label-green .fs-1 .ml-0}
+
+
+This was an interesting Web based challenge. It required quite a bit of going around but was really a good one. However it was obvious from the name that it was related to JWT token forging.  
+
+So by prior knowledge it was clear that we had to be able to get the secret key used to sign the JWT token so that we can forge the JWT token to contain the **`admin`** role instead of the **`user`** role.  
+
+This means the main goal is to first find a secret key for JWT signature generation.  
+
+Challenge instructions:
+> Admin tries to log in with default admin credentials.
+> Unfortunately, it only has a User role instead of an Admin role.
+> Try to access with the Admin role and bite the sweet.
+>
+> Challenge link - https://h22-ctf-63hgkw9bzy.dummydomain.team/
+> Hint 1 - Surfers love wave !
+> Hint 2 - DecodeROT7(value) == "Signing key"
+> 
+
+The link lead to a login page. In general for web based challenges source code check is the first step. Checking the source code gave us the first clue which was a comment in the HTML code containing the Base64 encoded username as seen below.
+```html
+<!-- 
+			username -> YWRtaW4=
+	
+	 -->
+```
+
+Base64 decoding the value gives us the username as **`admin`**. Also as we are not informed about the password the default is to try the username itself as the password. This logs into the webpage. However as stated in the instructions it does not load the flag.  
+
+After logging into the webpage with default credentials we get a dummy page. However there are two clues hidden in this stage. One is the HTML source has a comment stating that we need to login with an **`admin`** role which means the authentication role still is **`user`** privileges and not **`admin`**. On inspecting the cookies it shows us that JWT is being used which is also obvious form the challenge name and instructions.  
+
+Another crucial clue is the **`console.log("/secret.txt")`** in the source code. This points to a hidden url. On accessing this url we get a download file named **`secret.txt`** which can be downloaded [here][11].  
+
+As said before whenever I download a new file I follow the process of throwing **`file`** and **`binwalk`** commands to it. However to my surprise none of these commands gave any output.  
+
+```sh
+┌──(cryptonic㉿cryptonic-kali)-[~/CTFs/hacktober22/jwt]
+└─$ file secret.txt 
+secret.txt: data
+┌──(cryptonic㉿cryptonic-kali)-[~/CTFs/hacktober22/jwt]
+└─$ binwalk secret.txt 
+
+DECIMAL       HEXADECIMAL     DESCRIPTION
+--------------------------------------------------------------------------------
+
+┌──(cryptonic㉿cryptonic-kali)-[~/CTFs/hacktober22/jwt]
+└─$
+```  
+
+So the next step is to try **`strings`** with the file to see if we get any hits for our flag.  
+
+```sh
+┌──(cryptonic㉿cryptonic-kali)-[~/CTFs/hacktober22/jwt]
+└─$ strings secret.txt | grep -i "zctf"
+┌──(cryptonic㉿cryptonic-kali)-[~/CTFs/hacktober22/jwt]
+└─$ 
+```  
+This command also did not return any valid results.  
+
+The next step is to manually analyze the file. On opening the file forcefully in a text editor clearly revealed that it was some binary format. So we had to take the hexdump and analyze. As the magic number of the file is generally present in the first 16 - 32 bytes, we analyze the initial bytes first.  
+
+```sh
+┌──(cryptonic㉿cryptonic-kali)-[~/CTFs/hacktober22/jwt]
+└─$ hexdump -C secret.txt | head -n 10
+00000000  49 46 46 14 80 03 00 57  41 56 45 66 6d 74 20 10  |IFF....WAVEfmt .|
+00000010  00 00 00 01 00 01 00 40  1f 00 00 40 1f 00 00 01  |.......@...@....|
+00000020  00 08 00 64 61 74 61 f0  7f 03 00 80 83 91 ab cb  |...data.........|
+00000030  e3 ec df bd 8d 58 2b 0c  04 14 37 69 9e ce f0 fc  |.....X+...7i....|
+00000040  f2 d3 a5 70 3e 18 05 09  23 4e 82 b6 e0 f8 fa e6  |...p>...#N......|
+00000050  bf 8d 58 2a 0d 04 12 35  65 9a ca ed fc f4 d7 a9  |..X*...5e.......|
+00000060  74 42 1a 06 08 20 49 7d  b1 dc f7 fb e9 c3 92 5d  |tB... I}.......]|
+00000070  2e 0e 04 10 31 60 95 c6  eb fc f6 da ae 79 46 1d  |....1`.......yF.|
+00000080  07 07 1d 45 78 ad d9 f5  fc eb c8 96 61 32 11 04  |...Ex.......a2..|
+00000090  0e 2d 5b 90 c2 e8 fb f7  dd b2 7e 4a 20 08 06 1a  |.-[.......~J ...|
+```  
+
+Now this has some interesting data. The first few bytes of the file clearly gives us that the file is in some [WAVE][12] format and this is corroborated by the first clue given in the challenge instructions. The format specification of the [WAVE][12] format clearly states that it should start with **`RIFF`** whereas our file is missing one byte **`R`**.  
+
+So we go ahead and prefix the missing byte and voila the file is now in a proper wave format. The corrected wave file can be downloaded [here][13] and was created by using the below command:
+```sh
+┌──(cryptonic㉿cryptonic-kali)-[~/CTFs/hacktober22/jwt]
+└─$ printf R | cat - secret.txt > corrected_secret.wave
+┌──(cryptonic㉿cryptonic-kali)-[~/CTFs/hacktober22/jwt]
+└─$ file corrected_secret.wave
+corrected_secret.wav: RIFF (little-endian) data, WAVE audio, Microsoft PCM, 8 bit, mono 8000 Hz
+```
+
+Now we play this audio in some media player online or on-device. I used the online spectrogram generator available [here][14] thinking that the spectrogram of the audio would have some encoded information.  
+But as soon as the website started playing it, I could recognize it as a wave with distinct, beeps, long beeps and lows starkly similar to any morse code. So I quickly switched to a morse code decoder available [here][15].  
+
+Running the **`corrected_secret.wav`** file through the morse code decoder gave me a hex encoded string with the hex value being **`5164415F41307233755F4B40756E6C79`**. Using a hex to string converter gives us the string **`QdA_A0r3u_K@unly`**.  
+
+At this stage I was actually stuck because the second hint was not released by then. I was stuck because I thought the above is the secret used for JWT signature verification.  
+
+After the second hint it was clear we had to apply some rotational cipher to obtain the actual key. We use [GHHQ Tools][2] to run the ROT cipher sequentially from ROT16 onwards and incrementing the rotation amount by one each time. At ROT 19 as seen [here][16] we get a visibly familiar string **`JwT_T0k3n_D@nger`**.  
+
+I stopped at this point and got back to the JWT forging part as we now have the secret key. So now we login, intercept the request with Burp tool and forge the session token to such that it's role claim is changed to **`admin`**. This whole process is captured in the below image.
+
+![Token forging][17]  
+
+By this we successfully reach the flag page and are presented with the required flag as **`ZCTF{I_L0ve_Jwt_T0k3n}`**.  
+
+
+## Really_W3ak 🔐
+Crypto
+{: .label .label-green .fs-1 .ml-0}
+
+This was the last challenge in the crypto category which I had pending. The challenge name and the weightage clearly pointed out it was something that is trivial and depends on specific vulnerability in the DES protocol.  
+
+Challenge instructions:
+> "a weak will win even at the cost of their life"  
+>  
+> ~ Might Guy  
+>  
+> +-+-+ +-+-+-+-+-+ +-+-+-+-+ +-+-+-+  
+> |I|m| |k|i|n|d|a| |W|e|a|k| |D|E|S|  
+> +-+-+ +-+-+-+-+-+ +-+-+-+-+ +-+-+-+  
+> Encrypted : F3Z/BVjrDsXJIgpNjNUNnodhk6Pr/1J7svjkmoy4tLI=  
+> 
+
+The challenge instructions pointed towards a very weak DES encryption. The content was Base64 encoded and decoding it gave us only binary text which meant it was the encrypted blob as pointed at by the challenge instructions.  
+
+I understood the actual challenge is some brute force key or some specific weakness in DES keys. On searching for **`weak DES encryption`** (in our good old friend Google's younger cousin DuckDuckGo) I landed on this [writeup][19] which contained [this][18] resource explaining the vulnerability.  
+
+The writeup did contain a nice script and modifying our input in the script gave us the required flag. The script, output and flag is available below.  
+
+<details markdown="block">
+  <summary>
+  Click here to view the script and output
+  </summary>
+
+```python
+#https://noob-atbash.github.io/CTF-writeups/cyberwar/crypto/chal-5.html
+from Crypto.Cipher import DES
+from base64 import *
+
+f = open('output.txt', 'rb')
+ciphertext = b64decode(f.read())
+f.close()
+
+KEY=b'\x00\x00\x00\x00\x00\x00\x00\x00'
+a = DES.new(KEY, DES.MODE_ECB)
+plaintext = a.decrypt(ciphertext)
+print (plaintext)
+
+KEY=b'\x1E\x1E\x1E\x1E\x0F\x0F\x0F\x0F'
+a = DES.new(KEY, DES.MODE_ECB)
+plaintext = a.decrypt(ciphertext)
+print (plaintext)
+
+KEY=b"\xE1\xE1\xE1\xE1\xF0\xF0\xF0\xF0"
+a = DES.new(KEY, DES.MODE_ECB)
+plaintext = a.decrypt(ciphertext)
+print (plaintext)
+
+KEY=b"\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF"
+a = DES.new(KEY, DES.MODE_ECB)
+plaintext = a.decrypt(ciphertext)
+print (plaintext)
+```  
+
+> Note: Before running the code store the encrypted Base64 encoded content in the same folder as the script with the file name as **`output.txt`**.  
+
+```sh
+┌──(cryptonic㉿cryptonic-kali)-[~/CTFs/hacktober22/really_weak]
+└─$ python solve.py 
+b'ZCTF2022{W3ak_k3ys_3v3ryWh3r3}**'
+b"\x0eF\x0b\x82>L\xa61e\xa8l\x8bq\xc4CG%\n\xf6\xffl$\x0b'\x1c\xc6\x1a\x9de?\x0f\x03"
+b'\xab\xa0(\x8f\xf8 =V\xab\xe6\x93>\x87\xb5\xb5\x06y\x1e\xa4\xe2\xe1\xb4\x13\x8e\x9d\x9d\x97WE\xcfk7'
+b'(\xea\\q[`\xb1\x11\xdfK\t\x7f\x9d\x99r@\xcc_\xdd\xd4\xfcK\xcbD0\xffu\xc1\x8fZ)\x95'
+```  
+</details>
+
+As obvious from the run of the above script the required flag is **`ZCTF2022{W3ak_k3ys_3v3ryWh3r3}`**.  
+
+
+
+
 
 [1]: https://mega.nz/file/d9oWFQgD#iA13Jhv-q8boF_B1KnV6MfVAV3wYKZF3jmwv6_SsxgQ
 [2]: https://gchq.github.io/CyberChef/
@@ -819,3 +999,12 @@ The required flag **`ZCTF2022{s0_s0_s0_y0u_kn0w_h0w_pHi_w0rks}`** is obtained by
 [8]: https://portswigger.net/burp/documentation/desktop/tools/intruder
 [9]: https://brilliant.org/
 [10]: https://brilliant.org/wiki/eulers-totient-function/
+[11]: https://mega.nz/file/Ag4nEbzR#-RT_YDvsjQ_1FyGCfB9n8sN5i2NogHHhUeJ6Ak5uZ1Y
+[12]: https://docs.fileformat.com/audio/wav/
+[13]: https://mega.nz/file/Bp4HDSSD#CQbKMkMeErB6VX4moUmU_d_H1NfCyR4xNaR73EjF0KQ
+[14]: https://spectrogram.birdiememory.com/
+[15]: https://morsecode.world/international/decoder/audio-decoder-adaptive.html
+[16]: https://gchq.github.io/CyberChef/#recipe=ROT13(true,true,false,19)&input=UWRBX0EwcjN1X0tAdW5seQ
+[17]: ../assets/images/and0X3NvbHZl.gif
+[18]: https://crypto.stackexchange.com/questions/7938/may-the-problem-with-des-using-ofb-mode-be-generalized-for-all-feistel-ciphers
+[19]: https://noob-atbash.github.io/CTF-writeups/cyberwar/crypto/chal-5.html
