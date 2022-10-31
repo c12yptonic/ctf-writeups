@@ -747,7 +747,7 @@ Finally the specific username turned out to be **`img3niu$`** and the password w
 Crypto
 {: .label .label-green .fs-1 .ml-0}
 
-This was another crypto challenge which taught me something new. A way to retrieve **`q`** when we have a power relation between **`n`** and **`p`**.  
+This was another crypto challenge which taught me something new. A single prime based encryption which can be exploited easily if **`n`** can be expressed as **`p`** raised to some concrete exponent **`x`**.  
 
 Challenge instructions:
 > I guess its your time to read about Euler!  
@@ -763,7 +763,7 @@ Challenge instructions:
 
 I did beat around it for sometime trying out different things, but nothing did work out. Finally I decided to look into **`Euler totient`** function **`ϕ`**. One of the goto websites for Math related stuff is [brilliant.org][9] and their [article][10] on **`Euler's totient`** function is really great.  
 
-From the same we get to know that **ϕ(p<sup>e</sup>) = p<sup>e</sup> - p<sup>e-1</sup>**. Also the challenge instructions give us the clue that **n = p<sup>3</sup>**.  
+From the same we get to know that **ϕ(p<sup>x</sup>) = p<sup>x</sup> - p<sup>x-1</sup>**. Also the challenge instructions give us the clue that **n = p<sup>3</sup>**.  
 
 Now from the above we get hold of **ϕ(n)** which is equal to **ϕ(p<sup>3</sup>)**.  
 >    ϕ(n) = ϕ(p<sup>3</sup>)  
@@ -792,8 +792,6 @@ c = 2516237289957302236251858951236032334412455686079400830237839879057787830645
 p = int(cbrt(n))
 
 # phi(n) = phi(p^3) = p^3 - p^2 = n - p^2
-# also phi(n) = (p-1)*(q-1)
-# solve for q using the above two to get the below
 phi_n = n - pow(p, 2)
 
 
@@ -1044,7 +1042,7 @@ Archive:  CTF.zip
   inflating: CTF_ZIP/bucky.jpg  
 ```  
 
-We get couple of image files and the MACOS folder that is generally present in all MACOS systems. I analyzed the two image files. The first one **`bucky.jpg`** was a valie jpg file. Opening the image did not have any clues or the flag. So next was to check its meta information using the **`exiftool`**. We go ahead and run **`exiftool`** and **`binwalk`** to ensure its a valid image file and they turn out to be good.  
+We get couple of image files and the MACOS folder that is generally present in all MACOS systems. I analyzed the two image files. The first one **`bucky.jpg`** was a valid jpg file. Opening the image did not have any clues or the flag. So next was to check its meta information using the **`exiftool`**. We go ahead and run **`exiftool`** and **`binwalk`** to ensure its a valid image file and they turn out to be good.  
 
 We also additionally run the **`strings`** command to look into any interesting ASCII strings embedded in the file.  
 
@@ -1154,7 +1152,7 @@ ddddddddddY{Ye
 
 The last **`strings`** command gives us an interesting string **`Password_here-ilove3000`**. It says that for something we will need a password which is **`ilove3000`**.  
 
-Next we analyze the same on CTF.jpg. Running **`binwalk`** tells us that it contains rather is an encrypted zip file. So we go ahead and rename it as a zip file instead.  
+Next we analyze the same on **CTF.jpg**. Running **`binwalk`** tells us that it is an encrypted zip file. So we go ahead and rename it as a zip file instead.  
 
 ```sh
 ┌──(cryptonic㉿cryptonic-kali)─[~/CTFs/hacktober22/zippo_zippo/CTF_ZIP]
@@ -1174,7 +1172,7 @@ DECIMAL       HEXADECIMAL     DESCRIPTION
 
 ```  
 
-Now we have an encrypted zip file and a password to decrupt it. So we go ahead and unzip it again.  
+Now we have an encrypted zip file and a password to decrypt it. So we go ahead and unzip it again.  
 
 ```sh
 ┌──(cryptonic㉿cryptonic-kali)─[~/CTFs/hacktober22/zippo_zippo/CTF_ZIP]
