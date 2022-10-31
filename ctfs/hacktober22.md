@@ -6,7 +6,7 @@ description: "Hacktober CTF 2022"
 permalink: /ctfs/hacktober22
 has_children: false
 parent: CTF List
-last_modified_date: 30-10-2022 05:38 PM +0530
+last_modified_date: 31-10-2022 21:47 PM +0530
 ---
 
 # Hacktober 2022
@@ -48,7 +48,8 @@ Due to this the message **`m`** can be easily retrieved by inverting the exponen
 We use the below code to invert the exponentiation and convert the resultant **`long`** value to **`bytes`**.
 
 ```sh
-python3 -c "from Crypto.Util.number import long_to_bytes;from sympy import cbrt;m=cbrt(159824947944933145124838839627897472995222726725778699635746503980986937892371422645291581403491484060915790946238870994753794392630740865865372702551885464356303363652373929602662877152309665601671912554391480434375650725791107527216573236081089654751390509689517054062236946737731831215596006696199941703676597321808361467919236770950757);print(long_to_bytes(m))"
+┌──(cryptonic㉿cryptonic-kali)-[~/CTFs/hacktober22/small]
+└─$ python3 -c "from Crypto.Util.number import long_to_bytes;from sympy import cbrt;m=cbrt(159824947944933145124838839627897472995222726725778699635746503980986937892371422645291581403491484060915790946238870994753794392630740865865372702551885464356303363652373929602662877152309665601671912554391480434375650725791107527216573236081089654751390509689517054062236946737731831215596006696199941703676597321808361467919236770950757);print(long_to_bytes(m))"
 ```
 
 We obtain the flag **`ZCTF2022{e_is_too_sm4ll_better_e_next_time_pls}`** by running the above code.  
@@ -763,16 +764,13 @@ Challenge instructions:
 I did beat around it for sometime trying out different things, but nothing did work out. Finally I decided to look into **`Euler totient`** function **`ϕ`**. One of the goto websites for Math related stuff is [brilliant.org][9] and their [article][10] on **`Euler's totient`** function is really great.  
 
 From the same we get to know that **ϕ(p<sup>e</sup>) = p<sup>e</sup> - p<sup>e-1</sup>**. Also the challenge instructions give us the clue that **n = p<sup>3</sup>**.  
-From prior knowledge on RSA we know that **ϕ(n)** is also equal to **(p-1) * (q-1)**.
 
-Now from the above we solve the below equation to get the value of the second factor **`q`**.  
->    ϕ(n) = ϕ(p<sup>3</sup>) = (p-1) * (q-1)  
-> => p<sup>3</sup> - p<sup>2</sup> = (p-1) * (q-1)  
-> => n - p<sup>2</sup> = (p-1) * (q-1)  
-> => q = 1 + ((n - p<sup>2</sup>) / (p-1))  
+Now from the above we get hold of **ϕ(n)** which is equal to **ϕ(p<sup>3</sup>)**.  
+>    ϕ(n) = ϕ(p<sup>3</sup>)  
+> => ϕ(n) = p<sup>3</sup> - p<sup>2</sup>  
 > 
 
-From the given data in the challenge instructions we have all the required details to get **`q`**. We use this value to decrypt the given ciphertext **`c`**.  
+From the given data in the challenge instructions we have all the required details to decrypt the cipher as we now have the exponent **`e`** and **ϕ(n)**.
 
 The above explanation is scripted as a **`python`** code in the below script.  
 
@@ -796,15 +794,14 @@ p = int(cbrt(n))
 # phi(n) = phi(p^3) = p^3 - p^2 = n - p^2
 # also phi(n) = (p-1)*(q-1)
 # solve for q using the above two to get the below
-q = 1 + ((n - (p * p)) // (p - 1))
+phi_n = n - pow(p, 2)
 
 
 def modinv(x, m):
     return pow(x, -1, m)
 
-t = (p - 1) * (q - 1)
 
-print(long_to_bytes(pow(c, modinv(e, t), n)))
+print(long_to_bytes(pow(c, modinv(e, phi_n), n)))
 ```
 </details>  
 
@@ -989,7 +986,350 @@ b'(\xea\\q[`\xb1\x11\xdfK\t\x7f\x9d\x99r@\xcc_\xdd\xd4\xfcK\xcbD0\xffu\xc1\x8fZ)
 As obvious from the run of the above script the required flag is **`ZCTF2022{W3ak_k3ys_3v3ryWh3r3}`**.  
 
 
+## Zippo Zipped 🗄
+Steg
+{: .label .label-green .fs-1 .ml-0}
 
+It was the only challenge in the steganography category. There was a natural progression when I did start it, but then the subtle last part had no clue whatsover and I ended up not solving it during the challenge.  
+
+Challenge instructions:
+> We don’t know what is this file and what’s inside it.  
+>   
+> [Link][20]  
+>  
+
+So we see that we are given with a **`jpeg`** which seemingly does open properly. However information can be hidden inside a JPEG image as it allows different frames. This information could be hidden in different formats. We try the usual suspects like **`file`**, **`binwalk`** and **`strings`**.  
+
+The outputs for the same can be seen below.  
+
+```sh
+┌──(cryptonic㉿cryptonic-kali)─[~/CTFs/hacktober22/zippo_zippo]
+└─$ file CTF.jpeg 
+CTF.jpeg: JPEG image data, JFIF standard 1.01, resolution (DPI), density 300x300, segment length 16, Exif Standard: [TIFF image data, big-endian, direntries=5, manufacturer=NIKON, model=COOLPIX S9300], baseline, precision 8, 640x480, components 3
+┌──(cryptonic㉿cryptonic-kali)─[~/CTFs/hacktober22/zippo_zippo]
+└─$ binwalk CTF.jpeg 
+
+DECIMAL       HEXADECIMAL     DESCRIPTION
+--------------------------------------------------------------------------------
+0             0x0             JPEG image data, JFIF standard 1.01
+30            0x1E            TIFF image data, big-endian, offset of first image directory: 8
+131359        0x2011F         Zip archive data, at least v2.0 to extract, uncompressed size: 5284289, name: CTF.jpg
+5417080       0x52A878        Zip archive data, at least v2.0 to extract, uncompressed size: 276, name: __MACOSX/._CTF.jpg
+5417309       0x52A95D        Zip archive data, at least v2.0 to extract, uncompressed size: 102241, name: bucky.jpg
+5518117       0x543325        End of Zip archive, footer length: 22
+
+```  
+
+From the above it is clear that the image actually hides a zip file which starts at byte value **`131359`** and runs till the end of the file. We cut this byterange into a new file using the **`cutbytesrange`** [script][21] described in a prior writeup. We use **`ls`** to find the total file size and use it in the **`cutbytesrange`** script.  
+
+```sh
+┌──(cryptonic㉿cryptonic-kali)─[~/CTFs/hacktober22/zippo_zippo]
+└─$ ls -al CTF.jpeg 
+-rw-rw-r-- 1 cryptonic cryptonic 5518139 Oct 31 20:53 CTF.jpeg
+┌──(cryptonic㉿cryptonic-kali)─[~/CTFs/hacktober22/zippo_zippo]
+└─$ cutbytesrange 131359 5518139 CTF.jpeg CTF.zip
+1+0 records in
+1+0 records out
+5386780 bytes (5.4 MB, 5.1 MiB) copied, 0.0193719 s, 278 MB/s
+```  
+
+This gives us a zip file. We go ahead and unzip it.  
+
+```sh
+┌──(cryptonic㉿cryptonic-kali)─[~/CTFs/hacktober22/zippo_zippo]
+└─$ unzip -d CTF_ZIP CTF.zip 
+Archive:  CTF.zip
+  inflating: CTF_ZIP/CTF.jpg         
+  inflating: CTF_ZIP/__MACOSX/._CTF.jpg  
+  inflating: CTF_ZIP/bucky.jpg  
+```  
+
+We get couple of image files and the MACOS folder that is generally present in all MACOS systems. I analyzed the two image files. The first one **`bucky.jpg`** was a valie jpg file. Opening the image did not have any clues or the flag. So next was to check its meta information using the **`exiftool`**. We go ahead and run **`exiftool`** and **`binwalk`** to ensure its a valid image file and they turn out to be good.  
+
+We also additionally run the **`strings`** command to look into any interesting ASCII strings embedded in the file.  
+
+<details markdown="block">
+  <summary>
+  Click here to view the output for bucky.jpg
+  </summary>  
+
+```sh
+┌──(cryptonic㉿cryptonic-kali)─[~/InfoSec/ctfs/hacktober22/zippo_zippo_new/CTF_ZIP]
+└─$ exiftool bucky.jpg 
+ExifTool Version Number         : 11.88
+File Name                       : bucky.jpg
+Directory                       : .
+File Size                       : 100 kB
+File Modification Date/Time     : 2022:10:10 14:58:36+05:30
+File Access Date/Time           : 2022:10:31 20:58:14+05:30
+File Inode Change Date/Time     : 2022:10:31 20:57:12+05:30
+File Permissions                : rw-rw-r--
+File Type                       : JPEG
+File Type Extension             : jpg
+MIME Type                       : image/jpeg
+JFIF Version                    : 1.01
+Exif Byte Order                 : Big-endian (Motorola, MM)
+X Resolution                    : 72
+Y Resolution                    : 72
+Resolution Unit                 : inches
+Artist                          : Password_here-ilove3000
+Y Cb Cr Positioning             : Centered
+Profile CMM Type                : Linotronic
+Profile Version                 : 2.1.0
+Profile Class                   : Display Device Profile
+Color Space Data                : RGB
+Profile Connection Space        : XYZ
+Profile Date Time               : 1998:02:09 06:49:00
+Profile File Signature          : acsp
+Primary Platform                : Microsoft Corporation
+CMM Flags                       : Not Embedded, Independent
+Device Manufacturer             : Hewlett-Packard
+Device Model                    : sRGB
+Device Attributes               : Reflective, Glossy, Positive, Color
+Rendering Intent                : Perceptual
+Connection Space Illuminant     : 0.9642 1 0.82491
+Profile Creator                 : Hewlett-Packard
+Profile ID                      : 0
+Profile Copyright               : Copyright (c) 1998 Hewlett-Packard Company
+Profile Description             : sRGB IEC61966-2.1
+Media White Point               : 0.95045 1 1.08905
+Media Black Point               : 0 0 0
+Red Matrix Column               : 0.43607 0.22249 0.01392
+Green Matrix Column             : 0.38515 0.71687 0.09708
+Blue Matrix Column              : 0.14307 0.06061 0.7141
+Device Mfg Desc                 : IEC http://www.iec.ch
+Device Model Desc               : IEC 61966-2.1 Default RGB colour space - sRGB
+Viewing Cond Desc               : Reference Viewing Condition in IEC61966-2.1
+Viewing Cond Illuminant         : 19.6445 20.3718 16.8089
+Viewing Cond Surround           : 3.92889 4.07439 3.36179
+Viewing Cond Illuminant Type    : D50
+Luminance                       : 76.03647 80 87.12462
+Measurement Observer            : CIE 1931
+Measurement Backing             : 0 0 0
+Measurement Geometry            : Unknown
+Measurement Flare               : 0.999%
+Measurement Illuminant          : D65
+Technology                      : Cathode Ray Tube Display
+Red Tone Reproduction Curve     : (Binary data 2060 bytes, use -b option to extract)
+Green Tone Reproduction Curve   : (Binary data 2060 bytes, use -b option to extract)
+Blue Tone Reproduction Curve    : (Binary data 2060 bytes, use -b option to extract)
+Image Width                     : 1050
+Image Height                    : 700
+Encoding Process                : Progressive DCT, Huffman coding
+Bits Per Sample                 : 8
+Color Components                : 3
+Y Cb Cr Sub Sampling            : YCbCr4:4:4 (1 1)
+Image Size                      : 1050x700
+Megapixels                      : 0.735
+
+┌──(cryptonic㉿cryptonic-kali)─[~/InfoSec/ctfs/hacktober22/zippo_zippo_new/CTF_ZIP]
+└─$ binwalk bucky.jpg 
+
+DECIMAL       HEXADECIMAL     DESCRIPTION
+--------------------------------------------------------------------------------
+0             0x0             JPEG image data, JFIF standard 1.01
+30            0x1E            TIFF image data, big-endian, offset of first image directory: 8
+506           0x1FA           Copyright string: "Copyright (c) 1998 Hewlett-Packard Company"
+
+┌──(cryptonic㉿cryptonic-kali)─[~/InfoSec/ctfs/hacktober22/zippo_zippo_new/CTF_ZIP]
+└─$ strings -n 13 bucky.jpg 
+Password_here-ilove3000
+Copyright (c) 1998 Hewlett-Packard Company
+sRGB IEC61966-2.1
+sRGB IEC61966-2.1
+IEC http://www.iec.ch
+IEC http://www.iec.ch
+.IEC 61966-2.1 Default RGB colour space - sRGB
+.IEC 61966-2.1 Default RGB colour space - sRGB
+,Reference Viewing Condition in IEC61966-2.1
+,Reference Viewing Condition in IEC61966-2.1
+Oillllllllnlnno
+s#3cccccccccccc&L
+#########333#"
+ddddddddddY{Ye
+
+```  
+
+</details>  
+
+The last **`strings`** command gives us an interesting string **`Password_here-ilove3000`**. It says that for something we will need a password which is **`ilove3000`**.  
+
+Next we analyze the same on CTF.jpg. Running **`binwalk`** tells us that it contains rather is an encrypted zip file. So we go ahead and rename it as a zip file instead.  
+
+```sh
+┌──(cryptonic㉿cryptonic-kali)─[~/CTFs/hacktober22/zippo_zippo/CTF_ZIP]
+└─$ binwalk CTF.jpg 
+
+DECIMAL       HEXADECIMAL     DESCRIPTION
+--------------------------------------------------------------------------------
+0             0x0             Zip archive data, at least v1.0 to extract, name: CTF/
+62            0x3E            Zip archive data, encrypted at least v2.0 to extract, compressed size: 266, uncompressed size: 6148, name: CTF/.DS_Store
+415           0x19F           Zip archive data, at least v2.0 to extract, compressed size: 53, uncompressed size: 120, name: __MACOSX/CTF/._.DS_Store
+554           0x22A           Zip archive data, encrypted at least v2.0 to extract, compressed size: 5283080, uncompressed size: 5286260, name: CTF/Tesseract.jpeg
+5283726       0x509F8E        Zip archive data, encrypted at least v1.0 to extract, compressed size: 22, uncompressed size: 10, name: CTF/Dummy file
+5284267       0x50A1AB        End of Zip archive, footer length: 22
+
+┌──(cryptonic㉿cryptonic-kali)─[~/CTFs/hacktober22/zippo_zippo/CTF_ZIP]
+└─$ cp CTF.jpg CTF_NEW.zip
+
+```  
+
+Now we have an encrypted zip file and a password to decrupt it. So we go ahead and unzip it again.  
+
+```sh
+┌──(cryptonic㉿cryptonic-kali)─[~/CTFs/hacktober22/zippo_zippo/CTF_ZIP]
+└─$ unzip -d CTF_NEW CTF_NEW.zip 
+Archive:  CTF_NEW.zip
+   creating: CTF_NEW/CTF/
+[CTF_NEW.zip] CTF/.DS_Store password: 
+  inflating: CTF_NEW/CTF/.DS_Store   
+  inflating: CTF_NEW/__MACOSX/CTF/._.DS_Store  
+  inflating: CTF_NEW/CTF/Tesseract.jpeg  
+ extracting: CTF_NEW/CTF/Dummy file 
+```  
+
+At this stage we have a new image **`Tesseract.jpeg`** which we run through **`binwalk`**, **`strings`**, **`file`** and **`exiftool`**.
+
+<details markdown="block">
+  <summary>
+  Click here to view the output of the above
+  </summary>
+
+```sh
+┌──(cryptonic㉿cryptonic-kali)─[~/CTFs/hacktober22/zippo_zippo/CTF_ZIP/CTF_NEW/CTF]
+└─$ binwalk Tesseract.jpeg 
+
+DECIMAL       HEXADECIMAL     DESCRIPTION
+--------------------------------------------------------------------------------
+0             0x0             JPEG image data, JFIF standard 1.01
+
+┌──(cryptonic㉿cryptonic-kali)─[~/CTFs/hacktober22/zippo_zippoCTF_ZIP/CTF_NEW/CTF]
+└─$ file Tesseract.jpeg 
+Tesseract.jpeg: JPEG image data, JFIF standard 1.01, resolution (DPI), density 72x72, segment length 16, baseline, precision 8, 5072x6761, components 3
+
+┌──(cryptonic㉿cryptonic-kali)─[~/CTFs/hacktober22/zippo_zippo/CTF_ZIP/CTF_NEW/CTF]
+└─$ exiftool Tesseract.jpeg 
+ExifTool Version Number         : 11.88
+File Name                       : Tesseract.jpeg
+Directory                       : .
+File Size                       : 5.0 MB
+File Modification Date/Time     : 2022:10:10 10:12:17+05:30
+File Access Date/Time           : 2022:10:31 21:15:33+05:30
+File Inode Change Date/Time     : 2022:10:31 21:14:38+05:30
+File Permissions                : rw-r--r--
+File Type                       : JPEG
+File Type Extension             : jpg
+MIME Type                       : image/jpeg
+JFIF Version                    : 1.01
+Resolution Unit                 : inches
+X Resolution                    : 72
+Y Resolution                    : 72
+Image Width                     : 5072
+Image Height                    : 6761
+Encoding Process                : Baseline DCT, Huffman coding
+Bits Per Sample                 : 8
+Color Components                : 3
+Y Cb Cr Sub Sampling            : YCbCr4:2:0 (2 2)
+Image Size                      : 5072x6761
+Megapixels                      : 34.3
+
+┌──(cryptonic㉿cryptonic-kali)─[~/CTF/hacktober22/zippo_zippo/CTF_ZIP/CTF_NEW/CTF]
+└─$ strings -n 15 Tesseract.jpeg | head -n 5
+%&'()*456789:CDEFGHIJSTUVWXYZcdefghijstuvwxyz
+&'()*56789:CDEFGHIJSTUVWXYZcdefghijstuvwxyz
+rr}j_"8UNweECq:
+
+```  
+</details>  
+
+The above do not provide any valid clues or directions. However till now we havent done any real steganography cracking. So we had to use **`stegseek`** somewhere with weak encryption password list at this stage. The required password list file can be downloaded from this public [url][22].
+
+```sh
+┌──(cryptonic㉿cryptonic-kali)─[~/CTFs/hacktober22/zippo_zippo/CTF_ZIP/CTF_NEW/CTF]
+└─$ stegseek --crack -sf Tesseract.jpeg --wordlist ~/Tools/john/run/rockyou.txt 
+StegSeek 0.6 - https://github.com/RickdeJager/StegSeek
+
+[i] Found passphrase: ""0.0 MB)           
+
+[i] Original filename: "Archive.zip".
+[i] Extracting to "Tesseract.jpeg.out".
+
+┌──(cryptonic㉿cryptonic-kali)─[~/CTFs/hacktober22/zippo_zippo/CTF_ZIP/CTF_NEW/CTF]
+└─$ mv Tesseract.jpeg.out Archive.zip
+
+┌──(cryptonic㉿cryptonic-kali)─[~/InfoSec/ctfs/hacktober22/zippo_zippo_new/CTF_ZIP/CTF_NEW/CTF]
+└─$ unzip Archive.zip 
+Archive:  Archive.zip
+   creating: Archive.txt/
+  inflating: __MACOSX/._Archive.txt  
+  inflating: Archive.txt/script2.jpeg  
+  inflating: __MACOSX/Archive.txt/._script2.jpeg  
+  inflating: Archive.txt/file.jpeg   
+  inflating: __MACOSX/Archive.txt/._file.jpeg  
+  inflating: Archive.txt/unknown.txt  
+  inflating: Archive.txt/index.html  
+  inflating: __MACOSX/Archive.txt/._index.html  
+  inflating: Archive.txt/.DS_Store   
+  inflating: __MACOSX/Archive.txt/._.DS_Store  
+  inflating: Archive.txt/script3.jpeg  
+  inflating: __MACOSX/Archive.txt/._script3.jpeg  
+  inflating: Archive.txt/script8.jpeg  
+  inflating: __MACOSX/Archive.txt/._script8.jpeg  
+  inflating: Archive.txt/script11.jpeg  
+  inflating: __MACOSX/Archive.txt/._script11.jpeg  
+  inflating: Archive.txt/script4.jpeg  
+  inflating: __MACOSX/Archive.txt/._script4.jpeg  
+  inflating: Archive.txt/script5.jpeg  
+  inflating: __MACOSX/Archive.txt/._script5.jpeg  
+  inflating: Archive.txt/script9jpeg  
+  inflating: __MACOSX/Archive.txt/._script9jpeg  
+  inflating: Archive.txt/script10.jpeg  
+  inflating: Archive.txt/script9.jpeg  
+  inflating: Archive.txt/final.jpeg  
+  inflating: __MACOSX/Archive.txt/._final.jpeg  
+  inflating: Archive.txt/script6.jpeg  
+  inflating: __MACOSX/Archive.txt/._script6.jpeg  
+  inflating: Archive.txt/script7.jpeg  
+  inflating: __MACOSX/Archive.txt/._script7.jpeg  
+  inflating: Archive.txt/script1.jpeg  
+  inflating: __MACOSX/Archive.txt/._script1.jpeg
+```  
+
+Now **`stegseek`** finds the weak password and extracts the hidden file to **`Tesseract.jpeg.out`** and informs that the original file name was **`Archive.zip`**. We rename the file and unzip it which gives us some 17 files. This is where I got stuck for ever as there wasnt any concrete clue.  
+
+I could figure out that there was another level of **`stegano`** to be done on the **`final.jpeg`** file but the password list did not work. This meant it was not encrypted with some common password.  
+
+I did analyze each file one by one and did not find any proper password. On opening the **`index.html`** it even gave an alert **`ctf-steg`** but it never struck me that it could be the password. Turns out that was the required password.  
+
+```sh
+┌──(cryptonic㉿cryptonic-kali)─[~/CTFs/hacktober22/zippo_zippo/CTF_ZIP/CTF_NEW/CTF/Archive.txt]
+└─$ cat script10.jpeg 
+alert(' ctf-steg ');
+┌──(cryptonic㉿cryptonic-kali)─[~/CTFs/hacktober22/zippo_zippo_new/CTF_ZIP/CTF_NEW/CTF/Archive.txt]
+└─$ steghide extract -sf final.jpeg -p ctf-steg
+wrote extracted data to "welcome.jpg".
+
+```  
+
+We get a new file **`welcome.jpg`**. Running the **`file`** command quickly to verify the file type shows that the file is actually not an image but a normal text file. We print the contents of the file.  
+
+```sh
+┌──(cryptonic㉿cryptonic-kali)─[~/CTFs/hacktober22/zippo_zippo/CTF_ZIP/CTF_NEW/CTF/Archive.txt]
+└─$ file welcome.jpg 
+welcome.jpg: ASCII text, with no line terminators
+
+┌──(cryptonic㉿cryptonic-kali)─[~/CTFs/hacktober22/zippo_zippo/CTF_ZIP/CTF_NEW/CTF/Archive.txt]
+└─$ cat welcome.jpg 
+WkNURjIwMjJ7MTEyODk0MTIzfQ==
+```  
+
+We can see that the contents of the file is clearly in **`Base64`** encoding. We decode this to get the actual flag **`ZCTF2022{112894123}`** as seen below.  
+
+```sh
+┌──(cryptonic㉿cryptonic-kali)─[~/CTFs/hacktober22/zippo_zippo/CTF_ZIP/CTF_NEW/CTF/Archive.txt]
+└─$ base64 -d < welcome.jpg 
+ZCTF2022{112894123}
+```  
 
 
 [1]: https://mega.nz/file/d9oWFQgD#iA13Jhv-q8boF_B1KnV6MfVAV3wYKZF3jmwv6_SsxgQ
@@ -1011,3 +1351,6 @@ As obvious from the run of the above script the required flag is **`ZCTF2022{W3a
 [17]: ../assets/images/and0X3NvbHZl.gif
 [18]: https://crypto.stackexchange.com/questions/7938/may-the-problem-with-des-using-ofb-mode-be-generalized-for-all-feistel-ciphers
 [19]: https://noob-atbash.github.io/CTF-writeups/cyberwar/crypto/chal-5.html
+[20]: https://mega.nz/file/Zlg0BLQK#wADv-RU9101p2bJob7SEKTkSErws-5qr4YButIOdvpc
+[21]: ../ctfs/tamilctf21#babymisc-🗂
+[22]: https://github.com/ohmybahgosh/RockYou2021.txt
